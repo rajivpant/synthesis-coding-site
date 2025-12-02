@@ -1,0 +1,2 @@
+# Redirect www to apex domain
+https://www.synthesiscoding.com/* https://synthesiscoding.com/:splat 301

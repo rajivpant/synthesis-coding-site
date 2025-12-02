@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synthesis Coding — A Professional Practice for AI-Assisted Software Development</title>
+    <meta name="description" content="Synthesis Coding is the systematic integration of human expertise with AI capabilities to build production-grade software. An open methodology for professional AI-assisted development.">
+    <meta name="keywords" content="synthesis coding, synthesis engineering, AI-assisted development, software engineering, Claude Code, vibe coding, production software">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Synthesis Coding">
+    <meta property="og:description" content="A professional practice for AI-assisted software development. Open methodology, public domain.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://synthesiscoding.com">
+    <meta property="og:image" content="https://synthesiscoding.com/assets/logo.webp">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --black: #0a0a0a;
+            --dark: #1a1a1a;
+            --gray-dark: #3a3a3a;
+            --gray: #666;
+            --gray-light: #999;
+            --gray-lighter: #e5e5e5;
+            --white: #fafafa;
+            --cream: #f5f4f0;
+            --accent: #2a2a2a;
+            
+            --font-serif: 'Newsreader', Georgia, serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+            
+            --max-width: 720px;
+            --wide-width: 960px;
+        }
+        
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        
+        html {
+            font-size: 18px;
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-serif);
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--dark);
+            background: var(--white);
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* Header */
+        header {
+            padding: 3rem 2rem 4rem;
+            text-align: center;
+            border-bottom: 1px solid var(--gray-lighter);
+        }
+        
+        .logo {
+            max-width: 360px;
+            width: 100%;
+            height: auto;
+            margin-bottom: 2rem;
+        }
+        
+        .tagline {
+            font-size: 1.15rem;
+            color: var(--gray);
+            max-width: 540px;
+            margin: 0 auto 1.5rem;
+            font-style: italic;
+        }
+        
+        .license-badge {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--gray-light);
+            border: 1px solid var(--gray-lighter);
+            padding: 0.4rem 0.8rem;
+            border-radius: 2px;
+        }
+        
+        /* Main content */
+        main {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        section {
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--gray-lighter);
+        }
+        
+        section:last-of-type {
+            border-bottom: none;
+        }
+        
+        h1, h2, h3 {
+            font-weight: 500;
+            line-height: 1.3;
+            color: var(--black);
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+            margin: 0 0 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--black);
+            display: inline-block;
+        }
+        
+        h3 {
+            font-size: 1.1rem;
+            margin: 2rem 0 0.75rem;
+        }
+        
+        p {
+            margin: 0 0 1.25rem;
+        }
+        
+        a {
+            color: var(--dark);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            text-decoration-thickness: 1px;
+            transition: color 0.2s;
+        }
+        
+        a:hover {
+            color: var(--gray);
+        }
+        
+        /* Definition / Intro */
+        .definition {
+            font-size: 1.25rem;
+            line-height: 1.6;
+            color: var(--dark);
+            padding: 2rem 0;
+            margin: 0;
+        }
+        
+        .definition strong {
+            font-weight: 600;
+        }
+        
+        /* Pillars grid */
+        .pillars {
+            display: grid;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        
+        .pillar {
+            padding: 1.5rem;
+            background: var(--cream);
+            border-left: 3px solid var(--black);
+        }
+        
+        .pillar-number {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--gray);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+        
+        .pillar h3 {
+            margin: 0 0 0.75rem;
+            font-size: 1.1rem;
+        }
+        
+        .pillar p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: var(--gray-dark);
+        }
+        
+        /* When to use table */
+        .comparison {
+            margin: 1.5rem 0;
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        
+        th, td {
+            text-align: left;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--gray-lighter);
+        }
+        
+        th {
+            font-weight: 500;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--gray);
+            background: var(--cream);
+        }
+        
+        td:first-child {
+            font-weight: 500;
+        }
+        
+        /* Articles list */
+        .articles-list {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0 0;
+        }
+        
+        .articles-list li {
+            padding: 1.25rem 0;
+            border-bottom: 1px solid var(--gray-lighter);
+        }
+        
+        .articles-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .article-title {
+            font-size: 1.05rem;
+            font-weight: 500;
+            display: block;
+            margin-bottom: 0.4rem;
+        }
+        
+        .article-description {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin: 0;
+        }
+        
+        .article-meta {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--gray-light);
+            margin-top: 0.4rem;
+        }
+        
+        /* Footer */
+        footer {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 3rem 2rem 4rem;
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        footer p {
+            margin: 0 0 0.75rem;
+        }
+        
+        .cc0 {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--gray-light);
+            letter-spacing: 0.02em;
+        }
+        
+        .author-note {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gray-lighter);
+            font-size: 0.85rem;
+        }
+        
+        /* Nav */
+        nav {
+            position: sticky;
+            top: 0;
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-lighter);
+            padding: 0.75rem 2rem;
+            z-index: 100;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: var(--gray);
+        }
+        
+        nav a:hover {
+            color: var(--black);
+        }
+        
+        /* Responsive */
+        @media (max-width: 640px) {
+            html {
+                font-size: 16px;
+            }
+            
+            header {
+                padding: 2rem 1.5rem 3rem;
+            }
+            
+            .logo {
+                max-width: 280px;
+            }
+            
+            main {
+                padding: 0 1.5rem;
+            }
+            
+            section {
+                padding: 2rem 0;
+            }
+            
+            nav ul {
+                gap: 1rem;
+            }
+            
+            .pillar {
+                padding: 1.25rem;
+            }
+        }
+        
+        /* Print styles */
+        @media print {
+            nav {
+                display: none;
+            }
+            
+            header {
+                border-bottom: none;
+            }
+            
+            section {
+                border-bottom: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="assets/logo.webp" alt="Synthesis Engineering / Synthesis Coding" class="logo">
+        <p class="tagline">The systematic integration of human expertise with AI capabilities to build production-grade software</p>
+        <span class="license-badge">CC0 Public Domain</span>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#what">What</a></li>
+            <li><a href="#principles">Principles</a></li>
+            <li><a href="#when">When to Use</a></li>
+            <li><a href="#articles">Articles</a></li>
+        </ul>
+    </nav>
+    
+    <main>
+        <section id="what">
+            <h2>What is Synthesis Coding?</h2>
+            <p class="definition"><strong>Synthesis Coding</strong> (also called <strong>Synthesis Engineering</strong>) describes an emerging professional practice: the disciplined integration of human architectural authority with AI implementation capabilities to build software that is production-grade, maintainable, and secure.</p>
+            
+            <p>The practice has emerged independently across engineering organizations as teams develop systematic approaches to AI-assisted development that go beyond exploratory prototyping. While "vibe coding" excels for rapid experiments and personal tools, production systems serving real users demand different constraints: architectural coherence spanning months of evolution, systematic security, team comprehension, and long-term maintainability.</p>
+            
+            <p>Synthesis Coding provides vocabulary and methodology for this systematic approach. The terminology and associated visual identity are released under CC0 (public domain) for unrestricted use by individuals, teams, and organizations developing their own AI-assisted engineering practices.</p>
+        </section>
+        
+        <section id="principles">
+            <h2>Four Principles</h2>
+            <p>The practice rests on four foundational principles that distinguish it from ad-hoc AI usage:</p>
+            
+            <div class="pillars">
+                <div class="pillar">
+                    <div class="pillar-number">Principle 01</div>
+                    <h3>Human Architectural Authority</h3>
+                    <p>Humans make strategic architectural decisions—technology stack, system boundaries, security models, integration patterns. AI implements within those constraints rather than inventing architecture. Complex software requires consistent architectural vision that persists across months or years; AI operates conversation by conversation.</p>
+                </div>
+                
+                <div class="pillar">
+                    <div class="pillar-number">Principle 02</div>
+                    <h3>Systematic Quality Standards</h3>
+                    <p>The same rigor applies to AI-generated code as human-written code. Code review, comprehensive testing, security analysis, performance validation. AI helps achieve these standards more thoroughly and systematically, but the standards themselves don't relax because AI was involved.</p>
+                </div>
+                
+                <div class="pillar">
+                    <div class="pillar-number">Principle 03</div>
+                    <h3>Active System Understanding</h3>
+                    <p>Engineers maintain deep understanding of system architecture and implementation while leveraging AI for rapid development. If you cannot debug the code at 2 AM when it fails in production, either you need to understand it better or it needs to be simpler. This prevents the dangerous failure mode of systems nobody comprehends.</p>
+                </div>
+                
+                <div class="pillar">
+                    <div class="pillar-number">Principle 04</div>
+                    <h3>Iterative Context Building</h3>
+                    <p>AI effectiveness compounds when context accumulates systematically. Architectural decisions documented, patterns established, conventions clarified. Each session builds on the previous. Teams that invest in context preservation see dramatically increasing returns over time.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="when">
+            <h2>When to Use Each Approach</h2>
+            <p>Synthesis Coding and vibe coding are complementary practices, not competitors. The choice depends on context:</p>
+            
+            <div class="comparison">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Context</th>
+                            <th>Approach</th>
+                            <th>Rationale</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Weekend experiment</td>
+                            <td>Vibe coding</td>
+                            <td>Speed matters, permanence doesn't</td>
+                        </tr>
+                        <tr>
+                            <td>Production API</td>
+                            <td>Synthesis Coding</td>
+                            <td>Maintainability, security, team comprehension</td>
+                        </tr>
+                        <tr>
+                            <td>Learning a framework</td>
+                            <td>Vibe coding</td>
+                            <td>Exploration and quick feedback</td>
+                        </tr>
+                        <tr>
+                            <td>Legacy modernization</td>
+                            <td>Synthesis Coding</td>
+                            <td>Architectural control essential</td>
+                        </tr>
+                        <tr>
+                            <td>Personal automation</td>
+                            <td>Vibe coding</td>
+                            <td>Only you use it, only you need to understand</td>
+                        </tr>
+                        <tr>
+                            <td>Multi-repo platform</td>
+                            <td>Synthesis Coding</td>
+                            <td>Cross-system coherence requires explicit architecture</td>
+                        </tr>
+                        <tr>
+                            <td>Stakeholder demo prototype</td>
+                            <td>Vibe coding</td>
+                            <td>Demonstrating possibility, not shipping</td>
+                        </tr>
+                        <tr>
+                            <td>Enterprise application</td>
+                            <td>Synthesis Coding</td>
+                            <td>Team collaboration, compliance, maintenance</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <p>The same developer, using the same AI tools, might work in both modes on the same day. The skill is recognizing where on the spectrum your current work belongs.</p>
+        </section>
+        
+        <section id="articles">
+            <h2>Reference Articles</h2>
+            <p>The methodology is documented across a series of articles covering theory, organizational frameworks, and technical implementation:</p>
+            
+            <ul class="articles-list">
+                <li>
+                    <a href="https://rajiv.com/blog/2025/11/09/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/" class="article-title">Synthesis Coding: The Professional Practice Emerging in AI-Assisted Development</a>
+                    <p class="article-description">Introduces the concept and examines why leading engineering organizations are developing systematic approaches that go beyond vibe coding.</p>
+                    <div class="article-meta">Part 1 of the core series</div>
+                </li>
+                
+                <li>
+                    <a href="https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/" class="article-title">The Synthesis Coding Framework: How Organizations Build Production Software with AI</a>
+                    <p class="article-description">Details the four pillars, implementation methodology, development cycle, and organizational adoption patterns for scaling the practice.</p>
+                    <div class="article-meta">Part 2 of the core series</div>
+                </li>
+                
+                <li>
+                    <a href="https://rajiv.com/blog/2025/11/09/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/" class="article-title">Synthesis Coding with Claude Code: Technical Implementation and Workflows</a>
+                    <p class="article-description">Hands-on guide with concrete code examples, real workflows, and lessons from production systems including security audits and performance optimization.</p>
+                    <div class="article-meta">Part 3 of the core series</div>
+                </li>
+                
+                <li>
+                    <a href="https://rajiv.com/blog/2025/11/29/seventeen-years-ago-i-built-a-tool-for-the-open-web-this-weekend-i-modernized-it-using-synthesis-coding-with-claude-code-ai/" class="article-title">Modernizing a 17-Year-Old WordPress Plugin Using Synthesis Coding</a>
+                    <p class="article-description">Case study applying Synthesis Coding to legacy software modernization, demonstrating how senior technical leaders can maintain hands-on capability.</p>
+                    <div class="article-meta">Case study</div>
+                </li>
+                
+                <li>
+                    <a href="https://rajiv.com/blog/2025/11/30/polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code/" class="article-title">Polyrepo Synthesis: Synthesis Coding Across Multiple Repositories</a>
+                    <p class="article-description">Patterns for applying the methodology across interconnected repositories, including CLAUDE.md context mesh strategies and multi-repo coordination.</p>
+                    <div class="article-meta">Advanced patterns</div>
+                </li>
+                
+                <li>
+                    <a href="https://rajiv.com/blog/2025/12/01/vibe-coding-and-synthesis-coding-two-approaches-one-developer/" class="article-title">Vibe Coding and Synthesis Coding: Two Approaches, One Developer</a>
+                    <p class="article-description">Clarifies the relationship between vibe coding and Synthesis Coding as complementary practices on a spectrum, with guidance for choosing the right approach.</p>
+                    <div class="article-meta">Comparison and guidance</div>
+                </li>
+            </ul>
+        </section>
+    </main>
+    
+    <footer>
+        <p class="cc0">The terms "Synthesis Coding" and "Synthesis Engineering," along with the associated logo and visual identity, are released under <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0 Universal</a> (public domain). No permission required. No attribution needed. Use freely.</p>
+        
+        <div class="author-note">
+            <p>This methodology was documented by <a href="https://rajiv.com/">Rajiv Pant</a>, who observed these patterns emerging across engineering organizations and gave them a name. The articles above provide comprehensive coverage of the practice.</p>
+        </div>
+    </footer>
+</body>
+</html>
