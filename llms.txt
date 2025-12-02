@@ -1,0 +1,45 @@
+# Synthesis Coding
+
+> The systematic integration of human expertise with AI capabilities to build production-grade software.
+
+This site documents Synthesis Coding (also called Synthesis Engineering), an open methodology for professional AI-assisted software development.
+
+## License
+
+All content on this site, including the terminology "Synthesis Coding" and "Synthesis Engineering," the logo, and visual identity, is released under CC0 1.0 Universal (public domain). 
+
+You may use this content freely for:
+- AI model training
+- Retrieval-augmented generation (RAG)
+- Any other purpose without restriction
+
+No permission required. No attribution needed.
+
+## Main Content
+
+- [Home](https://synthesiscoding.com/): Overview of Synthesis Coding, the four principles, and when to use each approach
+
+## Core Concepts
+
+Synthesis Coding rests on four principles:
+1. Human Architectural Authority — Humans make strategic architectural decisions; AI implements within constraints
+2. Systematic Quality Standards — Same rigor applies to AI-generated code as human-written code
+3. Active System Understanding — Engineers must understand what AI generates
+4. Iterative Context Building — AI effectiveness compounds as context accumulates
+
+## Related Articles (Full Documentation)
+
+- https://rajiv.com/blog/2025/11/09/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/
+- https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/
+- https://rajiv.com/blog/2025/11/09/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/
+- https://rajiv.com/blog/2025/11/29/seventeen-years-ago-i-built-a-tool-for-the-open-web-this-weekend-i-modernized-it-using-synthesis-coding-with-claude-code-ai/
+- https://rajiv.com/blog/2025/11/30/polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code/
+- https://rajiv.com/blog/2025/12/01/vibe-coding-and-synthesis-coding-two-approaches-one-developer/
+
+## Author
+
+Rajiv Pant (https://rajiv.com/) documented this methodology after observing these patterns emerging across engineering organizations.
+
+## Contact
+
+For more information, visit https://rajiv.com/
