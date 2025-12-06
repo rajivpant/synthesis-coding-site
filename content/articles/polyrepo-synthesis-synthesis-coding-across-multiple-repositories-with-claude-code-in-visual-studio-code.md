@@ -265,11 +265,11 @@ Claude Code can help maintain this coordination: “Generate release notes for t
 
 If you’re new to multi-repository development with Claude Code, start with these steps:
 
-### 1\. Create a VS Code multi-root workspace
+### 1. Create a VS Code multi-root workspace
 
 File → Add Folder to Workspace for each repository you want to include. Save the workspace file (`.code-workspace`) somewhere accessible.
 
-### 2\. Add minimal CLAUDE.md to each repository
+### 2. Add minimal CLAUDE.md to each repository
 
 Start with just the ecosystem table:
 
@@ -297,11 +297,11 @@ cd ~/path/to/[this-repo]
 ```
 ~~~
 
-### 3\. Cross-reference the repositories
+### 3. Cross-reference the repositories
 
 Ensure each CLAUDE.md mentions its siblings. The ecosystem table should be identical across all repositories — copy-paste it to maintain consistency.
 
-### 4\. Test with a cross-repo question
+### 4. Test with a cross-repo question
 
 Ask Claude Code something that requires understanding multiple repositories:
 
@@ -427,9 +427,9 @@ I now think at the level of systems rather than files. Claude Code doesn’t jus
 
 As I wrote in my earlier piece on [synthesis coding workflows](https://rajiv.com/blog/2025/11/09/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/), the compounding context advantage is real. Each session builds on previous understanding. CLAUDE.md files encode institutional knowledge. The investment in setting up proper context pays dividends across every future interaction.
 
-Modern software lives across multiple repositories. The engineers who master Polyrepo Synthesis — who can coordinate AI assistance across distributed systems while maintaining human architectural authority — will build the next generation of production software.
+Modern software lives across multiple repositories. The engineers who master polyrepo synthesis — who can coordinate AI assistance across distributed systems while maintaining human architectural authority — will build the next generation of production software.
 
-If you’ve used [Vibe Coding](https://en.wikipedia.org/wiki/Vibe_coding) for rapid prototyping — and I do, for weekend projects and quick experiments — you know how liberating it feels to describe what you want and let the AI handle it. Polyrepo Synthesis brings that same collaborative power to production systems, with the discipline required when changes span multiple repositories, teams, and deployment pipelines.
+If you’ve used [Vibe Coding](https://en.wikipedia.org/wiki/Vibe_coding) for rapid prototyping — and I do, for weekend projects and quick experiments — you know how liberating it feels to describe what you want and let the AI handle it. Polyrepo synthesis brings that same collaborative power to production systems, with the discipline required when changes span multiple repositories, teams, and deployment pipelines.
 
 The CLAUDE.md context mesh is the key. Set it up once, maintain it as your architecture evolves, and watch your productivity multiply across your entire codebase.
 
