@@ -778,16 +778,15 @@ function build() {
     // Copy images
     copyImages();
 
-    // Process index.html (homepage)
-    const indexPath = path.join(ROOT_DIR, 'index.html');
-    if (fs.existsSync(indexPath)) {
-      let indexHtml = fs.readFileSync(indexPath, 'utf-8');
-      if (indexHtml.includes('{{homepage_articles_list}}')) {
-        const homepageArticlesHtml = generateHomepageArticlesList(articles);
-        indexHtml = indexHtml.replace(/\{\{homepage_articles_list\}\}/g, homepageArticlesHtml);
-        fs.writeFileSync(indexPath, indexHtml);
-        console.log(`  ✅ Updated: /index.html (homepage article list)`);
-      }
+    // Generate homepage from template
+    const indexTemplatePath = path.join(TEMPLATES_DIR, 'index.html');
+    const indexOutputPath = path.join(ROOT_DIR, 'index.html');
+    if (fs.existsSync(indexTemplatePath)) {
+      let indexHtml = fs.readFileSync(indexTemplatePath, 'utf-8');
+      const homepageArticlesHtml = generateHomepageArticlesList(articles);
+      indexHtml = indexHtml.replace(/\{\{homepage_articles_list\}\}/g, homepageArticlesHtml);
+      fs.writeFileSync(indexOutputPath, indexHtml);
+      console.log(`  ✅ Generated: /index.html (from template)`);
     }
   }
 
