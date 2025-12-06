@@ -154,7 +154,7 @@ Each CLAUDE.md explicitly describes relationships to siblings:
 
 Multi-repo development’s most common error — running git commands in the wrong directory:
 
-```markdown
+~~~markdown
 ## Git operations
 
 **IMPORTANT**: Before any git commands for this repo, ensure you are in the correct directory:
@@ -164,7 +164,7 @@ cd ~/projects/my-projects/ragbot
 ```
 
 Each repo in the ecosystem has its own git history. Don't run git commands from the wrong directory.
-```
+~~~
 
 This warning appears in every CLAUDE.md, customized with the correct path. It sounds redundant, but it’s saved me from wrong-repo commits multiple times.
 
@@ -273,7 +273,7 @@ File → Add Folder to Workspace for each repository you want to include. Save t
 
 Start with just the ecosystem table:
 
-```markdown
+~~~markdown
 # Claude Code Context: [repo-name]
 
 ## Repository ecosystem
@@ -295,7 +295,7 @@ Verify directory before git commands:
 ```bash
 cd ~/path/to/[this-repo]
 ```
-```
+~~~
 
 ### 3\. Cross-reference the repositories
 
@@ -313,7 +313,7 @@ If Claude Code can trace the impact across repository boundaries, your context m
 
 ### Template 1: Hub repository (shared data/config)
 
-```markdown
+~~~markdown
 # Claude Code Context: [data-repo-name]
 
 ## Repository ecosystem
@@ -349,11 +349,11 @@ pwd  # Confirm location
 ```
 
 Each repo has its own git history.
-```
+~~~
 
 ### Template 2: Consumer repository (application)
 
-```markdown
+~~~markdown
 # Claude Code Context: [app-name]
 
 ## Repository ecosystem
@@ -393,11 +393,11 @@ pwd  # Confirm location
 
 - When modifying shared interfaces, check [sibling-app] for compatibility
 - [Other relevant development notes]
-```
+~~~
 
 ### Template 3: Minimal starter
 
-```markdown
+~~~markdown
 # Claude Code Context: [repo-name]
 
 ## Repository ecosystem
@@ -419,7 +419,7 @@ Verify directory before git commands:
 ```bash
 cd ~/path/to/[repo-name]
 ```
-```
+~~~
 
 ## The architectural advantage
 

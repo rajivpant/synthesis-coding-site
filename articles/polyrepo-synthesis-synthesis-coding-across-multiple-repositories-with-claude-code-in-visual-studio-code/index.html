@@ -517,17 +517,14 @@
 **IMPORTANT**: Before any git commands for this repo, ensure you are in the correct directory:
 
 ```bash
-cd ~/projects/my-projects/ragbot</code></pre>
-<p>Each repo in the ecosystem has its own git history. Don&#39;t run git commands from the wrong directory.</p>
-<pre><code>
-This warning appears in every CLAUDE.md, customized with the correct path. It sounds redundant, but it’s saved me from wrong-repo commits multiple times.
+cd ~/projects/my-projects/ragbot
+```
 
-### Architecture context
-
-Each repository’s CLAUDE.md describes its internal structure so Claude Code can navigate effectively:
-
-```markdown
-## Data location
+Each repo in the ecosystem has its own git history. Don&#039;t run git commands from the wrong directory.</code></pre>
+<p>This warning appears in every CLAUDE.md, customized with the correct path. It sounds redundant, but it’s saved me from wrong-repo commits multiple times.</p>
+<h3>Architecture context</h3>
+<p>Each repository’s CLAUDE.md describes its internal structure so Claude Code can navigate effectively:</p>
+<pre class="language-markdown"><code class="language-markdown">## Data location
 
 RagBot reads data from `~/ragbot-data/workspaces/`:
 
@@ -618,26 +615,19 @@ This repo works alongside:
 Verify directory before git commands:
 
 ```bash
-cd ~/path/to/[this-repo]</code></pre>
-<pre><code>
-### 3\. Cross-reference the repositories
-
-Ensure each CLAUDE.md mentions its siblings. The ecosystem table should be identical across all repositories — copy-paste it to maintain consistency.
-
-### 4\. Test with a cross-repo question
-
-Ask Claude Code something that requires understanding multiple repositories:
-
-&gt; “What files would need to change if I renamed the ‘workspace’ concept to ‘context’ across all repositories?”
-
-If Claude Code can trace the impact across repository boundaries, your context mesh is working.
-
-## CLAUDE.md templates
-
-### Template 1: Hub repository (shared data/config)
-
-```markdown
-# Claude Code Context: [data-repo-name]
+cd ~/path/to/[this-repo]
+```</code></pre>
+<h3>3. Cross-reference the repositories</h3>
+<p>Ensure each CLAUDE.md mentions its siblings. The ecosystem table should be identical across all repositories — copy-paste it to maintain consistency.</p>
+<h3>4. Test with a cross-repo question</h3>
+<p>Ask Claude Code something that requires understanding multiple repositories:</p>
+<blockquote>
+<p>“What files would need to change if I renamed the ‘workspace’ concept to ‘context’ across all repositories?”</p>
+</blockquote>
+<p>If Claude Code can trace the impact across repository boundaries, your context mesh is working.</p>
+<h2>CLAUDE.md templates</h2>
+<h3>Template 1: Hub repository (shared data/config)</h3>
+<pre class="language-markdown"><code class="language-markdown"># Claude Code Context: [data-repo-name]
 
 ## Repository ecosystem
 
@@ -668,13 +658,12 @@ Changes here affect both consumers. Test compatibility before committing.
 
 ```bash
 cd ~/[data-repo-name]
-pwd  # Confirm location</code></pre>
-<p>Each repo has its own git history.</p>
-<pre><code>
-### Template 2: Consumer repository (application)
+pwd  # Confirm location
+```
 
-```markdown
-# Claude Code Context: [app-name]
+Each repo has its own git history.</code></pre>
+<h3>Template 2: Consumer repository (application)</h3>
+<pre class="language-markdown"><code class="language-markdown"># Claude Code Context: [app-name]
 
 ## Repository ecosystem
 
@@ -706,17 +695,15 @@ Changes to [data-repo] may require updates here.
 
 ```bash
 cd ~/projects/[app-name]
-pwd  # Confirm location</code></pre>
-<h2>Development notes</h2>
-<ul>
-<li>When modifying shared interfaces, check [sibling-app] for compatibility</li>
-<li>[Other relevant development notes]</li>
-</ul>
-<pre><code>
-### Template 3: Minimal starter
+pwd  # Confirm location
+```
 
-```markdown
-# Claude Code Context: [repo-name]
+## Development notes
+
+- When modifying shared interfaces, check [sibling-app] for compatibility
+- [Other relevant development notes]</code></pre>
+<h3>Template 3: Minimal starter</h3>
+<pre class="language-markdown"><code class="language-markdown"># Claude Code Context: [repo-name]
 
 ## Repository ecosystem
 
@@ -735,23 +722,16 @@ This repo works alongside:
 Verify directory before git commands:
 
 ```bash
-cd ~/path/to/[repo-name]</code></pre>
-<pre><code>
-## The architectural advantage
-
-I now think at the level of systems rather than files. Claude Code doesn’t just help me write code — it helps me navigate architectural relationships that would otherwise require holding too much context in my head.
-
-As I wrote in my earlier piece on [Synthesis Coding workflows](https://rajiv.com/blog/2025/11/09/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/), the compounding context advantage is real. Each session builds on previous understanding. CLAUDE.md files encode institutional knowledge. The investment in setting up proper context pays dividends across every future interaction.
-
-Modern software lives across multiple repositories. The engineers who master Polyrepo Synthesis — who can coordinate AI assistance across distributed systems while maintaining human architectural authority — will build the next generation of production software.
-
-If you’ve used [Vibe Coding](https://en.wikipedia.org/wiki/Vibe_coding) for rapid prototyping — and I do, for weekend projects and quick experiments — you know how liberating it feels to describe what you want and let the AI handle it. Polyrepo Synthesis brings that same collaborative power to production systems, with the discipline required when changes span multiple repositories, teams, and deployment pipelines.
-
-The CLAUDE.md context mesh is the key. Set it up once, maintain it as your architecture evolves, and watch your productivity multiply across your entire codebase.
-
----
-
-*Rajiv Pant is President of [Flatiron Software](https://www.flatiron.software/) and [Snapshot AI](https://www.snapshot.reviews/), where he leads organizational growth and AI innovation. He is former Chief Product &amp; Technology Officer at The Wall Street Journal, The New York Times, and Hearst Magazines. Earlier in his career, he headed technology for Conde Nast’s brands including Reddit. Rajiv has been working with AI in software engineering since the early days of natural language processing and was an early investor and advisor to AI search company [You.com](https://you.com/). He coined the terms “Synthesis Engineering” and “[Synthesis Coding](https://synthesiscoding.com/)” to describe the systematic integration of human expertise with AI capabilities in professional software development. Connect with him on [LinkedIn](https://www.linkedin.com/in/rajivpant/) or read more at [rajiv.com](https://rajiv.com/).*</code></pre>
+cd ~/path/to/[repo-name]
+```</code></pre>
+<h2>The architectural advantage</h2>
+<p>I now think at the level of systems rather than files. Claude Code doesn’t just help me write code — it helps me navigate architectural relationships that would otherwise require holding too much context in my head.</p>
+<p>As I wrote in my earlier piece on <a href="https://rajiv.com/blog/2025/11/09/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/">Synthesis Coding workflows</a>, the compounding context advantage is real. Each session builds on previous understanding. CLAUDE.md files encode institutional knowledge. The investment in setting up proper context pays dividends across every future interaction.</p>
+<p>Modern software lives across multiple repositories. The engineers who master Polyrepo Synthesis — who can coordinate AI assistance across distributed systems while maintaining human architectural authority — will build the next generation of production software.</p>
+<p>If you’ve used <a href="https://en.wikipedia.org/wiki/Vibe_coding">Vibe Coding</a> for rapid prototyping — and I do, for weekend projects and quick experiments — you know how liberating it feels to describe what you want and let the AI handle it. Polyrepo Synthesis brings that same collaborative power to production systems, with the discipline required when changes span multiple repositories, teams, and deployment pipelines.</p>
+<p>The CLAUDE.md context mesh is the key. Set it up once, maintain it as your architecture evolves, and watch your productivity multiply across your entire codebase.</p>
+<hr>
+<p><em>Rajiv Pant is President of <a href="https://www.flatiron.software/">Flatiron Software</a> and <a href="https://www.snapshot.reviews/">Snapshot AI</a>, where he leads organizational growth and AI innovation. He is former Chief Product &amp; Technology Officer at The Wall Street Journal, The New York Times, and Hearst Magazines. Earlier in his career, he headed technology for Conde Nast’s brands including Reddit. Rajiv has been working with AI in software engineering since the early days of natural language processing and was an early investor and advisor to AI search company <a href="https://you.com/">You.com</a>. He coined the terms “Synthesis Engineering” and “<a href="https://synthesiscoding.com/">Synthesis Coding</a>” to describe the systematic integration of human expertise with AI capabilities in professional software development. Connect with him on <a href="https://www.linkedin.com/in/rajivpant/">LinkedIn</a> or read more at <a href="https://rajiv.com/">rajiv.com</a>.</em></p>
 
             </div>
 
