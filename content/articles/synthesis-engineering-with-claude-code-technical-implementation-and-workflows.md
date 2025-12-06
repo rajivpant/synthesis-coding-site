@@ -8,11 +8,13 @@ canonical_url: "https://rajiv.com/blog/2025/11/09/synthesis-engineering-with-cla
 categories:
   - "Technology"
 tags:
-  - "business"
-  - "CTO"
+  - "artificial intelligence"
+  - "Claude Code"
   - "ctobook"
-  - "leadership"
-  - "Leadership and Management"
+  - "programming"
+  - "software engineering"
+  - "synthesis coding"
+  - "synthesis engineering"
 author: "Rajiv Pant"
 category: "Technical guide"
 featured_image: "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1"

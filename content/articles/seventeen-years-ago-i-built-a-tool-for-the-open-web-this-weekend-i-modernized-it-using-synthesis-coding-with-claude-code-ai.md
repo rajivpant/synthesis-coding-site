@@ -9,12 +9,12 @@ categories:
   - "Technology"
 tags:
   - "artificial intelligence"
-  - "chief product officer"
-  - "chief technology officer"
   - "CTO"
   - "ctobook"
-  - "leadership"
   - "product development"
+  - "software engineering"
+  - "synthesis coding"
+  - "synthesis engineering"
 author: "Rajiv Pant"
 category: "Case study"
 wordpress:
