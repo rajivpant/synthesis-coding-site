@@ -21,12 +21,35 @@ const OUTPUT_DIR = path.join(ROOT_DIR, 'articles');
 const WORDPRESS_EXPORT_DIR = path.join(ROOT_DIR, 'wordpress-export');
 const TEMPLATES_DIR = path.join(ROOT_DIR, 'templates');
 
+// Custom renderer to put language class on <pre> for Prism.js
+const renderer = new marked.Renderer();
+renderer.code = function(codeBlock) {
+  // Handle both old API (code, language) and new API (object with text, lang)
+  let code, language;
+  if (typeof codeBlock === 'object') {
+    code = codeBlock.text || '';
+    language = codeBlock.lang || '';
+  } else {
+    code = codeBlock;
+    language = arguments[1] || '';
+  }
+  const langClass = language ? ` class="language-${language}"` : '';
+  const escaped = code
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+  return `<pre${langClass}><code${langClass}>${escaped}</code></pre>\n`;
+};
+
 // Configure marked for clean HTML output
 marked.setOptions({
   gfm: true,
   breaks: false,
   headerIds: true,
-  mangle: false
+  mangle: false,
+  renderer: renderer
 });
 
 /**

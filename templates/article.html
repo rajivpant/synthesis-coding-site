@@ -31,6 +31,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
+    <!-- Prism.js syntax highlighting (Tomorrow Night theme) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css" rel="stylesheet">
+
     <style>
         :root {
             --black: #0a0a0a;
@@ -265,27 +269,59 @@
             margin-bottom: 0;
         }
 
+        /* Inline code */
         .article-content code {
             font-family: var(--font-mono);
             font-size: 0.9em;
             background: var(--cream);
             padding: 0.15rem 0.4rem;
             border-radius: 3px;
+            color: #c7254e;
         }
 
+        /* Code blocks */
         .article-content pre {
             margin: 1.5rem 0;
             padding: 1.25rem;
-            background: var(--dark);
-            color: var(--white);
+            background: #2d2d2d;
+            color: #e0e0e0;
             overflow-x: auto;
-            border-radius: 4px;
+            border-radius: 6px;
+            border: 1px solid #444;
+            font-size: 0.875rem;
+            line-height: 1.6;
         }
 
         .article-content pre code {
             background: none;
             padding: 0;
             color: inherit;
+            font-size: inherit;
+        }
+
+        /* Prism toolbar styling */
+        div.code-toolbar > .toolbar {
+            opacity: 1;
+        }
+
+        div.code-toolbar > .toolbar > .toolbar-item > button,
+        div.code-toolbar > .toolbar > .toolbar-item > span {
+            background: #444;
+            color: #ccc;
+            padding: 0.35rem 0.6rem;
+            font-size: 0.7rem;
+            border-radius: 3px;
+            font-family: var(--font-mono);
+        }
+
+        div.code-toolbar > .toolbar > .toolbar-item > button:hover {
+            background: #555;
+            color: #fff;
+        }
+
+        /* Language label in toolbar */
+        .toolbar-item span[data-label]::before {
+            content: attr(data-label);
         }
 
         .article-content hr {
@@ -423,5 +459,101 @@
         <p class="cc0">The terms "Synthesis Coding" and "Synthesis Engineering," along with the associated logo and visual identity, are released under <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0 Universal</a> (public domain). No permission required. No attribution needed. Use freely. The logo was hand-crafted by a human artist.</p>
         <p><a href="/">← Back to Synthesis Coding</a></p>
     </footer>
+
+    <!-- Prism.js core and language support -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markdown.min.js"></script>
+    <!-- Prism.js plugins -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+
+    <!-- Auto-detect language and initialize Prism for all code blocks -->
+    <script>
+    (function() {
+        // Auto-detect language based on content patterns
+        function detectLanguage(code) {
+            const text = code.textContent || '';
+            const firstLine = text.trim().split('\n')[0];
+
+            // Shell/bash patterns
+            if (/^\$\s/.test(firstLine) || /^claude\s/.test(firstLine) ||
+                /^(cd|ls|npm|git|mkdir|rm|cp|mv|cat|echo|export|source)\s/.test(firstLine) ||
+                /^#!\/bin\/(ba)?sh/.test(firstLine)) {
+                return 'bash';
+            }
+            // Python patterns
+            if (/^(import |from |def |class |if __name__|print\()/.test(firstLine) ||
+                /^\s*(import |from )/.test(text)) {
+                return 'python';
+            }
+            // JavaScript/TypeScript patterns
+            if (/^(const |let |var |function |import |export |async |await )/.test(firstLine) ||
+                /^(import \{|export \{|module\.exports)/.test(text)) {
+                return 'javascript';
+            }
+            // JSON patterns
+            if (/^\s*[\{\[]/.test(firstLine) && /[\}\]]\s*$/.test(text.trim())) {
+                return 'json';
+            }
+            // YAML patterns
+            if (/^[a-zA-Z_-]+:\s/.test(firstLine)) {
+                return 'yaml';
+            }
+            // SQL patterns
+            if (/^(SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER)\s/i.test(firstLine)) {
+                return 'sql';
+            }
+            // Default to bash for command-like content
+            if (/^\w+\s+["']/.test(firstLine) || /^[\w-]+\s+--/.test(firstLine)) {
+                return 'bash';
+            }
+            return 'bash'; // Default fallback
+        }
+
+        // Process all code blocks
+        document.querySelectorAll('pre').forEach(function(pre) {
+            var code = pre.querySelector('code');
+            if (!code) {
+                // Wrap content in code element if missing
+                code = document.createElement('code');
+                code.innerHTML = pre.innerHTML;
+                pre.innerHTML = '';
+                pre.appendChild(code);
+            }
+
+            // Check if language class already exists
+            var hasLang = pre.className.match(/language-(\w+)/) ||
+                          code.className.match(/language-(\w+)/);
+
+            if (!hasLang) {
+                // Auto-detect and apply language
+                var lang = detectLanguage(code);
+                pre.className = (pre.className + ' language-' + lang).trim();
+                code.className = (code.className + ' language-' + lang).trim();
+            } else {
+                // Ensure both pre and code have the language class
+                var langClass = 'language-' + hasLang[1];
+                if (!pre.className.includes(langClass)) {
+                    pre.className = (pre.className + ' ' + langClass).trim();
+                }
+                if (!code.className.includes(langClass)) {
+                    code.className = (code.className + ' ' + langClass).trim();
+                }
+            }
+        });
+
+        // Re-highlight all code blocks with Prism
+        if (typeof Prism !== 'undefined') {
+            Prism.highlightAll();
+        }
+    })();
+    </script>
 </body>
 </html>

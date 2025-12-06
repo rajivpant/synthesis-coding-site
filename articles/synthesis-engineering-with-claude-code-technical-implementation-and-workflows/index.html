@@ -31,6 +31,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
+    <!-- Prism.js syntax highlighting (Tomorrow Night theme) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css" rel="stylesheet">
+
     <style>
         :root {
             --black: #0a0a0a;
@@ -265,27 +269,59 @@
             margin-bottom: 0;
         }
 
+        /* Inline code */
         .article-content code {
             font-family: var(--font-mono);
             font-size: 0.9em;
             background: var(--cream);
             padding: 0.15rem 0.4rem;
             border-radius: 3px;
+            color: #c7254e;
         }
 
+        /* Code blocks */
         .article-content pre {
             margin: 1.5rem 0;
             padding: 1.25rem;
-            background: var(--dark);
-            color: var(--white);
+            background: #2d2d2d;
+            color: #e0e0e0;
             overflow-x: auto;
-            border-radius: 4px;
+            border-radius: 6px;
+            border: 1px solid #444;
+            font-size: 0.875rem;
+            line-height: 1.6;
         }
 
         .article-content pre code {
             background: none;
             padding: 0;
             color: inherit;
+            font-size: inherit;
+        }
+
+        /* Prism toolbar styling */
+        div.code-toolbar > .toolbar {
+            opacity: 1;
+        }
+
+        div.code-toolbar > .toolbar > .toolbar-item > button,
+        div.code-toolbar > .toolbar > .toolbar-item > span {
+            background: #444;
+            color: #ccc;
+            padding: 0.35rem 0.6rem;
+            font-size: 0.7rem;
+            border-radius: 3px;
+            font-family: var(--font-mono);
+        }
+
+        div.code-toolbar > .toolbar > .toolbar-item > button:hover {
+            background: #555;
+            color: #fff;
+        }
+
+        /* Language label in toolbar */
+        .toolbar-item span[data-label]::before {
+            content: attr(data-label);
         }
 
         .article-content hr {
@@ -421,7 +457,7 @@
 <p>Here’s a real implementation end-to-end: adding rate-limited user authentication to an existing API service.</p>
 <h3>Phase 1: Architectural Context Setting</h3>
 <p>This is the foundation. I don’t let Claude Code make these decisions — I establish them explicitly.</p>
-<pre><code>$ claude &quot;I&#39;m adding user authentication to our API service. Here&#39;s our architectural approach:
+<pre><code>$ claude &quot;I&#039;m adding user authentication to our API service. Here&#039;s our architectural approach:
 
 - PostgreSQL for user storage with SQLAlchemy ORM
 - Repository pattern for data access
@@ -433,18 +469,15 @@
 - Structured logging with correlation IDs
 - Error responses follow RFC 7807 problem details
 
-Do you understand this architecture?&quot;
-</code></pre>
+Do you understand this architecture?&quot;</code></pre>
 <p>Claude confirms understanding and asks clarifying questions: token refresh strategy, password requirements, account lockout policy, session management approach. I answer each explicitly, establishing complete architectural context.</p>
 <p>These 2-3 minutes of architectural clarity save hours of refactoring later. I’m establishing constraints that ensure implementation consistency.</p>
 <h3>Phase 2: Implementation with Iteration</h3>
 <p>I leverage Claude Code for rapid implementation:</p>
-<pre><code>$ claude &quot;Generate the user model, repository, and initial database migration following our architecture&quot;
-</code></pre>
+<pre><code>$ claude &quot;Generate the user model, repository, and initial database migration following our architecture&quot;</code></pre>
 <p>Claude generates three files: SQLAlchemy model, data access layer, and database migration.</p>
 <p>I review the generated code. The user model looks solid, but I notice an issue in the repository — it returns None for non-existent users, which makes error handling awkward downstream. I refine:</p>
-<pre><code>$ claude &quot;The repository should raise UserNotFound exception instead of returning None. Update the repository pattern to use explicit exceptions for error cases.&quot;
-</code></pre>
+<pre><code>$ claude &quot;The repository should raise UserNotFound exception instead of returning None. Update the repository pattern to use explicit exceptions for error cases.&quot;</code></pre>
 <p>Claude refactors appropriately. This is classic Synthesis Engineering: I caught the design issue, specified what I wanted, AI implemented it systematically across the file.</p>
 <h3>Phase 3: Security Implementation</h3>
 <p>Authentication is security-critical, so I’m extremely explicit about requirements:</p>
@@ -457,17 +490,15 @@ Do you understand this architecture?&quot;
 5. Constant-time password comparison to prevent timing attacks
 6. Account lockout: 10 failed attempts locks account for 1 hour
 
-Include comprehensive error handling and security tests.&quot;
-</code></pre>
+Include comprehensive error handling and security tests.&quot;</code></pre>
 <p>Claude generates the service implementation. I review it carefully, specifically checking password handling, rate limiting, and token generation.</p>
 <p>Password handling uses bcrypt correctly with constant-time comparison. Rate limiting implementation is correct but missing edge case for Redis connection failure. Token generation has correct structure but no expiry claim.</p>
 <p>I iterate:</p>
 <pre><code>$ claude &quot;Two issues:
 1. Rate limiter needs circuit breaker pattern - if Redis is down, fail open rather than blocking all auth
-2. JWT tokens need &#39;exp&#39; claim with 1-hour expiry
+2. JWT tokens need &#039;exp&#039; claim with 1-hour expiry
 
-Fix both and explain your approach.&quot;
-</code></pre>
+Fix both and explain your approach.&quot;</code></pre>
 <p>Claude updates the implementation and explains the circuit breaker logic. I verify it makes sense.</p>
 <p>I’m reviewing systematically for security issues, then having AI fix them with specific requirements.</p>
 <h3>Phase 4: Comprehensive Testing</h3>
@@ -492,8 +523,7 @@ Edge cases:
 - Concurrent login attempts
 - Token issued at boundary timestamps
 
-Include fixtures for test data and Redis mocking.&quot;
-</code></pre>
+Include fixtures for test data and Redis mocking.&quot;</code></pre>
 <p>Claude generates a comprehensive test suite — over 100 tests covering scenarios I specified plus additional edge cases it identified.</p>
 <p>I review the tests for whether they actually test what they claim to test. Found one issue where a test claimed to test SQL injection but didn’t actually attempt injection or verify the database wasn’t affected. I have Claude fix it to properly verify database integrity.</p>
 <p>Time accounting: Architectural planning took 15 minutes. Implementation iterations took 45 minutes. Security review and refinement took 30 minutes. Test generation and review took 25 minutes. Total: about 2 hours for production-ready authentication system.</p>
@@ -510,19 +540,16 @@ Include fixtures for test data and Redis mocking.&quot;
 - Missing indexes
 - Cache opportunities
 
-Provide specific line numbers and explain the impact of each issue.&quot;
-</code></pre>
+Provide specific line numbers and explain the impact of each issue.&quot;</code></pre>
 <p>Claude analyzes the code and identifies: N+1 query in user dashboard (loading user, then querying posts individually, resulting in 40-50 queries per request), missing database index (filtering posts by user_id without index), synchronous external API calls (fetching user avatars from external service sequentially), JSON serialization using default serializer (missing optimization), and no caching (dashboard data rarely changes but rebuilds every request).</p>
 <p>Each finding includes line numbers, explains the performance impact, and estimates improvement potential.</p>
 <p>I don’t blindly trust this analysis. I verify against actual production metrics. The N+1 query is definitely real (I can see it in our APM). The external API calls are actually cached by a CDN, so that’s a false positive. The missing index is correct and probably significant.</p>
 <h3>Phase 2: Targeted Optimization</h3>
 <p>I prioritize based on impact:</p>
-<pre><code>$ claude &quot;Fix the N+1 query using SQLAlchemy eager loading. Show me the before and after queries that will be executed.&quot;
-</code></pre>
+<pre><code>$ claude &quot;Fix the N+1 query using SQLAlchemy eager loading. Show me the before and after queries that will be executed.&quot;</code></pre>
 <p>Claude updates the query to use eager loading and shows me the actual SQL that will execute. I verify this is correct.</p>
 <p>Next optimization:</p>
-<pre><code>$ claude &quot;Add database index for posts.user_id. Generate the migration and explain the query plan improvement.&quot;
-</code></pre>
+<pre><code>$ claude &quot;Add database index for posts.user_id. Generate the migration and explain the query plan improvement.&quot;</code></pre>
 <p>Claude generates the migration and explains how the query planner will use the index. I check this makes sense against our table size and query patterns.</p>
 <h3>Phase 3: Caching Layer</h3>
 <pre><code>$ claude &quot;Implement Redis caching for dashboard data:
@@ -532,12 +559,10 @@ Provide specific line numbers and explain the impact of each issue.&quot;
 - Handle cache miss gracefully
 - Include cache hit/miss metrics
 
-Follow our existing Redis client patterns in services/cache.py&quot;
-</code></pre>
+Follow our existing Redis client patterns in services/cache.py&quot;</code></pre>
 <p>Claude generates the caching implementation following our existing patterns. I review for cache key collisions (good namespacing), race conditions (missing lock on cache invalidation), and metrics (properly integrated).</p>
 <p>I have it add cache invalidation locking:</p>
-<pre><code>$ claude &quot;Add distributed lock for cache invalidation to prevent thundering herd when cache expires under high load. Use Redis-based locking with 10-second timeout.&quot;
-</code></pre>
+<pre><code>$ claude &quot;Add distributed lock for cache invalidation to prevent thundering herd when cache expires under high load. Use Redis-based locking with 10-second timeout.&quot;</code></pre>
 <h3>Phase 4: Validation</h3>
 <p>I don’t trust the optimizations without measurement:</p>
 <pre><code>$ claude &quot;Generate load test script that:
@@ -547,8 +572,7 @@ Follow our existing Redis client patterns in services/cache.py&quot;
 - Reports query count and cache hit rate
 - Runs for 60 seconds
 
-Use locust framework.&quot;
-</code></pre>
+Use locust framework.&quot;</code></pre>
 <p>Claude generates comprehensive load test. I run it against staging.</p>
 <p>Before optimization: p50 latency 2,100ms, p95 latency 3,400ms, 45 queries per request, no cache. After optimization: p50 latency 180ms (91% improvement), p95 latency 340ms (90% improvement), 1 query per request, 87% cache hit rate.</p>
 <p>Synthesis Engineering means systematic analysis, targeted optimization, and rigorous validation. AI accelerated every phase, but I maintained architectural control and quality standards.</p>
@@ -589,8 +613,7 @@ async def generate_variant(variant_id: str):
         max_tokens=4096,
         messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt}]
     )
-    return response.content[0].text
-</code></pre>
+    return response.content[0].text</code></pre>
 <p>The fix required systematic updates across the codebase. I used Claude Code to help with the refactoring:</p>
 <pre><code>$ claude &quot;Refactor all Anthropic client usage to AsyncAnthropic. Files to update:
 - services/ai_client.py (client initialization)
@@ -598,8 +621,7 @@ async def generate_variant(variant_id: str):
 - agents/synthesis.py (2 call sites)
 - agents/validation.py (1 call site)
 
-Ensure all call sites use &#39;await&#39; and functions are marked async. Verify connection pooling settings match our PostgreSQL configuration.&quot;
-</code></pre>
+Ensure all call sites use &#039;await&#039; and functions are marked async. Verify connection pooling settings match our PostgreSQL configuration.&quot;</code></pre>
 <p>Claude systematically updated all six files, ensuring async consistency. I reviewed each change to verify correctness.</p>
 <h3>Rate Limiting for Concurrent API Calls</h3>
 <p>True parallelism created a new problem: without rate limiting, we’d slam the Anthropic API with concurrent requests exceeding our tier limits.</p>
@@ -609,8 +631,7 @@ Ensure all call sites use &#39;await&#39; and functions are marked async. Verify
 - Include metrics for queue depth and wait time
 - Graceful degradation if semaphore acquisition times out
 
-Implement in services/ai_client.py following our existing patterns.&quot;
-</code></pre>
+Implement in services/ai_client.py following our existing patterns.&quot;</code></pre>
 <p>Claude generated the rate limiting implementation:</p>
 <pre><code>import asyncio
 from contextlib import asynccontextmanager
@@ -627,11 +648,9 @@ class RateLimitedAIClient:
 
     async def create_message(self, **kwargs):
         async with self.acquire():
-            return await self.client.messages.create(**kwargs)
-</code></pre>
+            return await self.client.messages.create(**kwargs)</code></pre>
 <p>I reviewed this and caught a subtle issue: the semaphore prevents more than 30 concurrent <em>acquisitions</em>, but doesn’t enforce fair queuing. Under high load, some requests could starve. I had Claude add fairness:</p>
-<pre><code>$ claude &quot;Add fair queuing to the semaphore - requests should be processed FIFO, not randomly when slot becomes available.&quot;
-</code></pre>
+<pre><code>$ claude &quot;Add fair queuing to the semaphore - requests should be processed FIFO, not randomly when slot becomes available.&quot;</code></pre>
 <h3>The Result</h3>
 <p>After refactoring: Three concurrent agent calls completed in 32 seconds (3x improvement). The system now properly parallelizes I/O-bound operations. Rate limiting prevents API tier violations. Metrics show healthy queue behavior under load.</p>
 <p>Synthesis Engineering principle: AI didn’t diagnose the root cause (synchronous client blocking event loop). I did that through systems thinking and debugging experience. But once I understood the problem, AI systematically applied the fix across six files with perfect consistency.</p>
@@ -659,8 +678,7 @@ For each category:
 - Explain potential exploit
 - Recommend remediation
 
-Review files in: routes/, models/, services/, middleware/&quot;
-</code></pre>
+Review files in: routes/, models/, services/, middleware/&quot;</code></pre>
 <p>Claude systematically analyzed the codebase and identified seven issues:</p>
 <p><strong>SQL Injection (routes/search.py, line 47):</strong> Raw string formatting in search query. Potential for SQL injection via search parameter.</p>
 <p><strong>Sensitive Data Exposure (models/user.py, line 23):</strong> Password hashes returned in API responses for admin endpoints.</p>
@@ -674,33 +692,29 @@ Review files in: routes/, models/, services/, middleware/&quot;
 <p>I don’t fix everything blindly. I verify each finding and prioritize by severity.</p>
 <p>The SQL injection is real and critical. The insecure deserialization is real but the webhook endpoint is internal-only (still needs fixing). The password hash exposure is a false positive — that endpoint is only for debugging in development. The DEBUG flag is concerning — I check our deployment configs and it’s correctly set to False in production, just True in local dev config.</p>
 <p>Systematic remediation:</p>
-<pre><code>$ claude &quot;Fix the SQL injection in routes/search.py. Use parameterized queries with SQLAlchemy. Show me the vulnerable code and the corrected version side-by-side.&quot;
-</code></pre>
+<pre><code>$ claude &quot;Fix the SQL injection in routes/search.py. Use parameterized queries with SQLAlchemy. Show me the vulnerable code and the corrected version side-by-side.&quot;</code></pre>
 <pre><code>$ claude &quot;Fix the insecure deserialization in routes/webhooks.py.
 - Replace pickle with JSON
 - Add HMAC signature verification using webhook secret
 - Reject requests with invalid signatures
 - Log rejected requests for security monitoring
 
-Follow patterns in middleware/auth.py for signature verification.&quot;
-</code></pre>
+Follow patterns in middleware/auth.py for signature verification.&quot;</code></pre>
 <pre><code>$ claude &quot;Fix the access control issue in routes/admin.py.
-- Verify JWT contains &#39;admin&#39; scope claim
+- Verify JWT contains &#039;admin&#039; scope claim
 - Raise 403 if claim missing or false
 - Add test cases for:
   - Valid admin JWT allows access
   - Valid user JWT without admin claim returns 403
   - Invalid JWT returns 401
-  - Missing JWT returns 401&quot;
-</code></pre>
+  - Missing JWT returns 401&quot;</code></pre>
 <p>For each fix, Claude generated the corrected code. I reviewed for correctness and security.</p>
 <h3>Phase 3: Dependency Updates</h3>
 <pre><code>$ claude &quot;Generate requirements.txt update that:
 - Updates Pillow to latest stable version (verify CVE-2022-22817 is fixed)
 - Checks all other dependencies for known vulnerabilities
 - Notes any breaking changes requiring code updates
-- Provides migration guide if API changes exist&quot;
-</code></pre>
+- Provides migration guide if API changes exist&quot;</code></pre>
 <p>Claude updated dependencies with detailed migration notes. I reviewed against our usage patterns to ensure no breaking changes affected our code.</p>
 <h3>Phase 4: Security Test Suite</h3>
 <pre><code>$ claude &quot;Generate security-focused test suite covering:
@@ -720,8 +734,7 @@ Deserialization tests:
 - Malicious pickle payload rejected
 - Well-formed JSON webhook accepted
 
-Include both positive (attack blocked) and negative (legitimate use allowed) test cases.&quot;
-</code></pre>
+Include both positive (attack blocked) and negative (legitimate use allowed) test cases.&quot;</code></pre>
 <p>Claude generated 40+ security tests. I reviewed them focusing on whether they actually test security properties vs. just covering code paths.</p>
 <h3>The Result</h3>
 <p>The security audit found seven issues. Five were real vulnerabilities. Two were false positives or non-production concerns. All real issues were systematically remediated and covered by tests. The process took 3 hours. Manual security review by a security team would have taken days and potentially missed the systematic coverage we achieved.</p>
@@ -809,5 +822,101 @@ Include both positive (attack blocked) and negative (legitimate use allowed) tes
         <p class="cc0">The terms "Synthesis Coding" and "Synthesis Engineering," along with the associated logo and visual identity, are released under <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0 Universal</a> (public domain). No permission required. No attribution needed. Use freely. The logo was hand-crafted by a human artist.</p>
         <p><a href="/">← Back to Synthesis Coding</a></p>
     </footer>
+
+    <!-- Prism.js core and language support -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markdown.min.js"></script>
+    <!-- Prism.js plugins -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+
+    <!-- Auto-detect language and initialize Prism for all code blocks -->
+    <script>
+    (function() {
+        // Auto-detect language based on content patterns
+        function detectLanguage(code) {
+            const text = code.textContent || '';
+            const firstLine = text.trim().split('\n')[0];
+
+            // Shell/bash patterns
+            if (/^\$\s/.test(firstLine) || /^claude\s/.test(firstLine) ||
+                /^(cd|ls|npm|git|mkdir|rm|cp|mv|cat|echo|export|source)\s/.test(firstLine) ||
+                /^#!\/bin\/(ba)?sh/.test(firstLine)) {
+                return 'bash';
+            }
+            // Python patterns
+            if (/^(import |from |def |class |if __name__|print\()/.test(firstLine) ||
+                /^\s*(import |from )/.test(text)) {
+                return 'python';
+            }
+            // JavaScript/TypeScript patterns
+            if (/^(const |let |var |function |import |export |async |await )/.test(firstLine) ||
+                /^(import \{|export \{|module\.exports)/.test(text)) {
+                return 'javascript';
+            }
+            // JSON patterns
+            if (/^\s*[\{\[]/.test(firstLine) && /[\}\]]\s*$/.test(text.trim())) {
+                return 'json';
+            }
+            // YAML patterns
+            if (/^[a-zA-Z_-]+:\s/.test(firstLine)) {
+                return 'yaml';
+            }
+            // SQL patterns
+            if (/^(SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER)\s/i.test(firstLine)) {
+                return 'sql';
+            }
+            // Default to bash for command-like content
+            if (/^\w+\s+["']/.test(firstLine) || /^[\w-]+\s+--/.test(firstLine)) {
+                return 'bash';
+            }
+            return 'bash'; // Default fallback
+        }
+
+        // Process all code blocks
+        document.querySelectorAll('pre').forEach(function(pre) {
+            var code = pre.querySelector('code');
+            if (!code) {
+                // Wrap content in code element if missing
+                code = document.createElement('code');
+                code.innerHTML = pre.innerHTML;
+                pre.innerHTML = '';
+                pre.appendChild(code);
+            }
+
+            // Check if language class already exists
+            var hasLang = pre.className.match(/language-(\w+)/) ||
+                          code.className.match(/language-(\w+)/);
+
+            if (!hasLang) {
+                // Auto-detect and apply language
+                var lang = detectLanguage(code);
+                pre.className = (pre.className + ' language-' + lang).trim();
+                code.className = (code.className + ' language-' + lang).trim();
+            } else {
+                // Ensure both pre and code have the language class
+                var langClass = 'language-' + hasLang[1];
+                if (!pre.className.includes(langClass)) {
+                    pre.className = (pre.className + ' ' + langClass).trim();
+                }
+                if (!code.className.includes(langClass)) {
+                    code.className = (code.className + ' ' + langClass).trim();
+                }
+            }
+        });
+
+        // Re-highlight all code blocks with Prism
+        if (typeof Prism !== 'undefined') {
+            Prism.highlightAll();
+        }
+    })();
+    </script>
 </body>
 </html>
