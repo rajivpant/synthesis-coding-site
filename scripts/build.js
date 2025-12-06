@@ -487,16 +487,54 @@ function generateCategoryPage(category, articles, template) {
 }
 
 /**
- * Generate homepage article list HTML (simpler format for the homepage)
+ * Generate homepage article list HTML (algorithmically selected for first-time visitors)
+ *
+ * Algorithm:
+ * 1. Select one article per "core" category (Foundation, Framework, Technical guide, Case study, Comparison)
+ * 2. Skip deep-dive categories (Advanced patterns, Philosophical foundation)
+ * 3. Within each category, select the oldest article (the canonical/foundational piece)
+ * 4. Order by category importance
+ * 5. Cap at 5 articles
  */
 function generateHomepageArticlesList(articles) {
-  // Sort by date descending (newest first)
-  const sorted = [...articles].sort((a, b) =>
-    new Date(b.frontMatter.date) - new Date(a.frontMatter.date)
-  );
+  // Category orders to include on homepage (core learning path)
+  const HOMEPAGE_CATEGORY_ORDERS = [1, 2, 3, 4, 6]; // Foundation, Framework, Technical guide, Case study, Comparison
+  const MAX_HOMEPAGE_ARTICLES = 5;
+
+  // Group articles by category
+  const byCategory = {};
+  for (const article of articles) {
+    const category = article.frontMatter.category || 'Other';
+    if (!byCategory[category]) {
+      byCategory[category] = [];
+    }
+    byCategory[category].push(article);
+  }
+
+  // For each category, sort by date ascending (oldest first) to get canonical article
+  for (const category of Object.keys(byCategory)) {
+    byCategory[category].sort((a, b) =>
+      new Date(a.frontMatter.date) - new Date(b.frontMatter.date)
+    );
+  }
+
+  // Select one article per core category, ordered by category importance
+  const selected = [];
+  for (const order of HOMEPAGE_CATEGORY_ORDERS) {
+    // Find category with this order
+    const categoryName = Object.keys(CATEGORIES).find(
+      cat => CATEGORIES[cat].order === order
+    );
+    if (categoryName && byCategory[categoryName] && byCategory[categoryName].length > 0) {
+      selected.push(byCategory[categoryName][0]); // oldest article in category
+    }
+  }
+
+  // Cap at max articles
+  const final = selected.slice(0, MAX_HOMEPAGE_ARTICLES);
 
   let html = '';
-  for (const article of sorted) {
+  for (const article of final) {
     html += `
                 <li>
                     <a href="/articles/${article.frontMatter.slug}/" class="article-title">${article.frontMatter.title}</a>
