@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# WordPress export (temporary files for copy/paste)
+wordpress-export/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*

@@ -1,0 +1,837 @@
+{
+  "_meta": {
+    "fetchedAt": "2025-12-06T03:21:46.228Z",
+    "ownwordsVersion": "1.2.0",
+    "sourceUrl": "https://rajiv.com/blog/2025/04/26/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/"
+  },
+  "raw": {
+    "id": 6667,
+    "date": "2025-11-09T19:33:00",
+    "date_gmt": "2025-11-10T00:33:00",
+    "guid": {
+      "rendered": "https://rajiv.com/?p=6667"
+    },
+    "modified": "2025-12-01T22:58:55",
+    "modified_gmt": "2025-12-02T03:58:55",
+    "slug": "synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development",
+    "status": "publish",
+    "type": "post",
+    "link": "https://rajiv.com/blog/2025/11/09/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/",
+    "title": {
+      "rendered": "Synthesis Coding: The Professional Practice Emerging in AI-Assisted Development (Synthesis Engineering)"
+    },
+    "content": {
+      "rendered": "\n<p><em>Why the most effective engineering organizations are developing systematic approaches that go beyond vibe coding — and why this practice needs a name</em></p>\n\n\n\n<p>This blog post is for CTOs, Engineering Leaders, Technical Executives. I&#8217;ve also written it be accessible to non-technical readers.</p>\n\n\n\n<p>I&#8217;ve had the same conversation with CTOs at least two dozen times over the past year. It usually starts with someone asking about our AI-assisted development practices, and within minutes we&#8217;re describing nearly identical approaches — systematic frameworks for integrating AI capabilities into professional software engineering. Different terminology, same patterns.</p>\n\n\n\n<p>Last month, during a technical architecture review, I watched a senior engineer demonstrate what I&#8217;d been observing across organizations. They used AI to generate an initial implementation, performed systematic security analysis, refactored the architecture based on scaling requirements, generated comprehensive tests, and deployed with full monitoring instrumentation. When I asked what they called this approach, they shrugged: &#8220;Just how we work with AI now.&#8221;</p>\n\n\n\n<p>This practice exists. It&#8217;s emerging independently across leading engineering organizations. It just doesn&#8217;t have a name or shared framework yet.</p>\n\n\n\n<p>I&#8217;m calling it <strong>Synthesis Engineering</strong>: the systematic integration of human expertise with AI capabilities to build production-grade software systems. To position this as a complementary system to <strong>Vibe Coding</strong>, I also call it <strong><a href=\"https://synthesiscoding.com/\">Synthesis Coding</a></strong>.</p>\n\n\n\n<p>Vibe coding serves different purposes. Synthesis Engineering is a fundamentally different practice with different goals.</p>\n\n\n\n<h2 class=\"wp-block-heading\">A Case Study: Building an Agentic Workflow System</h2>\n\n\n\n<p>Here&#8217;s how this works in practice. I built an agentic AI-powered workflow automation platform where teams of specialized AI agents amplify human expertise rather than replace it. The architecture uses multi-agent orchestration: distinct agents handle research synthesis, quality validation, output formatting, and domain-specific processing. Humans remain the decision-makers and domain experts. AI agents handle the systematic execution and variation generation.</p>\n\n\n\n<p>The distinction matters. A single AI model doesn&#8217;t do everything. Instead, a team of specialists — each with distinct expertise — orchestrates through a stateful workflow engine built on LangGraph. The architecture mirrors how human organizations actually work: specialists collaborating, not generalists attempting everything.</p>\n\n\n\n<p>Each agent has its own role definition and expertise domain. Research synthesis agents process source material differently than quality validation agents verify outputs. Platform formatting agents optimize for different distribution channels while maintaining consistent quality standards. The orchestration layer manages dependencies — some agents run in parallel where independent, sequentially where one depends on another&#8217;s output.</p>\n\n\n\n<p>What makes this defensible isn&#8217;t just using AI. It&#8217;s the orchestration logic, the feedback loops, the domain-specific tuning of each specialist agent. A competitor trying to replicate this needs more than access to Claude or GPT-4. They need the architecture that coordinates these agents, the quality standards each validates against, and the accumulated learning about which agent patterns work for which problem types.</p>\n\n\n\n<p>This became my laboratory for Synthesis Engineering principles. The architectural decisions I made — and more importantly, the ones I refused to delegate to AI — determined whether this system would work at all.</p>\n\n\n\n<h2 class=\"wp-block-heading\">The Vibe Coding Context: Valid and Valuable</h2>\n\n\n\n<p>When Andrej Karpathy described &#8220;fully giving in to the vibes&#8221; and forgetting the code exists, he articulated something real. For many use cases, this approach is optimal.</p>\n\n\n\n<p>I use vibe coding regularly. When I want to quickly test an API integration or explore a new library, describing what I want and running the result is often the most efficient approach. For weekend projects, personal automation scripts, and experimental prototypes, vibe coding is frequently the right tool.</p>\n\n\n\n<p>Vibe coding excels for:</p>\n\n\n\n<ul class=\"wp-block-list\">\n<li><strong>Rapid prototyping</strong> when you need to explore ideas quickly without production constraints</li>\n\n\n\n<li><strong>Personal tools</strong> when you&#8217;re the only user and can tolerate occasional failures</li>\n\n\n\n<li><strong>Learning contexts</strong> where seeing AI-generated examples helps you understand new frameworks</li>\n\n\n\n<li><strong>Non-technical builders</strong> creating functional software that solves real problems</li>\n\n\n\n<li><strong>Exploratory work</strong> when you&#8217;re testing concepts and will throw away the code anyway</li>\n</ul>\n\n\n\n<p>These aren&#8217;t trivial use cases. They represent significant value. The challenge emerges when organizations try scaling vibe coding to production systems or expecting it to work for complex software that needs to be maintained over months and years.</p>\n\n\n\n<h2 class=\"wp-block-heading\">What I&#8217;ve Been Observing: A Different Pattern</h2>\n\n\n\n<p>Across engineering organizations I work with and in conversations with CTO peers, I&#8217;ve noticed teams developing remarkably consistent practices for production software development with AI assistance. These aren&#8217;t occasional techniques — they&#8217;re becoming systematic methodologies.</p>\n\n\n\n<p>The first time I really noticed the pattern was during a code review where an engineer had clearly used AI extensively, but the code was exceptionally well-structured. When I asked about their process, they described planning the architecture first, then having AI implement within those constraints, then systematically reviewing everything for security and performance. They&#8217;d essentially created a workflow that maintained all the quality standards we expect while dramatically accelerating implementation.</p>\n\n\n\n<p>That conversation stuck with me. Over the next few months, I heard variations of it repeatedly.</p>\n\n\n\n<h3 class=\"wp-block-heading\">Architectural Authority Remains Human</h3>\n\n\n\n<p>In every effective team I&#8217;ve observed, engineers maintain architectural decision-making authority. They choose databases, select frameworks, define system boundaries, and establish integration patterns. AI implements within these constraints rather than inventing architecture.</p>\n\n\n\n<p>One CTO described their approach: &#8220;We use AI to amplify implementation velocity within architectural guardrails we establish. The moment AI starts making architectural decisions, we&#8217;ve lost control of our system&#8217;s evolution.&#8221;</p>\n\n\n\n<p>System coherence requires consistent architectural vision that spans months or years. AI operates conversation by conversation.</p>\n\n\n\n<p>I saw this play out when a team tried letting AI drive architectural decisions for a microservices project. Within two weeks, they had five different authentication patterns, three approaches to error handling, and no consistent logging strategy. The code worked, but nobody could maintain it. They spent the next month refactoring to impose architectural consistency.</p>\n\n\n\n<p>The contrast with systematic approaches is stark. When engineers establish architectural patterns first — here&#8217;s our authentication model, this is how we handle errors, these are our database access patterns — AI implementations stay coherent across the entire system. Multiple engineers can work simultaneously without creating architectural drift.</p>\n\n\n\n<p>In the agentic workflow system, this principle manifested early. Someone suggested SQLite for the database — get something working quickly, migrate to PostgreSQL later for production. Standard &#8220;move fast&#8221; thinking.</p>\n\n\n\n<p>I pushed back. Hard.</p>\n\n\n\n<p>SQLite could have handled it. But when you&#8217;re using AI to accelerate implementation, temporary shortcuts compound. You generate connection pooling logic optimized for SQLite&#8217;s single-writer architecture. Retry mechanisms working around database lock limitations. Migration scripts handling SQLite-specific constraints. Then you need AI&#8217;s help refactoring all of it for PostgreSQL&#8217;s concurrent connection model. You&#8217;ve paid twice for the same capability.</p>\n\n\n\n<p>We went with PostgreSQL from day one. Docker Compose setup, connection pooling configured (20 connections + 10 overflow = 30 concurrent operations), asyncpg drivers in place. The &#8220;slower&#8221; choice cost an extra afternoon. The avoided refactoring would have consumed a week.</p>\n\n\n\n<p>Understanding that seemingly minor initial decisions cascade through implementation is architectural thinking. When you amplify implementation speed with AI, you also amplify the cost of getting early architecture wrong.</p>\n\n\n\n<h3 class=\"wp-block-heading\">Systematic Context Preservation</h3>\n\n\n\n<p>One thing I learned fast: AI&#8217;s value compounds when context accumulates.</p>\n\n\n\n<p>Early versions of the workflow system, I&#8217;d start fresh conversations for each feature. New conversation, explain the architecture again, specify patterns again, describe existing code structure again. Slow.</p>\n\n\n\n<p>Then I tried maintaining long-running sessions where context built up. Same conversation continuing as I built v0.4, v0.5, v0.6, v0.7. By v0.8, AI understood the project&#8217;s patterns deeply. It knew our database models, our API conventions, our testing approach, our error handling strategy.</p>\n\n\n\n<p>Implementation velocity increased dramatically. Not because AI got smarter — because context got richer.</p>\n\n\n\n<p>Context preservation is a first-class concern for Synthesis Engineering. Some teams do this through comprehensive documentation that gets updated with each architectural decision. Others maintain living architecture decision records (ADRs) that AI reads before implementation. Some use template prompts that establish project context efficiently.</p>\n\n\n\n<p>The specific mechanism matters less than the principle.</p>\n\n\n\n<h3 class=\"wp-block-heading\">Quality as Systematic Practice</h3>\n\n\n\n<p>AI makes it trivially easy to generate code that runs. Making that code production-ready requires systematic quality practices.</p>\n\n\n\n<p>In traditional development, quality often depends on individual engineer diligence. Some engineers write comprehensive tests, others skip testing. Some do security reviews, others assume their code is secure. Some optimize performance, others ship and hope.</p>\n\n\n\n<p>Synthesis Engineering makes quality systematic by establishing workflows where AI assists in implementing quality practices consistently.</p>\n\n\n\n<p>For the agentic workflow system, I established a quality checkpoint process:</p>\n\n\n\n<ol class=\"wp-block-list\">\n<li><strong>Implementation</strong>: AI generates initial code following architectural patterns</li>\n\n\n\n<li><strong>Security review</strong>: AI performs systematic security analysis against OWASP Top 10 and common vulnerabilities</li>\n\n\n\n<li><strong>Performance analysis</strong>: AI identifies potential bottlenecks and optimization opportunities</li>\n\n\n\n<li><strong>Test generation</strong>: AI creates comprehensive test suites including edge cases and error conditions</li>\n\n\n\n<li><strong>Code review</strong>: Human review focusing on architecture, logic, and edge cases AI might miss</li>\n</ol>\n\n\n\n<p>Each step builds on the previous. By the time code reaches production, it&#8217;s been through multiple systematic quality checks.</p>\n\n\n\n<p>Vibe coding asks &#8220;Does it work?&#8221; Synthesis Engineering asks whether the code meets production quality standards systematically.</p>\n\n\n\n<h3 class=\"wp-block-heading\">The Learning Loop: Continuous Improvement</h3>\n\n\n\n<p>Sophisticated Synthesis Engineering differs from basic AI usage by building systems that learn and improve over time.</p>\n\n\n\n<p>The workflow uses LangGraph for stateful multi-agent orchestration. LangGraph enables measurement at each decision point in the workflow, not just at the output.</p>\n\n\n\n<p>Most AI workflows are linear pipelines — step 1, then step 2, then step 3. Complex real-world work isn&#8217;t linear. LangGraph enables:</p>\n\n\n\n<ul class=\"wp-block-list\">\n<li><strong>Cyclic workflows:</strong> Agent A processes, Agent B reviews, routes back to Agent A for refinement based on quality scores</li>\n\n\n\n<li><strong>Conditional branching:</strong> Route to specialist C or D depending on intermediate results</li>\n\n\n\n<li><strong>State persistence:</strong> Context flows through the entire multi-step process</li>\n\n\n\n<li><strong>Observability:</strong> Track exactly which agent decisions led to which outcomes</li>\n</ul>\n\n\n\n<p>When validator agents identify quality issues and route outputs back for regeneration, the system learns from those cycles. It correlates input characteristics with validation failure rates. It identifies which agent combinations produce outputs that pass validation on first try versus require iteration.</p>\n\n\n\n<p>The orchestration DAG itself evolves based on performance data. Successful routing patterns get reinforced. Problematic patterns trigger architectural refinement.</p>\n\n\n\n<h3 class=\"wp-block-heading\">Why This Creates Strategic Moats</h3>\n\n\n\n<p>Four compounding advantages emerge:</p>\n\n\n\n<p><strong>Data flywheel:</strong> More usage generates better training data, which improves system performance, which attracts more usage. Month 12 outperforms Month 1 dramatically — and competitors at Month 1 can&#8217;t catch up just by copying current features.</p>\n\n\n\n<p><strong>Domain specificity:</strong> The learning tunes to your specific problem domain and quality standards. Generic AI tools optimize for average use cases. Your system optimizes for your exact requirements, incorporating expert judgment that took years to develop.</p>\n\n\n\n<p><strong>Transfer learning:</strong> Successful patterns identified in task type A apply to adjacent task type B, often providing 15-20% immediate improvement without additional training. The system learns abstract principles, not just specific examples.</p>\n\n\n\n<p><strong>Cost efficiency:</strong> As quality improved in our system, average tokens per high-quality output decreased 23%. The system learned to be more efficient, not just more capable. Better results at lower cost — compound advantage on two dimensions simultaneously.</p>\n\n\n\n<h3 class=\"wp-block-heading\">What This Means for Organizations</h3>\n\n\n\n<p>Most organizations treat AI as a static tool. Install the software, write some prompts, get consistent output. That&#8217;s table stakes.</p>\n\n\n\n<p>Sophisticated organizations build AI systems that learn. They instrument feedback loops, track performance metrics, correlate prompt versions with outcomes, and create continuous improvement cycles. Their systems get better while competitors&#8217; systems stay static.</p>\n\n\n\n<p>Human architects design learning systems. AI executes at scale. The combination creates capabilities neither could achieve independently.</p>\n\n\n\n<h2 class=\"wp-block-heading\">Why This Matters: The Organizational Implications</h2>\n\n\n\n<p>Synthesis Engineering isn&#8217;t just about individual developer productivity. It represents a fundamental shift in how engineering organizations build software.</p>\n\n\n\n<p>When teams maintain architectural coherence and systematic quality practices, multiple engineers can work effectively on AI-assisted codebases. The code remains comprehensible because humans made the key design decisions. One engineering manager told me: &#8220;With pure vibe coding, only the engineer who generated the code could maintain it. With Synthesis Engineering, the whole team understands the architecture because we made those decisions collectively.&#8221;</p>\n\n\n\n<p>Because engineers maintain system understanding, organizational knowledge accumulates. Teams learn patterns, build intuition, and improve their ability to solve similar problems. This matters for long-term sustainability. Software systems live for years or decades. Organizations need engineers who understand these systems deeply enough to evolve them.</p>\n\n\n\n<p>When quality practices are systematic rather than ad-hoc, they scale across teams. Security review processes, testing standards, performance requirements — these become organizational capabilities rather than individual practices.</p>\n\n\n\n<p>Systematic practices enable faster innovation. When engineers trust their quality processes, they can move quickly on new features. When they maintain architectural understanding, they can make changes confidently.</p>\n\n\n\n<h2 class=\"wp-block-heading\">The Evolution Continues</h2>\n\n\n\n<p>Synthesis Engineering isn&#8217;t a finished methodology — it&#8217;s an emerging practice. Teams are developing increasingly sophisticated approaches to human-AI collaboration.</p>\n\n\n\n<p>I&#8217;m seeing organizations experiment with AI-assisted architectural analysis during design reviews, systematic AI-generated test suites that exceed human-written coverage, AI-powered security audits integrated into deployment pipelines, automated performance optimization within human-defined constraints, and AI-generated documentation that stays current with code evolution.</p>\n\n\n\n<p>These aren&#8217;t future possibilities — they&#8217;re current practices at leading engineering organizations.</p>\n\n\n\n<h2 class=\"wp-block-heading\">What&#8217;s Next</h2>\n\n\n\n<p>This practice needs more than a name. It needs shared frameworks and methodologies, best practices for different contexts, organizational implementation patterns, education approaches for teams, and tool ecosystems designed for systematic human-AI collaboration.</p>\n\n\n\n<p>In my next article, I&#8217;ll detail the Synthesis Engineering framework: how it works systematically, when to apply it versus other approaches, and how organizations can implement it at scale.</p>\n\n\n\n<p>For now, if you&#8217;re a CTO or engineering leader, look at how your most effective teams work with AI. I&#8217;d bet they&#8217;re practicing something that looks a lot like Synthesis Engineering — they just might not call it that yet.</p>\n\n\n\n<p>The practice exists. Now it has a name. Let&#8217;s build the methodology together.</p>\n\n\n\n<h2 class=\"wp-block-heading\">On Terminology and Usage</h2>\n\n\n\n<p>These terms &#8211; Synthesis Engineering, Synthesis Coding, and the accompanying visual identity &#8211; are offered to the community without restriction. They&#8217;re released under CC0 1.0 Universal (public domain) for anyone to use, modify, or build upon.</p>\n\n\n\n<p>I&#8217;ve documented these practices because teams needed vocabulary for what they were already doing. If these terms help your organization distinguish between exploratory prototyping and systematic production development, use them. If they help you hire, train, or structure your engineering practices, even better.</p>\n\n\n\n<p>No permission required. No attribution needed. Just use what works.</p>\n\n\n\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n\n\n\n<p><em>This is the first article in a three-part series on Synthesis Engineering:</em></p>\n\n\n\n<ol class=\"wp-block-list\">\n<li><em>&#8220;Synthesis Engineering: The Professional Practice Emerging in AI-Assisted Development&#8221; (this article)</em></li>\n\n\n\n<li><em>&#8220;<a href=\"https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/\">The Synthesis Engineering Framework: How Organizations Build Production Software with AI</a>&#8220;</em></li>\n\n\n\n<li><em>&#8220;<a href=\"https://rajiv.com/blog/2025/11/09/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/\">Synthesis Engineering with Claude Code: Technical Implementation and Workflows</a>&#8220;</em></li>\n</ol>\n\n\n\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n\n\n\n<p><em>Rajiv Pant is President of <a href=\"https://www.flatiron.software/\">Flatiron Software</a> and <a href=\"https://www.snapshot.reviews/\">Snapshot AI</a>, where he leads organizational growth and AI innovation. He is former Chief Product &amp; Technology Officer at The Wall Street Journal, The New York Times, and Hearst Magazines. Earlier in his career, he headed technology for Conde Nast&#8217;s brands including Reddit. Rajiv has been working with AI in software engineering since the early days of natural language processing and was an early investor and advisor to AI search company <a href=\"https://you.com/\">You.com</a>. He coined the terms &#8220;Synthesis Engineering&#8221; and &#8220;<a href=\"https://synthesiscoding.com/\">Synthesis Coding</a>&#8221; to describe the systematic integration of human expertise with AI capabilities in professional software development. Connect with him on <a href=\"https://www.linkedin.com/in/rajivpant/\">LinkedIn</a> or read more at <a href=\"https://rajiv.com/\">rajiv.com</a>.</em></p>\n\n\n\n<p></p>\n",
+      "protected": false
+    },
+    "excerpt": {
+      "rendered": "<p>Why the most effective engineering organizations are developing systematic approaches that go beyond vibe coding — and why this practice needs a name This blog post is for CTOs, Engineering Leaders, Technical Executives. I&#8217;ve also written it be accessible to non-technical readers. I&#8217;ve had the same conversation with CTOs at least two dozen times over [&hellip;]</p>\n",
+      "protected": false
+    },
+    "author": 918046,
+    "featured_media": 6704,
+    "comment_status": "open",
+    "ping_status": "open",
+    "sticky": false,
+    "template": "",
+    "format": "standard",
+    "meta": {
+      "advanced_seo_description": "",
+      "jetpack_seo_html_title": "",
+      "jetpack_seo_noindex": false,
+      "jetpack_post_was_ever_published": false,
+      "_jetpack_newsletter_access": "",
+      "_jetpack_dont_email_post_to_subs": false,
+      "_jetpack_newsletter_tier_id": 0,
+      "_jetpack_memberships_contains_paywalled_content": false,
+      "_jetpack_memberships_contains_paid_content": false,
+      "footnotes": ""
+    },
+    "categories": [
+      6
+    ],
+    "tags": [
+      12374,
+      276453,
+      485374580,
+      727048357,
+      727048346
+    ],
+    "class_list": [
+      "post-6667",
+      "post",
+      "type-post",
+      "status-publish",
+      "format-standard",
+      "has-post-thumbnail",
+      "hentry",
+      "category-technology",
+      "tag-artificial-intelligence",
+      "tag-cto",
+      "tag-ctobook",
+      "tag-leadership",
+      "tag-technology"
+    ],
+    "jetpack_featured_media_url": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1",
+    "jetpack_sharing_enabled": true,
+    "jetpack_shortlink": "https://wp.me/p3HWs-1Jx",
+    "jetpack-related-posts": [
+      {
+        "id": 6670,
+        "url": "https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/",
+        "url_meta": {
+          "origin": 6667,
+          "position": 0
+        },
+        "title": "The Synthesis Coding Framework: How Organizations Build Production Software with AI (Synthesis Engineering)",
+        "author": "Rajiv Pant",
+        "date": "November 9, 2025",
+        "format": false,
+        "excerpt": "From individual practice to organizational capability: a systematic approach to human-AI collaboration in professional software development This blog post is for Engineering Leaders, CTOs, and Product Managers. In my previous article, I introduced Synthesis Coding (a.k.a. Synthesis Engineering) — the systematic integration of human expertise with AI capabilities that I've…",
+        "rel": "",
+        "context": "In &quot;Technology&quot;",
+        "block_context": {
+          "text": "Technology",
+          "link": "https://rajiv.com/blog/category/technology/"
+        },
+        "img": {
+          "alt_text": "",
+          "src": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=350%2C200",
+          "width": 350,
+          "height": 200,
+          "srcset": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=350%2C200 1x, https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=525%2C300 1.5x, https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=700%2C400 2x"
+        },
+        "classes": []
+      },
+      {
+        "id": 6760,
+        "url": "https://rajiv.com/blog/2025/12/01/vibe-coding-and-synthesis-coding-two-approaches-one-developer/",
+        "url_meta": {
+          "origin": 6667,
+          "position": 1
+        },
+        "title": "Vibe Coding and Synthesis Coding: Two Complementary Approaches",
+        "author": "Rajiv Pant",
+        "date": "December 1, 2025",
+        "format": false,
+        "excerpt": "Why the conversation isn't about which approach is better — it's about knowing when to use each This blog post is for software engineers, engineering leaders, and anyone interested in AI-assisted development. Since publishing my series on Synthesis Coding, I've received a recurring question: \"How does this differ from vibe…",
+        "rel": "",
+        "context": "In &quot;Technology&quot;",
+        "block_context": {
+          "text": "Technology",
+          "link": "https://rajiv.com/blog/category/technology/"
+        },
+        "img": {
+          "alt_text": "",
+          "src": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=350%2C200",
+          "width": 350,
+          "height": 200,
+          "srcset": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=350%2C200 1x, https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=525%2C300 1.5x, https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=700%2C400 2x"
+        },
+        "classes": []
+      },
+      {
+        "id": 6724,
+        "url": "https://rajiv.com/blog/2025/11/29/seventeen-years-ago-i-built-a-tool-for-the-open-web-this-weekend-i-modernized-it-using-synthesis-coding-with-claude-code-ai/",
+        "url_meta": {
+          "origin": 6667,
+          "position": 2
+        },
+        "title": "Seventeen years ago, I built a tool for the open Web. This weekend, I modernized it using Synthesis Coding with Claude Code AI",
+        "author": "Rajiv Pant",
+        "date": "November 29, 2025",
+        "format": false,
+        "excerpt": "In 2008, I released a WordPress plugin called Blogroll Links. The plugin displayed lists of links on WordPress pages using a shortcode. But the idea behind it was more ambitious than the implementation might suggest. I built Blogroll Links because I believed people should control their own online presence. At the…",
+        "rel": "",
+        "context": "In &quot;Technology&quot;",
+        "block_context": {
+          "text": "Technology",
+          "link": "https://rajiv.com/blog/category/technology/"
+        },
+        "img": {
+          "alt_text": "",
+          "src": "",
+          "width": 0,
+          "height": 0
+        },
+        "classes": []
+      },
+      {
+        "id": 6673,
+        "url": "https://rajiv.com/blog/2025/11/09/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/",
+        "url_meta": {
+          "origin": 6667,
+          "position": 3
+        },
+        "title": "Synthesis Coding with Claude Code: Technical Implementation and Workflows (Synthesis Engineering)",
+        "author": "Rajiv Pant",
+        "date": "November 9, 2025",
+        "format": false,
+        "excerpt": "A hands-on guide to practicing Synthesis Coding (a.k.a. Synthesis Engineering) with concrete examples, real workflows, and lessons from production systems I wrote this blog post for Software Engineers, Architects, and Technical Leads. This one is code-heavy and implementation-focused. In the first two articles of this series, I introduced Synthesis Engineering…",
+        "rel": "",
+        "context": "In &quot;Technology&quot;",
+        "block_context": {
+          "text": "Technology",
+          "link": "https://rajiv.com/blog/category/technology/"
+        },
+        "img": {
+          "alt_text": "",
+          "src": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=350%2C200",
+          "width": 350,
+          "height": 200,
+          "srcset": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=350%2C200 1x, https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=525%2C300 1.5x, https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=700%2C400 2x"
+        },
+        "classes": []
+      },
+      {
+        "id": 6321,
+        "url": "https://rajiv.com/blog/2025/05/26/the-cto-and-chief-product-officer-in-the-age-of-generative-ai-a-new-playbook-for-technology-leadership/",
+        "url_meta": {
+          "origin": 6667,
+          "position": 4
+        },
+        "title": "The CTO and chief product officer in the Age of Generative AI: A New Playbook for Technology Leadership",
+        "author": "Rajiv Pant",
+        "date": "May 26, 2025",
+        "format": false,
+        "excerpt": "Last week, I watched an AI agent debug a production issue, write a fix, create comprehensive tests, and deploy the solution—all while the product and tech leader was hanging out with the team discussing product strategy. The entire process took twelve minutes. Two years ago, this would have consumed days…",
+        "rel": "",
+        "context": "In &quot;Leadership and Management&quot;",
+        "block_context": {
+          "text": "Leadership and Management",
+          "link": "https://rajiv.com/blog/category/management/"
+        },
+        "img": {
+          "alt_text": "",
+          "src": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/05/IMG_0619.jpg?fit=1200%2C574&ssl=1&resize=350%2C200",
+          "width": 350,
+          "height": 200,
+          "srcset": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/05/IMG_0619.jpg?fit=1200%2C574&ssl=1&resize=350%2C200 1x, https://i0.wp.com/rajiv.com/wp-content/uploads/2025/05/IMG_0619.jpg?fit=1200%2C574&ssl=1&resize=525%2C300 1.5x, https://i0.wp.com/rajiv.com/wp-content/uploads/2025/05/IMG_0619.jpg?fit=1200%2C574&ssl=1&resize=700%2C400 2x, https://i0.wp.com/rajiv.com/wp-content/uploads/2025/05/IMG_0619.jpg?fit=1200%2C574&ssl=1&resize=1050%2C600 3x"
+        },
+        "classes": []
+      },
+      {
+        "id": 6004,
+        "url": "https://rajiv.com/blog/2025/02/27/the-frontier-of-ai-reflections-on-my-friend-richard-sochers-vision-the-man-who-invented-prompt-engineering-on-ai-agi-humanoids/",
+        "url_meta": {
+          "origin": 6667,
+          "position": 5
+        },
+        "title": "The Frontier of AI: Reflections on my friend Richard Socher&#8217;s Vision — The Man Who Invented Prompt Engineering on AI, AGI &amp; Humanoids ",
+        "author": "Rajiv Pant",
+        "date": "February 27, 2025",
+        "format": false,
+        "excerpt": "I just watched a fascinating interview featuring my friend Richard Socher, the founder of you.com, in conversation with Peter Diamandis and Salim Ismail. The link to the video on YouTube is at the end of this blog post. Having worked in AI and NLP for decades and served as an…",
+        "rel": "",
+        "context": "In &quot;Technology&quot;",
+        "block_context": {
+          "text": "Technology",
+          "link": "https://rajiv.com/blog/category/technology/"
+        },
+        "img": {
+          "alt_text": "",
+          "src": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/02/IMG_5328.jpg?fit=1200%2C900&ssl=1&resize=350%2C200",
+          "width": 350,
+          "height": 200,
+          "srcset": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/02/IMG_5328.jpg?fit=1200%2C900&ssl=1&resize=350%2C200 1x, https://i0.wp.com/rajiv.com/wp-content/uploads/2025/02/IMG_5328.jpg?fit=1200%2C900&ssl=1&resize=525%2C300 1.5x, https://i0.wp.com/rajiv.com/wp-content/uploads/2025/02/IMG_5328.jpg?fit=1200%2C900&ssl=1&resize=700%2C400 2x, https://i0.wp.com/rajiv.com/wp-content/uploads/2025/02/IMG_5328.jpg?fit=1200%2C900&ssl=1&resize=1050%2C600 3x"
+        },
+        "classes": []
+      }
+    ],
+    "jetpack_likes_enabled": true,
+    "_links": {
+      "self": [
+        {
+          "href": "https://rajiv.com/wp-json/wp/v2/posts/6667",
+          "targetHints": {
+            "allow": [
+              "GET",
+              "POST",
+              "PUT",
+              "PATCH",
+              "DELETE"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://rajiv.com/wp-json/wp/v2/posts"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://rajiv.com/wp-json/wp/v2/types/post"
+        }
+      ],
+      "author": [
+        {
+          "embeddable": true,
+          "href": "https://rajiv.com/wp-json/wp/v2/users/918046"
+        }
+      ],
+      "replies": [
+        {
+          "embeddable": true,
+          "href": "https://rajiv.com/wp-json/wp/v2/comments?post=6667"
+        }
+      ],
+      "version-history": [
+        {
+          "count": 14,
+          "href": "https://rajiv.com/wp-json/wp/v2/posts/6667/revisions"
+        }
+      ],
+      "predecessor-version": [
+        {
+          "id": 6804,
+          "href": "https://rajiv.com/wp-json/wp/v2/posts/6667/revisions/6804"
+        }
+      ],
+      "wp:featuredmedia": [
+        {
+          "embeddable": true,
+          "href": "https://rajiv.com/wp-json/wp/v2/media/6704"
+        }
+      ],
+      "wp:attachment": [
+        {
+          "href": "https://rajiv.com/wp-json/wp/v2/media?parent=6667"
+        }
+      ],
+      "wp:term": [
+        {
+          "taxonomy": "category",
+          "embeddable": true,
+          "href": "https://rajiv.com/wp-json/wp/v2/categories?post=6667"
+        },
+        {
+          "taxonomy": "post_tag",
+          "embeddable": true,
+          "href": "https://rajiv.com/wp-json/wp/v2/tags?post=6667"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    },
+    "_embedded": {
+      "author": [
+        {
+          "id": 918046,
+          "name": "Rajiv Pant",
+          "url": "https://rajiv.com/",
+          "description": "Rajiv Pant   राजीव पंत   潘睿哲\n\"Victory is winning people over, not defeating others.\"\nhttps://rajiv.com/",
+          "link": "https://rajiv.com/blog/author/rajivpant/",
+          "slug": "rajivpant",
+          "_links": {
+            "self": [
+              {
+                "href": "https://rajiv.com/wp-json/wp/v2/users/918046",
+                "targetHints": {
+                  "allow": [
+                    "GET",
+                    "POST",
+                    "PUT",
+                    "PATCH",
+                    "DELETE"
+                  ]
+                }
+              }
+            ],
+            "collection": [
+              {
+                "href": "https://rajiv.com/wp-json/wp/v2/users"
+              }
+            ]
+          }
+        }
+      ],
+      "wp:featuredmedia": [
+        {
+          "id": 6704,
+          "date": "2025-11-24T20:10:13",
+          "slug": "synthesis-engineering-logo-2",
+          "type": "attachment",
+          "link": "https://rajiv.com/blog/2025/11/09/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/synthesis-engineering-logo-2/",
+          "title": {
+            "rendered": "Synthesis-Engineering-Logo-2"
+          },
+          "author": 918046,
+          "featured_media": 0,
+          "jetpack_sharing_enabled": true,
+          "jetpack_shortlink": "https://wp.me/a3HWs-1K8",
+          "jetpack_likes_enabled": true,
+          "caption": {
+            "rendered": ""
+          },
+          "alt_text": "",
+          "media_type": "image",
+          "mime_type": "image/webp",
+          "media_details": {
+            "width": 800,
+            "height": 400,
+            "file": "2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp",
+            "filesize": 10676,
+            "sizes": {
+              "medium": {
+                "file": "Synthesis-Engineering-Logo-2-e1764033363626-300x150.webp",
+                "width": 300,
+                "height": 150,
+                "virtual": true,
+                "mime_type": "image/webp",
+                "source_url": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=300%2C150&ssl=1"
+              },
+              "thumbnail": {
+                "file": "Synthesis-Engineering-Logo-2-e1764033363626-150x150.webp",
+                "width": 150,
+                "height": 150,
+                "virtual": true,
+                "mime_type": "image/webp",
+                "source_url": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?resize=150%2C150&ssl=1"
+              },
+              "medium_large": {
+                "file": "Synthesis-Engineering-Logo-2-e1764033363626-768x384.webp",
+                "width": 768,
+                "height": 384,
+                "virtual": true,
+                "mime_type": "image/webp",
+                "source_url": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=768%2C384&ssl=1"
+              },
+              "full": {
+                "file": "Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1",
+                "width": 800,
+                "height": 400,
+                "mime_type": "image/webp",
+                "source_url": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1"
+              }
+            },
+            "image_meta": {
+              "aperture": "0",
+              "credit": "",
+              "camera": "",
+              "caption": "",
+              "created_timestamp": "0",
+              "copyright": "",
+              "focal_length": "0",
+              "iso": "0",
+              "shutter_speed": "0",
+              "title": "",
+              "orientation": "0",
+              "keywords": []
+            }
+          },
+          "source_url": "https://rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp",
+          "_links": {
+            "self": [
+              {
+                "href": "https://rajiv.com/wp-json/wp/v2/media/6704",
+                "targetHints": {
+                  "allow": [
+                    "GET",
+                    "POST",
+                    "PUT",
+                    "PATCH",
+                    "DELETE"
+                  ]
+                }
+              }
+            ],
+            "collection": [
+              {
+                "href": "https://rajiv.com/wp-json/wp/v2/media"
+              }
+            ],
+            "about": [
+              {
+                "href": "https://rajiv.com/wp-json/wp/v2/types/attachment"
+              }
+            ],
+            "author": [
+              {
+                "embeddable": true,
+                "href": "https://rajiv.com/wp-json/wp/v2/users/918046"
+              }
+            ],
+            "replies": [
+              {
+                "embeddable": true,
+                "href": "https://rajiv.com/wp-json/wp/v2/comments?post=6704"
+              }
+            ],
+            "wp:attached-to": [
+              {
+                "embeddable": true,
+                "post_type": "post",
+                "id": 6667,
+                "href": "https://rajiv.com/wp-json/wp/v2/posts/6667"
+              }
+            ],
+            "curies": [
+              {
+                "name": "wp",
+                "href": "https://api.w.org/{rel}",
+                "templated": true
+              }
+            ]
+          }
+        }
+      ],
+      "wp:term": [
+        [
+          {
+            "id": 6,
+            "link": "https://rajiv.com/blog/category/technology/",
+            "name": "Technology",
+            "slug": "technology",
+            "taxonomy": "category",
+            "_links": {
+              "self": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/categories/6",
+                  "targetHints": {
+                    "allow": [
+                      "GET",
+                      "POST",
+                      "PUT",
+                      "PATCH",
+                      "DELETE"
+                    ]
+                  }
+                }
+              ],
+              "collection": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/categories"
+                }
+              ],
+              "about": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/taxonomies/category"
+                }
+              ],
+              "wp:post_type": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/posts?categories=6"
+                }
+              ],
+              "curies": [
+                {
+                  "name": "wp",
+                  "href": "https://api.w.org/{rel}",
+                  "templated": true
+                }
+              ]
+            }
+          }
+        ],
+        [
+          {
+            "id": 12374,
+            "link": "https://rajiv.com/blog/tag/artificial-intelligence/",
+            "name": "artificial intelligence",
+            "slug": "artificial-intelligence",
+            "taxonomy": "post_tag",
+            "_links": {
+              "self": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/tags/12374",
+                  "targetHints": {
+                    "allow": [
+                      "GET",
+                      "POST",
+                      "PUT",
+                      "PATCH",
+                      "DELETE"
+                    ]
+                  }
+                }
+              ],
+              "collection": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/tags"
+                }
+              ],
+              "about": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/taxonomies/post_tag"
+                }
+              ],
+              "wp:post_type": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/posts?tags=12374"
+                }
+              ],
+              "curies": [
+                {
+                  "name": "wp",
+                  "href": "https://api.w.org/{rel}",
+                  "templated": true
+                }
+              ]
+            }
+          },
+          {
+            "id": 276453,
+            "link": "https://rajiv.com/blog/tag/cto/",
+            "name": "CTO",
+            "slug": "cto",
+            "taxonomy": "post_tag",
+            "_links": {
+              "self": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/tags/276453",
+                  "targetHints": {
+                    "allow": [
+                      "GET",
+                      "POST",
+                      "PUT",
+                      "PATCH",
+                      "DELETE"
+                    ]
+                  }
+                }
+              ],
+              "collection": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/tags"
+                }
+              ],
+              "about": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/taxonomies/post_tag"
+                }
+              ],
+              "wp:post_type": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/posts?tags=276453"
+                }
+              ],
+              "curies": [
+                {
+                  "name": "wp",
+                  "href": "https://api.w.org/{rel}",
+                  "templated": true
+                }
+              ]
+            }
+          },
+          {
+            "id": 485374580,
+            "link": "https://rajiv.com/blog/tag/ctobook/",
+            "name": "ctobook",
+            "slug": "ctobook",
+            "taxonomy": "post_tag",
+            "_links": {
+              "self": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/tags/485374580",
+                  "targetHints": {
+                    "allow": [
+                      "GET",
+                      "POST",
+                      "PUT",
+                      "PATCH",
+                      "DELETE"
+                    ]
+                  }
+                }
+              ],
+              "collection": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/tags"
+                }
+              ],
+              "about": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/taxonomies/post_tag"
+                }
+              ],
+              "wp:post_type": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/posts?tags=485374580"
+                }
+              ],
+              "curies": [
+                {
+                  "name": "wp",
+                  "href": "https://api.w.org/{rel}",
+                  "templated": true
+                }
+              ]
+            }
+          },
+          {
+            "id": 727048357,
+            "link": "https://rajiv.com/blog/tag/leadership/",
+            "name": "leadership",
+            "slug": "leadership",
+            "taxonomy": "post_tag",
+            "_links": {
+              "self": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/tags/727048357",
+                  "targetHints": {
+                    "allow": [
+                      "GET",
+                      "POST",
+                      "PUT",
+                      "PATCH",
+                      "DELETE"
+                    ]
+                  }
+                }
+              ],
+              "collection": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/tags"
+                }
+              ],
+              "about": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/taxonomies/post_tag"
+                }
+              ],
+              "wp:post_type": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/posts?tags=727048357"
+                }
+              ],
+              "curies": [
+                {
+                  "name": "wp",
+                  "href": "https://api.w.org/{rel}",
+                  "templated": true
+                }
+              ]
+            }
+          },
+          {
+            "id": 727048346,
+            "link": "https://rajiv.com/blog/tag/technology/",
+            "name": "technology",
+            "slug": "technology",
+            "taxonomy": "post_tag",
+            "_links": {
+              "self": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/tags/727048346",
+                  "targetHints": {
+                    "allow": [
+                      "GET",
+                      "POST",
+                      "PUT",
+                      "PATCH",
+                      "DELETE"
+                    ]
+                  }
+                }
+              ],
+              "collection": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/tags"
+                }
+              ],
+              "about": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/taxonomies/post_tag"
+                }
+              ],
+              "wp:post_type": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/posts?tags=727048346"
+                }
+              ],
+              "curies": [
+                {
+                  "name": "wp",
+                  "href": "https://api.w.org/{rel}",
+                  "templated": true
+                }
+              ]
+            }
+          }
+        ]
+      ]
+    }
+  },
+  "normalized": {
+    "id": 6667,
+    "slug": "synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development",
+    "title": "Synthesis Coding: The Professional Practice Emerging in AI-Assisted Development (Synthesis Engineering)",
+    "content": "\n<p><em>Why the most effective engineering organizations are developing systematic approaches that go beyond vibe coding — and why this practice needs a name</em></p>\n\n\n\n<p>This blog post is for CTOs, Engineering Leaders, Technical Executives. I&#8217;ve also written it be accessible to non-technical readers.</p>\n\n\n\n<p>I&#8217;ve had the same conversation with CTOs at least two dozen times over the past year. It usually starts with someone asking about our AI-assisted development practices, and within minutes we&#8217;re describing nearly identical approaches — systematic frameworks for integrating AI capabilities into professional software engineering. Different terminology, same patterns.</p>\n\n\n\n<p>Last month, during a technical architecture review, I watched a senior engineer demonstrate what I&#8217;d been observing across organizations. They used AI to generate an initial implementation, performed systematic security analysis, refactored the architecture based on scaling requirements, generated comprehensive tests, and deployed with full monitoring instrumentation. When I asked what they called this approach, they shrugged: &#8220;Just how we work with AI now.&#8221;</p>\n\n\n\n<p>This practice exists. It&#8217;s emerging independently across leading engineering organizations. It just doesn&#8217;t have a name or shared framework yet.</p>\n\n\n\n<p>I&#8217;m calling it <strong>Synthesis Engineering</strong>: the systematic integration of human expertise with AI capabilities to build production-grade software systems. To position this as a complementary system to <strong>Vibe Coding</strong>, I also call it <strong><a href=\"https://synthesiscoding.com/\">Synthesis Coding</a></strong>.</p>\n\n\n\n<p>Vibe coding serves different purposes. Synthesis Engineering is a fundamentally different practice with different goals.</p>\n\n\n\n<h2 class=\"wp-block-heading\">A Case Study: Building an Agentic Workflow System</h2>\n\n\n\n<p>Here&#8217;s how this works in practice. I built an agentic AI-powered workflow automation platform where teams of specialized AI agents amplify human expertise rather than replace it. The architecture uses multi-agent orchestration: distinct agents handle research synthesis, quality validation, output formatting, and domain-specific processing. Humans remain the decision-makers and domain experts. AI agents handle the systematic execution and variation generation.</p>\n\n\n\n<p>The distinction matters. A single AI model doesn&#8217;t do everything. Instead, a team of specialists — each with distinct expertise — orchestrates through a stateful workflow engine built on LangGraph. The architecture mirrors how human organizations actually work: specialists collaborating, not generalists attempting everything.</p>\n\n\n\n<p>Each agent has its own role definition and expertise domain. Research synthesis agents process source material differently than quality validation agents verify outputs. Platform formatting agents optimize for different distribution channels while maintaining consistent quality standards. The orchestration layer manages dependencies — some agents run in parallel where independent, sequentially where one depends on another&#8217;s output.</p>\n\n\n\n<p>What makes this defensible isn&#8217;t just using AI. It&#8217;s the orchestration logic, the feedback loops, the domain-specific tuning of each specialist agent. A competitor trying to replicate this needs more than access to Claude or GPT-4. They need the architecture that coordinates these agents, the quality standards each validates against, and the accumulated learning about which agent patterns work for which problem types.</p>\n\n\n\n<p>This became my laboratory for Synthesis Engineering principles. The architectural decisions I made — and more importantly, the ones I refused to delegate to AI — determined whether this system would work at all.</p>\n\n\n\n<h2 class=\"wp-block-heading\">The Vibe Coding Context: Valid and Valuable</h2>\n\n\n\n<p>When Andrej Karpathy described &#8220;fully giving in to the vibes&#8221; and forgetting the code exists, he articulated something real. For many use cases, this approach is optimal.</p>\n\n\n\n<p>I use vibe coding regularly. When I want to quickly test an API integration or explore a new library, describing what I want and running the result is often the most efficient approach. For weekend projects, personal automation scripts, and experimental prototypes, vibe coding is frequently the right tool.</p>\n\n\n\n<p>Vibe coding excels for:</p>\n\n\n\n<ul class=\"wp-block-list\">\n<li><strong>Rapid prototyping</strong> when you need to explore ideas quickly without production constraints</li>\n\n\n\n<li><strong>Personal tools</strong> when you&#8217;re the only user and can tolerate occasional failures</li>\n\n\n\n<li><strong>Learning contexts</strong> where seeing AI-generated examples helps you understand new frameworks</li>\n\n\n\n<li><strong>Non-technical builders</strong> creating functional software that solves real problems</li>\n\n\n\n<li><strong>Exploratory work</strong> when you&#8217;re testing concepts and will throw away the code anyway</li>\n</ul>\n\n\n\n<p>These aren&#8217;t trivial use cases. They represent significant value. The challenge emerges when organizations try scaling vibe coding to production systems or expecting it to work for complex software that needs to be maintained over months and years.</p>\n\n\n\n<h2 class=\"wp-block-heading\">What I&#8217;ve Been Observing: A Different Pattern</h2>\n\n\n\n<p>Across engineering organizations I work with and in conversations with CTO peers, I&#8217;ve noticed teams developing remarkably consistent practices for production software development with AI assistance. These aren&#8217;t occasional techniques — they&#8217;re becoming systematic methodologies.</p>\n\n\n\n<p>The first time I really noticed the pattern was during a code review where an engineer had clearly used AI extensively, but the code was exceptionally well-structured. When I asked about their process, they described planning the architecture first, then having AI implement within those constraints, then systematically reviewing everything for security and performance. They&#8217;d essentially created a workflow that maintained all the quality standards we expect while dramatically accelerating implementation.</p>\n\n\n\n<p>That conversation stuck with me. Over the next few months, I heard variations of it repeatedly.</p>\n\n\n\n<h3 class=\"wp-block-heading\">Architectural Authority Remains Human</h3>\n\n\n\n<p>In every effective team I&#8217;ve observed, engineers maintain architectural decision-making authority. They choose databases, select frameworks, define system boundaries, and establish integration patterns. AI implements within these constraints rather than inventing architecture.</p>\n\n\n\n<p>One CTO described their approach: &#8220;We use AI to amplify implementation velocity within architectural guardrails we establish. The moment AI starts making architectural decisions, we&#8217;ve lost control of our system&#8217;s evolution.&#8221;</p>\n\n\n\n<p>System coherence requires consistent architectural vision that spans months or years. AI operates conversation by conversation.</p>\n\n\n\n<p>I saw this play out when a team tried letting AI drive architectural decisions for a microservices project. Within two weeks, they had five different authentication patterns, three approaches to error handling, and no consistent logging strategy. The code worked, but nobody could maintain it. They spent the next month refactoring to impose architectural consistency.</p>\n\n\n\n<p>The contrast with systematic approaches is stark. When engineers establish architectural patterns first — here&#8217;s our authentication model, this is how we handle errors, these are our database access patterns — AI implementations stay coherent across the entire system. Multiple engineers can work simultaneously without creating architectural drift.</p>\n\n\n\n<p>In the agentic workflow system, this principle manifested early. Someone suggested SQLite for the database — get something working quickly, migrate to PostgreSQL later for production. Standard &#8220;move fast&#8221; thinking.</p>\n\n\n\n<p>I pushed back. Hard.</p>\n\n\n\n<p>SQLite could have handled it. But when you&#8217;re using AI to accelerate implementation, temporary shortcuts compound. You generate connection pooling logic optimized for SQLite&#8217;s single-writer architecture. Retry mechanisms working around database lock limitations. Migration scripts handling SQLite-specific constraints. Then you need AI&#8217;s help refactoring all of it for PostgreSQL&#8217;s concurrent connection model. You&#8217;ve paid twice for the same capability.</p>\n\n\n\n<p>We went with PostgreSQL from day one. Docker Compose setup, connection pooling configured (20 connections + 10 overflow = 30 concurrent operations), asyncpg drivers in place. The &#8220;slower&#8221; choice cost an extra afternoon. The avoided refactoring would have consumed a week.</p>\n\n\n\n<p>Understanding that seemingly minor initial decisions cascade through implementation is architectural thinking. When you amplify implementation speed with AI, you also amplify the cost of getting early architecture wrong.</p>\n\n\n\n<h3 class=\"wp-block-heading\">Systematic Context Preservation</h3>\n\n\n\n<p>One thing I learned fast: AI&#8217;s value compounds when context accumulates.</p>\n\n\n\n<p>Early versions of the workflow system, I&#8217;d start fresh conversations for each feature. New conversation, explain the architecture again, specify patterns again, describe existing code structure again. Slow.</p>\n\n\n\n<p>Then I tried maintaining long-running sessions where context built up. Same conversation continuing as I built v0.4, v0.5, v0.6, v0.7. By v0.8, AI understood the project&#8217;s patterns deeply. It knew our database models, our API conventions, our testing approach, our error handling strategy.</p>\n\n\n\n<p>Implementation velocity increased dramatically. Not because AI got smarter — because context got richer.</p>\n\n\n\n<p>Context preservation is a first-class concern for Synthesis Engineering. Some teams do this through comprehensive documentation that gets updated with each architectural decision. Others maintain living architecture decision records (ADRs) that AI reads before implementation. Some use template prompts that establish project context efficiently.</p>\n\n\n\n<p>The specific mechanism matters less than the principle.</p>\n\n\n\n<h3 class=\"wp-block-heading\">Quality as Systematic Practice</h3>\n\n\n\n<p>AI makes it trivially easy to generate code that runs. Making that code production-ready requires systematic quality practices.</p>\n\n\n\n<p>In traditional development, quality often depends on individual engineer diligence. Some engineers write comprehensive tests, others skip testing. Some do security reviews, others assume their code is secure. Some optimize performance, others ship and hope.</p>\n\n\n\n<p>Synthesis Engineering makes quality systematic by establishing workflows where AI assists in implementing quality practices consistently.</p>\n\n\n\n<p>For the agentic workflow system, I established a quality checkpoint process:</p>\n\n\n\n<ol class=\"wp-block-list\">\n<li><strong>Implementation</strong>: AI generates initial code following architectural patterns</li>\n\n\n\n<li><strong>Security review</strong>: AI performs systematic security analysis against OWASP Top 10 and common vulnerabilities</li>\n\n\n\n<li><strong>Performance analysis</strong>: AI identifies potential bottlenecks and optimization opportunities</li>\n\n\n\n<li><strong>Test generation</strong>: AI creates comprehensive test suites including edge cases and error conditions</li>\n\n\n\n<li><strong>Code review</strong>: Human review focusing on architecture, logic, and edge cases AI might miss</li>\n</ol>\n\n\n\n<p>Each step builds on the previous. By the time code reaches production, it&#8217;s been through multiple systematic quality checks.</p>\n\n\n\n<p>Vibe coding asks &#8220;Does it work?&#8221; Synthesis Engineering asks whether the code meets production quality standards systematically.</p>\n\n\n\n<h3 class=\"wp-block-heading\">The Learning Loop: Continuous Improvement</h3>\n\n\n\n<p>Sophisticated Synthesis Engineering differs from basic AI usage by building systems that learn and improve over time.</p>\n\n\n\n<p>The workflow uses LangGraph for stateful multi-agent orchestration. LangGraph enables measurement at each decision point in the workflow, not just at the output.</p>\n\n\n\n<p>Most AI workflows are linear pipelines — step 1, then step 2, then step 3. Complex real-world work isn&#8217;t linear. LangGraph enables:</p>\n\n\n\n<ul class=\"wp-block-list\">\n<li><strong>Cyclic workflows:</strong> Agent A processes, Agent B reviews, routes back to Agent A for refinement based on quality scores</li>\n\n\n\n<li><strong>Conditional branching:</strong> Route to specialist C or D depending on intermediate results</li>\n\n\n\n<li><strong>State persistence:</strong> Context flows through the entire multi-step process</li>\n\n\n\n<li><strong>Observability:</strong> Track exactly which agent decisions led to which outcomes</li>\n</ul>\n\n\n\n<p>When validator agents identify quality issues and route outputs back for regeneration, the system learns from those cycles. It correlates input characteristics with validation failure rates. It identifies which agent combinations produce outputs that pass validation on first try versus require iteration.</p>\n\n\n\n<p>The orchestration DAG itself evolves based on performance data. Successful routing patterns get reinforced. Problematic patterns trigger architectural refinement.</p>\n\n\n\n<h3 class=\"wp-block-heading\">Why This Creates Strategic Moats</h3>\n\n\n\n<p>Four compounding advantages emerge:</p>\n\n\n\n<p><strong>Data flywheel:</strong> More usage generates better training data, which improves system performance, which attracts more usage. Month 12 outperforms Month 1 dramatically — and competitors at Month 1 can&#8217;t catch up just by copying current features.</p>\n\n\n\n<p><strong>Domain specificity:</strong> The learning tunes to your specific problem domain and quality standards. Generic AI tools optimize for average use cases. Your system optimizes for your exact requirements, incorporating expert judgment that took years to develop.</p>\n\n\n\n<p><strong>Transfer learning:</strong> Successful patterns identified in task type A apply to adjacent task type B, often providing 15-20% immediate improvement without additional training. The system learns abstract principles, not just specific examples.</p>\n\n\n\n<p><strong>Cost efficiency:</strong> As quality improved in our system, average tokens per high-quality output decreased 23%. The system learned to be more efficient, not just more capable. Better results at lower cost — compound advantage on two dimensions simultaneously.</p>\n\n\n\n<h3 class=\"wp-block-heading\">What This Means for Organizations</h3>\n\n\n\n<p>Most organizations treat AI as a static tool. Install the software, write some prompts, get consistent output. That&#8217;s table stakes.</p>\n\n\n\n<p>Sophisticated organizations build AI systems that learn. They instrument feedback loops, track performance metrics, correlate prompt versions with outcomes, and create continuous improvement cycles. Their systems get better while competitors&#8217; systems stay static.</p>\n\n\n\n<p>Human architects design learning systems. AI executes at scale. The combination creates capabilities neither could achieve independently.</p>\n\n\n\n<h2 class=\"wp-block-heading\">Why This Matters: The Organizational Implications</h2>\n\n\n\n<p>Synthesis Engineering isn&#8217;t just about individual developer productivity. It represents a fundamental shift in how engineering organizations build software.</p>\n\n\n\n<p>When teams maintain architectural coherence and systematic quality practices, multiple engineers can work effectively on AI-assisted codebases. The code remains comprehensible because humans made the key design decisions. One engineering manager told me: &#8220;With pure vibe coding, only the engineer who generated the code could maintain it. With Synthesis Engineering, the whole team understands the architecture because we made those decisions collectively.&#8221;</p>\n\n\n\n<p>Because engineers maintain system understanding, organizational knowledge accumulates. Teams learn patterns, build intuition, and improve their ability to solve similar problems. This matters for long-term sustainability. Software systems live for years or decades. Organizations need engineers who understand these systems deeply enough to evolve them.</p>\n\n\n\n<p>When quality practices are systematic rather than ad-hoc, they scale across teams. Security review processes, testing standards, performance requirements — these become organizational capabilities rather than individual practices.</p>\n\n\n\n<p>Systematic practices enable faster innovation. When engineers trust their quality processes, they can move quickly on new features. When they maintain architectural understanding, they can make changes confidently.</p>\n\n\n\n<h2 class=\"wp-block-heading\">The Evolution Continues</h2>\n\n\n\n<p>Synthesis Engineering isn&#8217;t a finished methodology — it&#8217;s an emerging practice. Teams are developing increasingly sophisticated approaches to human-AI collaboration.</p>\n\n\n\n<p>I&#8217;m seeing organizations experiment with AI-assisted architectural analysis during design reviews, systematic AI-generated test suites that exceed human-written coverage, AI-powered security audits integrated into deployment pipelines, automated performance optimization within human-defined constraints, and AI-generated documentation that stays current with code evolution.</p>\n\n\n\n<p>These aren&#8217;t future possibilities — they&#8217;re current practices at leading engineering organizations.</p>\n\n\n\n<h2 class=\"wp-block-heading\">What&#8217;s Next</h2>\n\n\n\n<p>This practice needs more than a name. It needs shared frameworks and methodologies, best practices for different contexts, organizational implementation patterns, education approaches for teams, and tool ecosystems designed for systematic human-AI collaboration.</p>\n\n\n\n<p>In my next article, I&#8217;ll detail the Synthesis Engineering framework: how it works systematically, when to apply it versus other approaches, and how organizations can implement it at scale.</p>\n\n\n\n<p>For now, if you&#8217;re a CTO or engineering leader, look at how your most effective teams work with AI. I&#8217;d bet they&#8217;re practicing something that looks a lot like Synthesis Engineering — they just might not call it that yet.</p>\n\n\n\n<p>The practice exists. Now it has a name. Let&#8217;s build the methodology together.</p>\n\n\n\n<h2 class=\"wp-block-heading\">On Terminology and Usage</h2>\n\n\n\n<p>These terms &#8211; Synthesis Engineering, Synthesis Coding, and the accompanying visual identity &#8211; are offered to the community without restriction. They&#8217;re released under CC0 1.0 Universal (public domain) for anyone to use, modify, or build upon.</p>\n\n\n\n<p>I&#8217;ve documented these practices because teams needed vocabulary for what they were already doing. If these terms help your organization distinguish between exploratory prototyping and systematic production development, use them. If they help you hire, train, or structure your engineering practices, even better.</p>\n\n\n\n<p>No permission required. No attribution needed. Just use what works.</p>\n\n\n\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n\n\n\n<p><em>This is the first article in a three-part series on Synthesis Engineering:</em></p>\n\n\n\n<ol class=\"wp-block-list\">\n<li><em>&#8220;Synthesis Engineering: The Professional Practice Emerging in AI-Assisted Development&#8221; (this article)</em></li>\n\n\n\n<li><em>&#8220;<a href=\"https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/\">The Synthesis Engineering Framework: How Organizations Build Production Software with AI</a>&#8220;</em></li>\n\n\n\n<li><em>&#8220;<a href=\"https://rajiv.com/blog/2025/11/09/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/\">Synthesis Engineering with Claude Code: Technical Implementation and Workflows</a>&#8220;</em></li>\n</ol>\n\n\n\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n\n\n\n<p><em>Rajiv Pant is President of <a href=\"https://www.flatiron.software/\">Flatiron Software</a> and <a href=\"https://www.snapshot.reviews/\">Snapshot AI</a>, where he leads organizational growth and AI innovation. He is former Chief Product &amp; Technology Officer at The Wall Street Journal, The New York Times, and Hearst Magazines. Earlier in his career, he headed technology for Conde Nast&#8217;s brands including Reddit. Rajiv has been working with AI in software engineering since the early days of natural language processing and was an early investor and advisor to AI search company <a href=\"https://you.com/\">You.com</a>. He coined the terms &#8220;Synthesis Engineering&#8221; and &#8220;<a href=\"https://synthesiscoding.com/\">Synthesis Coding</a>&#8221; to describe the systematic integration of human expertise with AI capabilities in professional software development. Connect with him on <a href=\"https://www.linkedin.com/in/rajivpant/\">LinkedIn</a> or read more at <a href=\"https://rajiv.com/\">rajiv.com</a>.</em></p>\n\n\n\n<p></p>\n",
+    "excerpt": "<p>Why the most effective engineering organizations are developing systematic approaches that go beyond vibe coding — and why this practice needs a name This blog post is for CTOs, Engineering Leaders, Technical Executives. I&#8217;ve also written it be accessible to non-technical readers. I&#8217;ve had the same conversation with CTOs at least two dozen times over [&hellip;]</p>\n",
+    "date": "2025-11-09",
+    "dateGmt": "2025-11-10T00:33:00",
+    "modified": "2025-12-01",
+    "modifiedGmt": "2025-12-02T03:58:55",
+    "status": "publish",
+    "type": "post",
+    "link": "https://rajiv.com/blog/2025/11/09/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/",
+    "author": {
+      "id": 918046,
+      "name": "Rajiv Pant",
+      "slug": "rajivpant",
+      "avatar": ""
+    },
+    "categories": [
+      {
+        "id": 6,
+        "name": "Technology",
+        "slug": "technology"
+      }
+    ],
+    "tags": [
+      {
+        "id": 12374,
+        "name": "artificial intelligence",
+        "slug": "artificial-intelligence"
+      },
+      {
+        "id": 276453,
+        "name": "CTO",
+        "slug": "cto"
+      },
+      {
+        "id": 485374580,
+        "name": "ctobook",
+        "slug": "ctobook"
+      },
+      {
+        "id": 727048357,
+        "name": "leadership",
+        "slug": "leadership"
+      },
+      {
+        "id": 727048346,
+        "name": "technology",
+        "slug": "technology"
+      }
+    ],
+    "featuredImage": {
+      "id": 6704,
+      "url": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1",
+      "alt": "",
+      "title": "Synthesis-Engineering-Logo-2",
+      "width": 800,
+      "height": 400
+    },
+    "format": "standard",
+    "meta": {
+      "advanced_seo_description": "",
+      "jetpack_seo_html_title": "",
+      "jetpack_seo_noindex": false,
+      "jetpack_post_was_ever_published": false,
+      "_jetpack_newsletter_access": "",
+      "_jetpack_dont_email_post_to_subs": false,
+      "_jetpack_newsletter_tier_id": 0,
+      "_jetpack_memberships_contains_paywalled_content": false,
+      "_jetpack_memberships_contains_paid_content": false,
+      "footnotes": ""
+    }
+  }
+}

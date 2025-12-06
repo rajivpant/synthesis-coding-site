@@ -11,3 +11,9 @@
 
 /*.html
   Cache-Control: public, max-age=3600
+
+/articles/*
+  Cache-Control: public, max-age=3600
+
+/articles/images/*
+  Cache-Control: public, max-age=31536000, immutable

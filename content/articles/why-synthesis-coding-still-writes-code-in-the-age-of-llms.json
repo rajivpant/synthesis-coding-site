@@ -1,0 +1,940 @@
+{
+  "_meta": {
+    "fetchedAt": "2025-12-06T03:21:47.819Z",
+    "ownwordsVersion": "1.2.0",
+    "sourceUrl": "https://rajiv.com/blog/2025/12/04/why-synthesis-coding-still-writes-code-in-the-age-of-llms/"
+  },
+  "raw": {
+    "id": 6788,
+    "date": "2025-12-04T23:34:13",
+    "date_gmt": "2025-12-05T04:34:13",
+    "guid": {
+      "rendered": "https://rajiv.com/?p=6788"
+    },
+    "modified": "2025-12-04T23:38:40",
+    "modified_gmt": "2025-12-05T04:38:40",
+    "slug": "why-synthesis-coding-still-writes-code-in-the-age-of-llms",
+    "status": "publish",
+    "type": "post",
+    "link": "https://rajiv.com/blog/2025/12/04/why-synthesis-coding-still-writes-code-in-the-age-of-llms/",
+    "title": {
+      "rendered": "Why Synthesis Coding Still Writes Code in the Age of LLMs"
+    },
+    "content": {
+      "rendered": "\n<p><em>The answer is not &#8220;just let the model do it&#8221; — and code matters more, not less, as AI gets dramatically better</em></p>\n\n\n\n<p>Last spring, my son Fitz and I had an afternoon math duel.</p>\n\n\n\n<p>He was twelve at the time. Sharp. Competitive. He took on the puzzle the traditional way — paper, pencil, and focused reasoning. I took a different path: I asked a generative AI system to design algorithms, write Python code, and run that code to search systematically for correct solutions.</p>\n\n\n\n<p>The puzzle itself was one of those constraint problems that sounds simple until you try it — combine these numbers using these operations to reach this target — and Fitz solved it elegantly through raw mathematical intuition. Meanwhile, I was prompting ChatGPT through an iterative process: restate the constraints, propose algorithms, select one with justification, generate code, execute, and show results.</p>\n\n\n\n<p>I <a href=\"https://rajiv.com/blog/2024/05/25/prompt-engineering-to-generate-code-to-solve-a-math-problem/\">wrote about that experience</a> at the time. But looking back now — Fitz is thirteen, the models have improved substantially, and I&#8217;ve spent the intervening months developing the Synthesis Coding framework — the interesting part wasn&#8217;t that an LLM could &#8220;do math.&#8221; The interesting part was <em>how</em> it did it: by generating real code that executed in a predictable environment, following explicit rules, producing a result I could inspect, rerun, and extend.</p>\n\n\n\n<p>That pattern — using an LLM to synthesize code instead of treating the LLM itself as the final execution environment — sits at the heart of what I&#8217;ve been calling Synthesis Coding. And it&#8217;s a pattern I keep returning to as models get more capable, because the temptation keeps growing to ask a different question entirely:</p>\n\n\n\n<p><em>Why write code at all? Can&#8217;t I just tell the AI what I want?</em></p>\n\n\n\n<p>That question sounds reasonable. It&#8217;s also, I believe, the wrong long-term strategy for serious systems. This article is about why.</p>\n\n\n\n<h2 class=\"wp-block-heading\">The Two Modes of Working with an LLM</h2>\n\n\n\n<p>When you bring a technical problem to an LLM, you&#8217;re usually doing one of two things, whether you realize it or not.</p>\n\n\n\n<p>The first mode is asking for a direct answer. Here&#8217;s my data — what&#8217;s the median? Here&#8217;s the stack trace — what&#8217;s wrong? Here&#8217;s a word problem — what&#8217;s the answer? The LLM processes your input, does some internal reasoning, and hands you a result. Quick, convenient, often useful.</p>\n\n\n\n<p>The second mode is asking it to build a tool. Write a Python script that loads this CSV and computes the median for each group. Generate a test harness that reproduces this error and logs all SQL queries. Create a program that searches systematically for valid equations using these numbers and rules.</p>\n\n\n\n<p>In the math duel with Fitz, I deliberately chose the second mode. Instead of letting the model wing it in natural language, I asked it to restate the problem and constraints, propose multiple algorithms, compare them, select one with a clear rationale, generate Python code implementing that algorithm, and then run the code and show the result.</p>\n\n\n\n<p>That&#8217;s not just a clever trick for winning friendly competitions with a seventh-grader. It&#8217;s a template for how serious teams should think about LLMs going forward — and it generalizes from family math games to enterprise platforms with surprisingly little adjustment.</p>\n\n\n\n<h2 class=\"wp-block-heading\">The Seductive Logic of &#8220;Just Talk to the Computer&#8221;</h2>\n\n\n\n<p>Model improvement has been so rapid that some people have extrapolated a straight line to an obvious endpoint: if LLMs can already generate working code and solve many problems directly, surely the destination is a world where we just talk to the computer and it does everything.</p>\n\n\n\n<p>I don&#8217;t think that&#8217;s where we end up. Even if LLMs become orders of magnitude better — and they will — there are structural reasons why &#8220;do everything directly in the LLM&#8221; remains a poor operating model for most serious software and data systems.</p>\n\n\n\n<p>These reasons don&#8217;t depend on any specific model&#8217;s limitations. They&#8217;re about how organizations actually need to operate under uncertainty, risk, and time.</p>\n\n\n\n<p><strong>Natural language is optimized for humans, not systems.</strong> The flexibility and ambiguity that make natural language so powerful for human communication are precisely what make it unsuitable for production systems. Those systems need stable interfaces that don&#8217;t subtly shift meaning between runs, unambiguous semantics that survive reorganizations and staff turnover, and deterministic behavior where identical inputs reliably produce identical outputs. Code remains the best format we&#8217;ve invented for expressing those constraints. Even if an LLM could perfectly understand every nuance of your instructions, the rest of your stack — databases, queues, APIs, regulatory reports, other teams — expects clear contracts, not remembered conversation history.</p>\n\n\n\n<p><strong>You need artifacts that outlive the conversation.</strong> Your most important systems must survive people changing roles, vendors changing pricing or policies, architectural evolution across platforms, and the introduction of new AI tools years from now. A direct LLM answer is an event. Code is an artifact. Artifacts can be versioned, reviewed, tested, deployed, archived, and audited. Events cannot. In the math puzzle with Fitz, the program the LLM generated was a reusable artifact. We could rerun it, change the target number, adjust the rules, or use it later as a teaching example. If I had just asked for &#8220;the answer,&#8221; there would have been nothing to build on.</p>\n\n\n\n<p><strong>Debuggability isn&#8217;t optional.</strong> Anyone who has operated a production system knows the 2 AM feeling: something broke, users are waiting, and you need to understand exactly what the system is doing. If your logic lives as &#8220;well, yesterday we had a conversation with the model and it agreed to do X,&#8221; you have no system you can interrogate. You have logs of prior interactions if you&#8217;re lucky, and a model that might or might not behave the same way again. If your LLM-generated logic lives as code, you can instrument it, add logging and metrics, write failing tests that prove a bug exists, bisect history to find which change introduced a regression. You can own the behavior instead of negotiating with it every time.</p>\n\n\n\n<p><strong>Governance needs a traceable chain.</strong> Long before regulators fully catch up with AI, enterprises already face basic questions: Why did the system make that decision for this customer on that date? What was the logic of our pricing model last quarter? Who changed the risk rules on the 15th, and what exactly changed? If core decision logic lives only in the dynamic behavior of an LLM, your answer becomes &#8220;the model said so, based on prompts we don&#8217;t fully reconstruct anymore.&#8221; That&#8217;s unacceptable in any domain with real stakes — finance, healthcare, safety, critical infrastructure, or even basic consumer trust. When you use LLMs to generate code, configuration, and explicit policies instead, you can snapshot the logic at each release, compare versions, attach human approvals to specific changes, and produce evidence of what the system would have done at any point in time.</p>\n\n\n\n<p><strong>Teams need shared understanding.</strong> In the <a href=\"https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/\">Synthesis Coding Framework</a> article, I argued that the real value of this approach isn&#8217;t individual productivity — it&#8217;s institutional capability. A team&#8217;s speed and reliability come from shared mental models: how this system is structured, where the boundaries are, what patterns are allowed or discouraged, how we handle errors and timeouts and retries and security and performance. If each engineer builds private conversational state with their favorite model, your &#8220;architecture&#8221; becomes a patchwork of personal prompt styles, undocumented assumptions, and one-off agreements with an opaque system. If instead the output of those conversations is code and documentation checked into shared repos, you get collective learning, code review as teaching mechanism, and architecture that remains coherent when people come and go. LLMs can accelerate how that collective understanding gets built. They cannot replace the need for it.</p>\n\n\n\n<h2 class=\"wp-block-heading\">The Synthesis Coding Pattern</h2>\n\n\n\n<p>The approach I&#8217;ve been developing across the <a href=\"https://synthesiscoding.com/\">Synthesis Coding series</a> rests on four principles: Human Architectural Authority, Systematic Quality Standards, Active System Understanding, and Iterative Context Building. Apply those principles consistently, and you almost inevitably converge on a specific pattern: use LLMs as powerful collaborators that produce and evolve code, not as black-box oracles that silently execute arbitrary logic.</p>\n\n\n\n<p>In practice, this means humans decide which languages, frameworks, and platforms to use; where state lives and how it&#8217;s modeled; what the trust boundaries are; which components are allowed to make which external calls. LLMs then operate inside that architecture. &#8220;Implement this repository pattern in our existing microservice.&#8221; &#8220;Generate a migration that moves us from schema v3 to v4 using our standard approach.&#8221; &#8220;Extend the existing logging middleware to include correlation IDs and user IDs, consistent with the current codebase.&#8221; The model isn&#8217;t inventing the system. It&#8217;s implementing parts of a system whose structure humans own. And the implementation lives as code.</p>\n\n\n\n<p>The same logic applies to quality standards. In the <a href=\"https://rajiv.com/blog/2025/11/09/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/\">Claude Code implementation article</a>, I described workflows where every change — whether human-authored or AI-authored — flows through the same pipelines: tests, linters, security scanners. LLMs get used not only to write code, but also to review it, propose test cases, and highlight edge conditions. This entire approach assumes the existence of code as the shared substrate. You can&#8217;t run static analysis on a conversation. You can&#8217;t diff yesterday&#8217;s vibes against today&#8217;s. You can only do that on artifacts.</p>\n\n\n\n<p>One underappreciated failure mode in naive AI-assisted development is that engineers gradually lose the ability to reason about their own systems. The AI &#8220;does the hard parts,&#8221; and humans handle orchestration and glue. Synthesis Coding pushes in the opposite direction. Use LLMs to explain existing code in multiple ways — by data flow, by call graph, by error handling paths. Ask models to generate diagrams, documentation, and tests that deepen human understanding. Insist that no critical subsystem exists that no human can explain at a whiteboard. When LLMs generate code, they do so in a way that remains legible — to you, your team, your future hires, and your future self.</p>\n\n\n\n<p>In the <a href=\"https://rajiv.com/blog/2025/11/30/polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code/\">Polyrepo Synthesis</a> article, I explored how multi-repo work benefits from structured context: CLAUDE.md files, shared conventions, carefully curated prompts. The purpose of those context meshes is to make AI more effective at generating consistent code across repositories — auth, logging, error handling, feature flags — not at improvising behavior each time. Over time, the accumulated artifacts compound. The LLM becomes a way to navigate and extend that body of work, not a substitute for it.</p>\n\n\n\n<h2 class=\"wp-block-heading\">A Durable Heuristic</h2>\n\n\n\n<p>So how do you decide, moment to moment, whether to ask the model for a direct answer or ask it to design and generate code you&#8217;ll run and maintain?</p>\n\n\n\n<p>Here&#8217;s a heuristic I expect to remain valid even as LLMs become dramatically more capable.</p>\n\n\n\n<p>Direct LLM answers work fine when the stakes are low — you&#8217;re exploring ideas, learning a new library, sanity-checking your own reasoning. They&#8217;re appropriate when the result is ephemeral — you just need a one-off calculation, a quick draft, an explanation. They make sense when you&#8217;ll validate the result anyway through your own tests or comparisons. And they&#8217;re sufficient when the work won&#8217;t be reused by others — no one else depends on this interaction, it&#8217;s not a shared building block. This is what I&#8217;ve called the &#8220;vibe coding&#8221; end of the spectrum: high-speed, low-ceremony, perfect for exploration.</p>\n\n\n\n<p>You should prefer LLM-generated code when the logic will be reused. Any time you think &#8220;I&#8217;ll probably need this again,&#8221; that&#8217;s a hint this should become a script, module, or service. Prefer code when multiple people or systems depend on it — if other engineers, teams, or user-facing features rely on this behavior, it deserves a stable home in your codebase. Prefer code when you need traceability — if you might ever be asked &#8220;why did it do that?&#8221; or &#8220;what changed between these two dates?&#8221;, you want explicit code and version history. Prefer code when the cost of being wrong is non-trivial — money, safety, reputation, or legal risk are on the line. And prefer code when you can imagine needing to debug it later, which is almost everything that matters.</p>\n\n\n\n<p>The short version: if you&#8217;ll do it more than twice, or if anyone else will rely on it, you probably want code. LLMs dramatically lower the cost of producing that code. They don&#8217;t eliminate the need for it.</p>\n\n\n\n<h2 class=\"wp-block-heading\">From Math Puzzles to Platforms</h2>\n\n\n\n<p>The afternoon I spent solving puzzles with Fitz was, on the surface, simple: a list of numbers, a target result, a set of rules, a friendly competition between human reasoning and AI-assisted computation. But structurally, it&#8217;s very similar to problems that matter in real systems.</p>\n\n\n\n<p>Pricing algorithms constrained by regulation and policy. Risk scoring models bounded by business rules. Scheduling systems that must obey precedence constraints. Recommender systems operating under fairness or diversity requirements. In each case you have inputs — data about customers, markets, portfolios, inventory — along with constraints from legal requirements, company policies, ethical boundaries, and performance targets. You have objectives: optimize some combination of revenue, risk, satisfaction, or efficiency.</p>\n\n\n\n<p>You could ask an LLM directly: given this input, what should we do? Or you could use LLMs to design algorithms, generate code that implements those algorithms, run that code in controlled environments, observe behavior, write tests, and iterate.</p>\n\n\n\n<p>The second approach requires more work upfront. It&#8217;s also the only one that scales to regulatory oversight, cross-team collaboration, multi-year evolution, and incident response. The math puzzle example was small. The pattern is big.</p>\n\n\n\n<h2 class=\"wp-block-heading\">Prompts That Create Code, Not Just Answers</h2>\n\n\n\n<p>To make this concrete, here are patterns you can embed into practice today.</p>\n\n\n\n<p>The first pattern I call algorithm-then-code. You prompt the model: &#8220;First restate the problem and constraints. Then propose at least three algorithms. Compare them in terms of correctness, complexity, and implementation cost. Select one and justify your choice. Only then generate code implementing that algorithm.&#8221; This forces the model to make the problem explicit, separate reasoning from implementation, and give you human-readable rationale you can challenge. The output is code that a human can understand and trace back to an explicit design choice.</p>\n\n\n\n<p>The second pattern is code-plus-tests-plus-invariants. &#8220;Generate the implementation, then generate a set of unit tests that would fail if the core invariants were violated. Finally, explain those invariants in plain language.&#8221; You&#8217;re asking for artifacts across three layers: implementation, tests, and human-level explanation. All three help you maintain active system understanding over time.</p>\n\n\n\n<p>The third pattern is diff-aware refactoring. &#8220;Given this existing function and this target behavior, propose a minimal diff. Explain line by line why each change is necessary. Do not introduce new dependencies unless explicitly requested.&#8221; Here the LLM doesn&#8217;t own the whole conversation. It&#8217;s operating as a disciplined contributor inside an existing codebase, producing output that fits naturally into a pull request workflow.</p>\n\n\n\n<p>These patterns embody Synthesis Coding: humans define the guardrails and expectations; AI operates energetically within them.</p>\n\n\n\n<h2 class=\"wp-block-heading\">What Happens When LLMs Get Much Better?</h2>\n\n\n\n<p>A reasonable objection: all of this might be true today, but what about when models become near-perfect? Won&#8217;t we eventually just talk to them and skip the code entirely?</p>\n\n\n\n<p>Several things will change as models improve. They&#8217;ll make fewer obvious mistakes, so you&#8217;ll be able to trust them more for local reasoning steps. They&#8217;ll operate over larger, richer context windows, able to &#8220;see&#8221; more of your codebase and documentation at once. They&#8217;ll interact more deeply with tools and environments — running tests, inspecting logs, adjusting code autonomously.</p>\n\n\n\n<p>But I don&#8217;t think any of that removes the need for explicit artifacts. If anything, it makes them more important.</p>\n\n\n\n<p>The more powerful the system, the more governance you need. When a tool can change thousands of lines of code or deploy to production in minutes, you want more visibility, review, and auditability, not less.</p>\n\n\n\n<p>We&#8217;ve been here before with compilers and runtimes. We don&#8217;t write machine code by hand anymore, but we still write source code that serves as the human-comprehensible contract. LLMs are a new layer in that stack, not a replacement for the idea of source.</p>\n\n\n\n<p>Organizations change slower than models. Your company, regulators, and customers will adapt on multi-year timescales. During that time, you need a stable representation of what your systems do. Code, configurations, and policies will continue to play that role.</p>\n\n\n\n<p>And human meaning doesn&#8217;t disappear. Even if a model could generate correct behavior from vague instructions, people still need to reason about trade-offs, ethics, incentives, and strategy. That reasoning needs anchors in artifacts that can be read, debated, and revised.</p>\n\n\n\n<p>The experience of programming will keep changing. We&#8217;ll spend less time typing boilerplate and more time orchestrating. But the deeper pattern — humans defining architecture and standards, AI generating and evolving code within those constraints — looks robust across multiple generations of AI.</p>\n\n\n\n<h2 class=\"wp-block-heading\">The Heart of It</h2>\n\n\n\n<p>I&#8217;ve argued throughout this series that Synthesis Coding isn&#8217;t merely &#8220;using AI to write code.&#8221; That&#8217;s table stakes now. Synthesis Coding means treating architecture, standards, and context as first-class citizens. It means using LLMs to accelerate the creation and evolution of code, not to bypass it. It means building teams and organizations that can wield AI responsibly and effectively over years, not just in clever demos.</p>\n\n\n\n<p>The math puzzle I worked on with Fitz was a small, playful example of that mindset. We took a fuzzy problem and turned it into explicit rules. We used natural language to instruct an LLM, but insisted on an algorithm and executable code as the outcome. We treated the generated program as an artifact we could reason about, not a mysterious oracle producing answers from nowhere.</p>\n\n\n\n<p>That same pattern scales from family math games to multi-repo enterprise platforms. If you&#8217;re an engineer, architect, or CTO wondering how to navigate the next decade of AI-assisted development, the north star I&#8217;d suggest is this: let LLMs expand what your teams can build, but keep code as the durable, shared source of truth.</p>\n\n\n\n<p>That&#8217;s the heart of Synthesis Coding. It&#8217;s why, even as the models keep improving, we will still be writing code — just with far more capable collaborators at our side.</p>\n\n\n\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n\n\n\n<p><em>Rajiv Pant is President of&nbsp;<a href=\"https://www.flatiron.software/\">Flatiron Software</a>&nbsp;and&nbsp;<a href=\"https://www.snapshot.reviews/\">Snapshot AI</a>, where he leads organizational growth and AI innovation. He is former Chief Product &amp; Technology Officer at The Wall Street Journal, The New York Times, and Hearst Magazines. Earlier in his career, he headed technology for Condé Nast’s brands including Reddit. Rajiv has been working with AI in software engineering since the early days of natural language processing and was an early investor and advisor to AI search company&nbsp;<a href=\"https://you.com/\">You.com</a>. He coined the terms “Synthesis Engineering” and “Synthesis Coding” to describe the systematic integration of human expertise with AI capabilities in professional software development. Connect with him on&nbsp;<a href=\"https://www.linkedin.com/in/rajivpant/\">LinkedIn</a>&nbsp;or read more at&nbsp;<a href=\"https://rajiv.com/\">rajiv.com</a>.</em></p>\n\n\n\n<p></p>\n",
+      "protected": false
+    },
+    "excerpt": {
+      "rendered": "<p>The answer is not &#8220;just let the model do it&#8221; — and code matters more, not less, as AI gets dramatically better Last spring, my son Fitz and I had an afternoon math duel. He was twelve at the time. Sharp. Competitive. He took on the puzzle the traditional way — paper, pencil, and focused [&hellip;]</p>\n",
+      "protected": false
+    },
+    "author": 918046,
+    "featured_media": 6704,
+    "comment_status": "open",
+    "ping_status": "open",
+    "sticky": false,
+    "template": "",
+    "format": "standard",
+    "meta": {
+      "advanced_seo_description": "",
+      "jetpack_seo_html_title": "",
+      "jetpack_seo_noindex": false,
+      "jetpack_post_was_ever_published": false,
+      "_jetpack_newsletter_access": "",
+      "_jetpack_dont_email_post_to_subs": false,
+      "_jetpack_newsletter_tier_id": 0,
+      "_jetpack_memberships_contains_paywalled_content": false,
+      "_jetpack_memberships_contains_paid_content": false,
+      "footnotes": ""
+    },
+    "categories": [
+      6
+    ],
+    "tags": [
+      12374,
+      276453,
+      485374580,
+      8434,
+      196,
+      11176,
+      727048346
+    ],
+    "class_list": [
+      "post-6788",
+      "post",
+      "type-post",
+      "status-publish",
+      "format-standard",
+      "has-post-thumbnail",
+      "hentry",
+      "category-technology",
+      "tag-artificial-intelligence",
+      "tag-cto",
+      "tag-ctobook",
+      "tag-product-development",
+      "tag-programming",
+      "tag-software-engineering",
+      "tag-technology"
+    ],
+    "jetpack_featured_media_url": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1",
+    "jetpack_sharing_enabled": true,
+    "jetpack_shortlink": "https://wp.me/p3HWs-1Lu",
+    "jetpack-related-posts": [
+      {
+        "id": 3396,
+        "url": "https://rajiv.com/blog/2021/01/17/mathemagic-card-trick/",
+        "url_meta": {
+          "origin": 6788,
+          "position": 0
+        },
+        "title": "MatheMagic Card Trick",
+        "author": "Rajiv Pant",
+        "date": "January 17, 2021",
+        "format": false,
+        "excerpt": "Introduction MatheMagic Card Trick is a fun and simple number revealing magic trick using math. Use the page generate-cards.html to generate your cards to print. Read how-it-is-done-and-tips.html for instructions on how to perform the magic trick. Web Site https://rajivpant.github.io/mathemagiccardtrick/ Source Code https://github.com/rajivpant/mathemagiccardtrick Credits Rajiv and Fitz coauthored the JavaScript here that generates the cards.…",
+        "rel": "",
+        "context": "In &quot;Technology&quot;",
+        "block_context": {
+          "text": "Technology",
+          "link": "https://rajiv.com/blog/category/technology/"
+        },
+        "img": {
+          "alt_text": "",
+          "src": "",
+          "width": 0,
+          "height": 0
+        },
+        "classes": []
+      },
+      {
+        "id": 6760,
+        "url": "https://rajiv.com/blog/2025/12/01/vibe-coding-and-synthesis-coding-two-approaches-one-developer/",
+        "url_meta": {
+          "origin": 6788,
+          "position": 1
+        },
+        "title": "Vibe Coding and Synthesis Coding: Two Complementary Approaches",
+        "author": "Rajiv Pant",
+        "date": "December 1, 2025",
+        "format": false,
+        "excerpt": "Why the conversation isn't about which approach is better — it's about knowing when to use each This blog post is for software engineers, engineering leaders, and anyone interested in AI-assisted development. Since publishing my series on Synthesis Coding, I've received a recurring question: \"How does this differ from vibe…",
+        "rel": "",
+        "context": "In &quot;Technology&quot;",
+        "block_context": {
+          "text": "Technology",
+          "link": "https://rajiv.com/blog/category/technology/"
+        },
+        "img": {
+          "alt_text": "",
+          "src": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=350%2C200",
+          "width": 350,
+          "height": 200,
+          "srcset": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=350%2C200 1x, https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=525%2C300 1.5x, https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=700%2C400 2x"
+        },
+        "classes": []
+      },
+      {
+        "id": 6724,
+        "url": "https://rajiv.com/blog/2025/11/29/seventeen-years-ago-i-built-a-tool-for-the-open-web-this-weekend-i-modernized-it-using-synthesis-coding-with-claude-code-ai/",
+        "url_meta": {
+          "origin": 6788,
+          "position": 2
+        },
+        "title": "Seventeen years ago, I built a tool for the open Web. This weekend, I modernized it using Synthesis Coding with Claude Code AI",
+        "author": "Rajiv Pant",
+        "date": "November 29, 2025",
+        "format": false,
+        "excerpt": "In 2008, I released a WordPress plugin called Blogroll Links. The plugin displayed lists of links on WordPress pages using a shortcode. But the idea behind it was more ambitious than the implementation might suggest. I built Blogroll Links because I believed people should control their own online presence. At the…",
+        "rel": "",
+        "context": "In &quot;Technology&quot;",
+        "block_context": {
+          "text": "Technology",
+          "link": "https://rajiv.com/blog/category/technology/"
+        },
+        "img": {
+          "alt_text": "",
+          "src": "",
+          "width": 0,
+          "height": 0
+        },
+        "classes": []
+      },
+      {
+        "id": 6670,
+        "url": "https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/",
+        "url_meta": {
+          "origin": 6788,
+          "position": 3
+        },
+        "title": "The Synthesis Coding Framework: How Organizations Build Production Software with AI (Synthesis Engineering)",
+        "author": "Rajiv Pant",
+        "date": "November 9, 2025",
+        "format": false,
+        "excerpt": "From individual practice to organizational capability: a systematic approach to human-AI collaboration in professional software development This blog post is for Engineering Leaders, CTOs, and Product Managers. In my previous article, I introduced Synthesis Coding (a.k.a. Synthesis Engineering) — the systematic integration of human expertise with AI capabilities that I've…",
+        "rel": "",
+        "context": "In &quot;Technology&quot;",
+        "block_context": {
+          "text": "Technology",
+          "link": "https://rajiv.com/blog/category/technology/"
+        },
+        "img": {
+          "alt_text": "",
+          "src": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=350%2C200",
+          "width": 350,
+          "height": 200,
+          "srcset": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=350%2C200 1x, https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=525%2C300 1.5x, https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=700%2C400 2x"
+        },
+        "classes": []
+      },
+      {
+        "id": 6667,
+        "url": "https://rajiv.com/blog/2025/11/09/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/",
+        "url_meta": {
+          "origin": 6788,
+          "position": 4
+        },
+        "title": "Synthesis Coding: The Professional Practice Emerging in AI-Assisted Development (Synthesis Engineering)",
+        "author": "Rajiv Pant",
+        "date": "November 9, 2025",
+        "format": false,
+        "excerpt": "Why the most effective engineering organizations are developing systematic approaches that go beyond vibe coding — and why this practice needs a name This blog post is for CTOs, Engineering Leaders, Technical Executives. I've also written it be accessible to non-technical readers. I've had the same conversation with CTOs at…",
+        "rel": "",
+        "context": "In &quot;Technology&quot;",
+        "block_context": {
+          "text": "Technology",
+          "link": "https://rajiv.com/blog/category/technology/"
+        },
+        "img": {
+          "alt_text": "",
+          "src": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=350%2C200",
+          "width": 350,
+          "height": 200,
+          "srcset": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=350%2C200 1x, https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=525%2C300 1.5x, https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=700%2C400 2x"
+        },
+        "classes": []
+      },
+      {
+        "id": 6321,
+        "url": "https://rajiv.com/blog/2025/05/26/the-cto-and-chief-product-officer-in-the-age-of-generative-ai-a-new-playbook-for-technology-leadership/",
+        "url_meta": {
+          "origin": 6788,
+          "position": 5
+        },
+        "title": "The CTO and chief product officer in the Age of Generative AI: A New Playbook for Technology Leadership",
+        "author": "Rajiv Pant",
+        "date": "May 26, 2025",
+        "format": false,
+        "excerpt": "Last week, I watched an AI agent debug a production issue, write a fix, create comprehensive tests, and deploy the solution—all while the product and tech leader was hanging out with the team discussing product strategy. The entire process took twelve minutes. Two years ago, this would have consumed days…",
+        "rel": "",
+        "context": "In &quot;Leadership and Management&quot;",
+        "block_context": {
+          "text": "Leadership and Management",
+          "link": "https://rajiv.com/blog/category/management/"
+        },
+        "img": {
+          "alt_text": "",
+          "src": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/05/IMG_0619.jpg?fit=1200%2C574&ssl=1&resize=350%2C200",
+          "width": 350,
+          "height": 200,
+          "srcset": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/05/IMG_0619.jpg?fit=1200%2C574&ssl=1&resize=350%2C200 1x, https://i0.wp.com/rajiv.com/wp-content/uploads/2025/05/IMG_0619.jpg?fit=1200%2C574&ssl=1&resize=525%2C300 1.5x, https://i0.wp.com/rajiv.com/wp-content/uploads/2025/05/IMG_0619.jpg?fit=1200%2C574&ssl=1&resize=700%2C400 2x, https://i0.wp.com/rajiv.com/wp-content/uploads/2025/05/IMG_0619.jpg?fit=1200%2C574&ssl=1&resize=1050%2C600 3x"
+        },
+        "classes": []
+      }
+    ],
+    "jetpack_likes_enabled": true,
+    "_links": {
+      "self": [
+        {
+          "href": "https://rajiv.com/wp-json/wp/v2/posts/6788",
+          "targetHints": {
+            "allow": [
+              "GET",
+              "POST",
+              "PUT",
+              "PATCH",
+              "DELETE"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://rajiv.com/wp-json/wp/v2/posts"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://rajiv.com/wp-json/wp/v2/types/post"
+        }
+      ],
+      "author": [
+        {
+          "embeddable": true,
+          "href": "https://rajiv.com/wp-json/wp/v2/users/918046"
+        }
+      ],
+      "replies": [
+        {
+          "embeddable": true,
+          "href": "https://rajiv.com/wp-json/wp/v2/comments?post=6788"
+        }
+      ],
+      "version-history": [
+        {
+          "count": 5,
+          "href": "https://rajiv.com/wp-json/wp/v2/posts/6788/revisions"
+        }
+      ],
+      "predecessor-version": [
+        {
+          "id": 6794,
+          "href": "https://rajiv.com/wp-json/wp/v2/posts/6788/revisions/6794"
+        }
+      ],
+      "wp:featuredmedia": [
+        {
+          "embeddable": true,
+          "href": "https://rajiv.com/wp-json/wp/v2/media/6704"
+        }
+      ],
+      "wp:attachment": [
+        {
+          "href": "https://rajiv.com/wp-json/wp/v2/media?parent=6788"
+        }
+      ],
+      "wp:term": [
+        {
+          "taxonomy": "category",
+          "embeddable": true,
+          "href": "https://rajiv.com/wp-json/wp/v2/categories?post=6788"
+        },
+        {
+          "taxonomy": "post_tag",
+          "embeddable": true,
+          "href": "https://rajiv.com/wp-json/wp/v2/tags?post=6788"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    },
+    "_embedded": {
+      "author": [
+        {
+          "id": 918046,
+          "name": "Rajiv Pant",
+          "url": "https://rajiv.com/",
+          "description": "Rajiv Pant   राजीव पंत   潘睿哲\n\"Victory is winning people over, not defeating others.\"\nhttps://rajiv.com/",
+          "link": "https://rajiv.com/blog/author/rajivpant/",
+          "slug": "rajivpant",
+          "_links": {
+            "self": [
+              {
+                "href": "https://rajiv.com/wp-json/wp/v2/users/918046",
+                "targetHints": {
+                  "allow": [
+                    "GET",
+                    "POST",
+                    "PUT",
+                    "PATCH",
+                    "DELETE"
+                  ]
+                }
+              }
+            ],
+            "collection": [
+              {
+                "href": "https://rajiv.com/wp-json/wp/v2/users"
+              }
+            ]
+          }
+        }
+      ],
+      "wp:featuredmedia": [
+        {
+          "id": 6704,
+          "date": "2025-11-24T20:10:13",
+          "slug": "synthesis-engineering-logo-2",
+          "type": "attachment",
+          "link": "https://rajiv.com/blog/2025/11/09/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/synthesis-engineering-logo-2/",
+          "title": {
+            "rendered": "Synthesis-Engineering-Logo-2"
+          },
+          "author": 918046,
+          "featured_media": 0,
+          "jetpack_sharing_enabled": true,
+          "jetpack_shortlink": "https://wp.me/a3HWs-1K8",
+          "jetpack_likes_enabled": true,
+          "caption": {
+            "rendered": ""
+          },
+          "alt_text": "",
+          "media_type": "image",
+          "mime_type": "image/webp",
+          "media_details": {
+            "width": 800,
+            "height": 400,
+            "file": "2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp",
+            "filesize": 10676,
+            "sizes": {
+              "medium": {
+                "file": "Synthesis-Engineering-Logo-2-e1764033363626-300x150.webp",
+                "width": 300,
+                "height": 150,
+                "virtual": true,
+                "mime_type": "image/webp",
+                "source_url": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=300%2C150&ssl=1"
+              },
+              "thumbnail": {
+                "file": "Synthesis-Engineering-Logo-2-e1764033363626-150x150.webp",
+                "width": 150,
+                "height": 150,
+                "virtual": true,
+                "mime_type": "image/webp",
+                "source_url": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?resize=150%2C150&ssl=1"
+              },
+              "medium_large": {
+                "file": "Synthesis-Engineering-Logo-2-e1764033363626-768x384.webp",
+                "width": 768,
+                "height": 384,
+                "virtual": true,
+                "mime_type": "image/webp",
+                "source_url": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=768%2C384&ssl=1"
+              },
+              "full": {
+                "file": "Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1",
+                "width": 800,
+                "height": 400,
+                "mime_type": "image/webp",
+                "source_url": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1"
+              }
+            },
+            "image_meta": {
+              "aperture": "0",
+              "credit": "",
+              "camera": "",
+              "caption": "",
+              "created_timestamp": "0",
+              "copyright": "",
+              "focal_length": "0",
+              "iso": "0",
+              "shutter_speed": "0",
+              "title": "",
+              "orientation": "0",
+              "keywords": []
+            }
+          },
+          "source_url": "https://rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp",
+          "_links": {
+            "self": [
+              {
+                "href": "https://rajiv.com/wp-json/wp/v2/media/6704",
+                "targetHints": {
+                  "allow": [
+                    "GET",
+                    "POST",
+                    "PUT",
+                    "PATCH",
+                    "DELETE"
+                  ]
+                }
+              }
+            ],
+            "collection": [
+              {
+                "href": "https://rajiv.com/wp-json/wp/v2/media"
+              }
+            ],
+            "about": [
+              {
+                "href": "https://rajiv.com/wp-json/wp/v2/types/attachment"
+              }
+            ],
+            "author": [
+              {
+                "embeddable": true,
+                "href": "https://rajiv.com/wp-json/wp/v2/users/918046"
+              }
+            ],
+            "replies": [
+              {
+                "embeddable": true,
+                "href": "https://rajiv.com/wp-json/wp/v2/comments?post=6704"
+              }
+            ],
+            "wp:attached-to": [
+              {
+                "embeddable": true,
+                "post_type": "post",
+                "id": 6667,
+                "href": "https://rajiv.com/wp-json/wp/v2/posts/6667"
+              }
+            ],
+            "curies": [
+              {
+                "name": "wp",
+                "href": "https://api.w.org/{rel}",
+                "templated": true
+              }
+            ]
+          }
+        }
+      ],
+      "wp:term": [
+        [
+          {
+            "id": 6,
+            "link": "https://rajiv.com/blog/category/technology/",
+            "name": "Technology",
+            "slug": "technology",
+            "taxonomy": "category",
+            "_links": {
+              "self": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/categories/6",
+                  "targetHints": {
+                    "allow": [
+                      "GET",
+                      "POST",
+                      "PUT",
+                      "PATCH",
+                      "DELETE"
+                    ]
+                  }
+                }
+              ],
+              "collection": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/categories"
+                }
+              ],
+              "about": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/taxonomies/category"
+                }
+              ],
+              "wp:post_type": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/posts?categories=6"
+                }
+              ],
+              "curies": [
+                {
+                  "name": "wp",
+                  "href": "https://api.w.org/{rel}",
+                  "templated": true
+                }
+              ]
+            }
+          }
+        ],
+        [
+          {
+            "id": 12374,
+            "link": "https://rajiv.com/blog/tag/artificial-intelligence/",
+            "name": "artificial intelligence",
+            "slug": "artificial-intelligence",
+            "taxonomy": "post_tag",
+            "_links": {
+              "self": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/tags/12374",
+                  "targetHints": {
+                    "allow": [
+                      "GET",
+                      "POST",
+                      "PUT",
+                      "PATCH",
+                      "DELETE"
+                    ]
+                  }
+                }
+              ],
+              "collection": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/tags"
+                }
+              ],
+              "about": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/taxonomies/post_tag"
+                }
+              ],
+              "wp:post_type": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/posts?tags=12374"
+                }
+              ],
+              "curies": [
+                {
+                  "name": "wp",
+                  "href": "https://api.w.org/{rel}",
+                  "templated": true
+                }
+              ]
+            }
+          },
+          {
+            "id": 276453,
+            "link": "https://rajiv.com/blog/tag/cto/",
+            "name": "CTO",
+            "slug": "cto",
+            "taxonomy": "post_tag",
+            "_links": {
+              "self": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/tags/276453",
+                  "targetHints": {
+                    "allow": [
+                      "GET",
+                      "POST",
+                      "PUT",
+                      "PATCH",
+                      "DELETE"
+                    ]
+                  }
+                }
+              ],
+              "collection": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/tags"
+                }
+              ],
+              "about": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/taxonomies/post_tag"
+                }
+              ],
+              "wp:post_type": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/posts?tags=276453"
+                }
+              ],
+              "curies": [
+                {
+                  "name": "wp",
+                  "href": "https://api.w.org/{rel}",
+                  "templated": true
+                }
+              ]
+            }
+          },
+          {
+            "id": 485374580,
+            "link": "https://rajiv.com/blog/tag/ctobook/",
+            "name": "ctobook",
+            "slug": "ctobook",
+            "taxonomy": "post_tag",
+            "_links": {
+              "self": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/tags/485374580",
+                  "targetHints": {
+                    "allow": [
+                      "GET",
+                      "POST",
+                      "PUT",
+                      "PATCH",
+                      "DELETE"
+                    ]
+                  }
+                }
+              ],
+              "collection": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/tags"
+                }
+              ],
+              "about": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/taxonomies/post_tag"
+                }
+              ],
+              "wp:post_type": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/posts?tags=485374580"
+                }
+              ],
+              "curies": [
+                {
+                  "name": "wp",
+                  "href": "https://api.w.org/{rel}",
+                  "templated": true
+                }
+              ]
+            }
+          },
+          {
+            "id": 8434,
+            "link": "https://rajiv.com/blog/tag/product-development/",
+            "name": "product development",
+            "slug": "product-development",
+            "taxonomy": "post_tag",
+            "_links": {
+              "self": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/tags/8434",
+                  "targetHints": {
+                    "allow": [
+                      "GET",
+                      "POST",
+                      "PUT",
+                      "PATCH",
+                      "DELETE"
+                    ]
+                  }
+                }
+              ],
+              "collection": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/tags"
+                }
+              ],
+              "about": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/taxonomies/post_tag"
+                }
+              ],
+              "wp:post_type": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/posts?tags=8434"
+                }
+              ],
+              "curies": [
+                {
+                  "name": "wp",
+                  "href": "https://api.w.org/{rel}",
+                  "templated": true
+                }
+              ]
+            }
+          },
+          {
+            "id": 196,
+            "link": "https://rajiv.com/blog/tag/programming/",
+            "name": "programming",
+            "slug": "programming",
+            "taxonomy": "post_tag",
+            "_links": {
+              "self": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/tags/196",
+                  "targetHints": {
+                    "allow": [
+                      "GET",
+                      "POST",
+                      "PUT",
+                      "PATCH",
+                      "DELETE"
+                    ]
+                  }
+                }
+              ],
+              "collection": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/tags"
+                }
+              ],
+              "about": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/taxonomies/post_tag"
+                }
+              ],
+              "wp:post_type": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/posts?tags=196"
+                }
+              ],
+              "curies": [
+                {
+                  "name": "wp",
+                  "href": "https://api.w.org/{rel}",
+                  "templated": true
+                }
+              ]
+            }
+          },
+          {
+            "id": 11176,
+            "link": "https://rajiv.com/blog/tag/software-engineering/",
+            "name": "software engineering",
+            "slug": "software-engineering",
+            "taxonomy": "post_tag",
+            "_links": {
+              "self": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/tags/11176",
+                  "targetHints": {
+                    "allow": [
+                      "GET",
+                      "POST",
+                      "PUT",
+                      "PATCH",
+                      "DELETE"
+                    ]
+                  }
+                }
+              ],
+              "collection": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/tags"
+                }
+              ],
+              "about": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/taxonomies/post_tag"
+                }
+              ],
+              "wp:post_type": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/posts?tags=11176"
+                }
+              ],
+              "curies": [
+                {
+                  "name": "wp",
+                  "href": "https://api.w.org/{rel}",
+                  "templated": true
+                }
+              ]
+            }
+          },
+          {
+            "id": 727048346,
+            "link": "https://rajiv.com/blog/tag/technology/",
+            "name": "technology",
+            "slug": "technology",
+            "taxonomy": "post_tag",
+            "_links": {
+              "self": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/tags/727048346",
+                  "targetHints": {
+                    "allow": [
+                      "GET",
+                      "POST",
+                      "PUT",
+                      "PATCH",
+                      "DELETE"
+                    ]
+                  }
+                }
+              ],
+              "collection": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/tags"
+                }
+              ],
+              "about": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/taxonomies/post_tag"
+                }
+              ],
+              "wp:post_type": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/posts?tags=727048346"
+                }
+              ],
+              "curies": [
+                {
+                  "name": "wp",
+                  "href": "https://api.w.org/{rel}",
+                  "templated": true
+                }
+              ]
+            }
+          }
+        ]
+      ]
+    }
+  },
+  "normalized": {
+    "id": 6788,
+    "slug": "why-synthesis-coding-still-writes-code-in-the-age-of-llms",
+    "title": "Why Synthesis Coding Still Writes Code in the Age of LLMs",
+    "content": "\n<p><em>The answer is not &#8220;just let the model do it&#8221; — and code matters more, not less, as AI gets dramatically better</em></p>\n\n\n\n<p>Last spring, my son Fitz and I had an afternoon math duel.</p>\n\n\n\n<p>He was twelve at the time. Sharp. Competitive. He took on the puzzle the traditional way — paper, pencil, and focused reasoning. I took a different path: I asked a generative AI system to design algorithms, write Python code, and run that code to search systematically for correct solutions.</p>\n\n\n\n<p>The puzzle itself was one of those constraint problems that sounds simple until you try it — combine these numbers using these operations to reach this target — and Fitz solved it elegantly through raw mathematical intuition. Meanwhile, I was prompting ChatGPT through an iterative process: restate the constraints, propose algorithms, select one with justification, generate code, execute, and show results.</p>\n\n\n\n<p>I <a href=\"https://rajiv.com/blog/2024/05/25/prompt-engineering-to-generate-code-to-solve-a-math-problem/\">wrote about that experience</a> at the time. But looking back now — Fitz is thirteen, the models have improved substantially, and I&#8217;ve spent the intervening months developing the Synthesis Coding framework — the interesting part wasn&#8217;t that an LLM could &#8220;do math.&#8221; The interesting part was <em>how</em> it did it: by generating real code that executed in a predictable environment, following explicit rules, producing a result I could inspect, rerun, and extend.</p>\n\n\n\n<p>That pattern — using an LLM to synthesize code instead of treating the LLM itself as the final execution environment — sits at the heart of what I&#8217;ve been calling Synthesis Coding. And it&#8217;s a pattern I keep returning to as models get more capable, because the temptation keeps growing to ask a different question entirely:</p>\n\n\n\n<p><em>Why write code at all? Can&#8217;t I just tell the AI what I want?</em></p>\n\n\n\n<p>That question sounds reasonable. It&#8217;s also, I believe, the wrong long-term strategy for serious systems. This article is about why.</p>\n\n\n\n<h2 class=\"wp-block-heading\">The Two Modes of Working with an LLM</h2>\n\n\n\n<p>When you bring a technical problem to an LLM, you&#8217;re usually doing one of two things, whether you realize it or not.</p>\n\n\n\n<p>The first mode is asking for a direct answer. Here&#8217;s my data — what&#8217;s the median? Here&#8217;s the stack trace — what&#8217;s wrong? Here&#8217;s a word problem — what&#8217;s the answer? The LLM processes your input, does some internal reasoning, and hands you a result. Quick, convenient, often useful.</p>\n\n\n\n<p>The second mode is asking it to build a tool. Write a Python script that loads this CSV and computes the median for each group. Generate a test harness that reproduces this error and logs all SQL queries. Create a program that searches systematically for valid equations using these numbers and rules.</p>\n\n\n\n<p>In the math duel with Fitz, I deliberately chose the second mode. Instead of letting the model wing it in natural language, I asked it to restate the problem and constraints, propose multiple algorithms, compare them, select one with a clear rationale, generate Python code implementing that algorithm, and then run the code and show the result.</p>\n\n\n\n<p>That&#8217;s not just a clever trick for winning friendly competitions with a seventh-grader. It&#8217;s a template for how serious teams should think about LLMs going forward — and it generalizes from family math games to enterprise platforms with surprisingly little adjustment.</p>\n\n\n\n<h2 class=\"wp-block-heading\">The Seductive Logic of &#8220;Just Talk to the Computer&#8221;</h2>\n\n\n\n<p>Model improvement has been so rapid that some people have extrapolated a straight line to an obvious endpoint: if LLMs can already generate working code and solve many problems directly, surely the destination is a world where we just talk to the computer and it does everything.</p>\n\n\n\n<p>I don&#8217;t think that&#8217;s where we end up. Even if LLMs become orders of magnitude better — and they will — there are structural reasons why &#8220;do everything directly in the LLM&#8221; remains a poor operating model for most serious software and data systems.</p>\n\n\n\n<p>These reasons don&#8217;t depend on any specific model&#8217;s limitations. They&#8217;re about how organizations actually need to operate under uncertainty, risk, and time.</p>\n\n\n\n<p><strong>Natural language is optimized for humans, not systems.</strong> The flexibility and ambiguity that make natural language so powerful for human communication are precisely what make it unsuitable for production systems. Those systems need stable interfaces that don&#8217;t subtly shift meaning between runs, unambiguous semantics that survive reorganizations and staff turnover, and deterministic behavior where identical inputs reliably produce identical outputs. Code remains the best format we&#8217;ve invented for expressing those constraints. Even if an LLM could perfectly understand every nuance of your instructions, the rest of your stack — databases, queues, APIs, regulatory reports, other teams — expects clear contracts, not remembered conversation history.</p>\n\n\n\n<p><strong>You need artifacts that outlive the conversation.</strong> Your most important systems must survive people changing roles, vendors changing pricing or policies, architectural evolution across platforms, and the introduction of new AI tools years from now. A direct LLM answer is an event. Code is an artifact. Artifacts can be versioned, reviewed, tested, deployed, archived, and audited. Events cannot. In the math puzzle with Fitz, the program the LLM generated was a reusable artifact. We could rerun it, change the target number, adjust the rules, or use it later as a teaching example. If I had just asked for &#8220;the answer,&#8221; there would have been nothing to build on.</p>\n\n\n\n<p><strong>Debuggability isn&#8217;t optional.</strong> Anyone who has operated a production system knows the 2 AM feeling: something broke, users are waiting, and you need to understand exactly what the system is doing. If your logic lives as &#8220;well, yesterday we had a conversation with the model and it agreed to do X,&#8221; you have no system you can interrogate. You have logs of prior interactions if you&#8217;re lucky, and a model that might or might not behave the same way again. If your LLM-generated logic lives as code, you can instrument it, add logging and metrics, write failing tests that prove a bug exists, bisect history to find which change introduced a regression. You can own the behavior instead of negotiating with it every time.</p>\n\n\n\n<p><strong>Governance needs a traceable chain.</strong> Long before regulators fully catch up with AI, enterprises already face basic questions: Why did the system make that decision for this customer on that date? What was the logic of our pricing model last quarter? Who changed the risk rules on the 15th, and what exactly changed? If core decision logic lives only in the dynamic behavior of an LLM, your answer becomes &#8220;the model said so, based on prompts we don&#8217;t fully reconstruct anymore.&#8221; That&#8217;s unacceptable in any domain with real stakes — finance, healthcare, safety, critical infrastructure, or even basic consumer trust. When you use LLMs to generate code, configuration, and explicit policies instead, you can snapshot the logic at each release, compare versions, attach human approvals to specific changes, and produce evidence of what the system would have done at any point in time.</p>\n\n\n\n<p><strong>Teams need shared understanding.</strong> In the <a href=\"https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/\">Synthesis Coding Framework</a> article, I argued that the real value of this approach isn&#8217;t individual productivity — it&#8217;s institutional capability. A team&#8217;s speed and reliability come from shared mental models: how this system is structured, where the boundaries are, what patterns are allowed or discouraged, how we handle errors and timeouts and retries and security and performance. If each engineer builds private conversational state with their favorite model, your &#8220;architecture&#8221; becomes a patchwork of personal prompt styles, undocumented assumptions, and one-off agreements with an opaque system. If instead the output of those conversations is code and documentation checked into shared repos, you get collective learning, code review as teaching mechanism, and architecture that remains coherent when people come and go. LLMs can accelerate how that collective understanding gets built. They cannot replace the need for it.</p>\n\n\n\n<h2 class=\"wp-block-heading\">The Synthesis Coding Pattern</h2>\n\n\n\n<p>The approach I&#8217;ve been developing across the <a href=\"https://synthesiscoding.com/\">Synthesis Coding series</a> rests on four principles: Human Architectural Authority, Systematic Quality Standards, Active System Understanding, and Iterative Context Building. Apply those principles consistently, and you almost inevitably converge on a specific pattern: use LLMs as powerful collaborators that produce and evolve code, not as black-box oracles that silently execute arbitrary logic.</p>\n\n\n\n<p>In practice, this means humans decide which languages, frameworks, and platforms to use; where state lives and how it&#8217;s modeled; what the trust boundaries are; which components are allowed to make which external calls. LLMs then operate inside that architecture. &#8220;Implement this repository pattern in our existing microservice.&#8221; &#8220;Generate a migration that moves us from schema v3 to v4 using our standard approach.&#8221; &#8220;Extend the existing logging middleware to include correlation IDs and user IDs, consistent with the current codebase.&#8221; The model isn&#8217;t inventing the system. It&#8217;s implementing parts of a system whose structure humans own. And the implementation lives as code.</p>\n\n\n\n<p>The same logic applies to quality standards. In the <a href=\"https://rajiv.com/blog/2025/11/09/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/\">Claude Code implementation article</a>, I described workflows where every change — whether human-authored or AI-authored — flows through the same pipelines: tests, linters, security scanners. LLMs get used not only to write code, but also to review it, propose test cases, and highlight edge conditions. This entire approach assumes the existence of code as the shared substrate. You can&#8217;t run static analysis on a conversation. You can&#8217;t diff yesterday&#8217;s vibes against today&#8217;s. You can only do that on artifacts.</p>\n\n\n\n<p>One underappreciated failure mode in naive AI-assisted development is that engineers gradually lose the ability to reason about their own systems. The AI &#8220;does the hard parts,&#8221; and humans handle orchestration and glue. Synthesis Coding pushes in the opposite direction. Use LLMs to explain existing code in multiple ways — by data flow, by call graph, by error handling paths. Ask models to generate diagrams, documentation, and tests that deepen human understanding. Insist that no critical subsystem exists that no human can explain at a whiteboard. When LLMs generate code, they do so in a way that remains legible — to you, your team, your future hires, and your future self.</p>\n\n\n\n<p>In the <a href=\"https://rajiv.com/blog/2025/11/30/polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code/\">Polyrepo Synthesis</a> article, I explored how multi-repo work benefits from structured context: CLAUDE.md files, shared conventions, carefully curated prompts. The purpose of those context meshes is to make AI more effective at generating consistent code across repositories — auth, logging, error handling, feature flags — not at improvising behavior each time. Over time, the accumulated artifacts compound. The LLM becomes a way to navigate and extend that body of work, not a substitute for it.</p>\n\n\n\n<h2 class=\"wp-block-heading\">A Durable Heuristic</h2>\n\n\n\n<p>So how do you decide, moment to moment, whether to ask the model for a direct answer or ask it to design and generate code you&#8217;ll run and maintain?</p>\n\n\n\n<p>Here&#8217;s a heuristic I expect to remain valid even as LLMs become dramatically more capable.</p>\n\n\n\n<p>Direct LLM answers work fine when the stakes are low — you&#8217;re exploring ideas, learning a new library, sanity-checking your own reasoning. They&#8217;re appropriate when the result is ephemeral — you just need a one-off calculation, a quick draft, an explanation. They make sense when you&#8217;ll validate the result anyway through your own tests or comparisons. And they&#8217;re sufficient when the work won&#8217;t be reused by others — no one else depends on this interaction, it&#8217;s not a shared building block. This is what I&#8217;ve called the &#8220;vibe coding&#8221; end of the spectrum: high-speed, low-ceremony, perfect for exploration.</p>\n\n\n\n<p>You should prefer LLM-generated code when the logic will be reused. Any time you think &#8220;I&#8217;ll probably need this again,&#8221; that&#8217;s a hint this should become a script, module, or service. Prefer code when multiple people or systems depend on it — if other engineers, teams, or user-facing features rely on this behavior, it deserves a stable home in your codebase. Prefer code when you need traceability — if you might ever be asked &#8220;why did it do that?&#8221; or &#8220;what changed between these two dates?&#8221;, you want explicit code and version history. Prefer code when the cost of being wrong is non-trivial — money, safety, reputation, or legal risk are on the line. And prefer code when you can imagine needing to debug it later, which is almost everything that matters.</p>\n\n\n\n<p>The short version: if you&#8217;ll do it more than twice, or if anyone else will rely on it, you probably want code. LLMs dramatically lower the cost of producing that code. They don&#8217;t eliminate the need for it.</p>\n\n\n\n<h2 class=\"wp-block-heading\">From Math Puzzles to Platforms</h2>\n\n\n\n<p>The afternoon I spent solving puzzles with Fitz was, on the surface, simple: a list of numbers, a target result, a set of rules, a friendly competition between human reasoning and AI-assisted computation. But structurally, it&#8217;s very similar to problems that matter in real systems.</p>\n\n\n\n<p>Pricing algorithms constrained by regulation and policy. Risk scoring models bounded by business rules. Scheduling systems that must obey precedence constraints. Recommender systems operating under fairness or diversity requirements. In each case you have inputs — data about customers, markets, portfolios, inventory — along with constraints from legal requirements, company policies, ethical boundaries, and performance targets. You have objectives: optimize some combination of revenue, risk, satisfaction, or efficiency.</p>\n\n\n\n<p>You could ask an LLM directly: given this input, what should we do? Or you could use LLMs to design algorithms, generate code that implements those algorithms, run that code in controlled environments, observe behavior, write tests, and iterate.</p>\n\n\n\n<p>The second approach requires more work upfront. It&#8217;s also the only one that scales to regulatory oversight, cross-team collaboration, multi-year evolution, and incident response. The math puzzle example was small. The pattern is big.</p>\n\n\n\n<h2 class=\"wp-block-heading\">Prompts That Create Code, Not Just Answers</h2>\n\n\n\n<p>To make this concrete, here are patterns you can embed into practice today.</p>\n\n\n\n<p>The first pattern I call algorithm-then-code. You prompt the model: &#8220;First restate the problem and constraints. Then propose at least three algorithms. Compare them in terms of correctness, complexity, and implementation cost. Select one and justify your choice. Only then generate code implementing that algorithm.&#8221; This forces the model to make the problem explicit, separate reasoning from implementation, and give you human-readable rationale you can challenge. The output is code that a human can understand and trace back to an explicit design choice.</p>\n\n\n\n<p>The second pattern is code-plus-tests-plus-invariants. &#8220;Generate the implementation, then generate a set of unit tests that would fail if the core invariants were violated. Finally, explain those invariants in plain language.&#8221; You&#8217;re asking for artifacts across three layers: implementation, tests, and human-level explanation. All three help you maintain active system understanding over time.</p>\n\n\n\n<p>The third pattern is diff-aware refactoring. &#8220;Given this existing function and this target behavior, propose a minimal diff. Explain line by line why each change is necessary. Do not introduce new dependencies unless explicitly requested.&#8221; Here the LLM doesn&#8217;t own the whole conversation. It&#8217;s operating as a disciplined contributor inside an existing codebase, producing output that fits naturally into a pull request workflow.</p>\n\n\n\n<p>These patterns embody Synthesis Coding: humans define the guardrails and expectations; AI operates energetically within them.</p>\n\n\n\n<h2 class=\"wp-block-heading\">What Happens When LLMs Get Much Better?</h2>\n\n\n\n<p>A reasonable objection: all of this might be true today, but what about when models become near-perfect? Won&#8217;t we eventually just talk to them and skip the code entirely?</p>\n\n\n\n<p>Several things will change as models improve. They&#8217;ll make fewer obvious mistakes, so you&#8217;ll be able to trust them more for local reasoning steps. They&#8217;ll operate over larger, richer context windows, able to &#8220;see&#8221; more of your codebase and documentation at once. They&#8217;ll interact more deeply with tools and environments — running tests, inspecting logs, adjusting code autonomously.</p>\n\n\n\n<p>But I don&#8217;t think any of that removes the need for explicit artifacts. If anything, it makes them more important.</p>\n\n\n\n<p>The more powerful the system, the more governance you need. When a tool can change thousands of lines of code or deploy to production in minutes, you want more visibility, review, and auditability, not less.</p>\n\n\n\n<p>We&#8217;ve been here before with compilers and runtimes. We don&#8217;t write machine code by hand anymore, but we still write source code that serves as the human-comprehensible contract. LLMs are a new layer in that stack, not a replacement for the idea of source.</p>\n\n\n\n<p>Organizations change slower than models. Your company, regulators, and customers will adapt on multi-year timescales. During that time, you need a stable representation of what your systems do. Code, configurations, and policies will continue to play that role.</p>\n\n\n\n<p>And human meaning doesn&#8217;t disappear. Even if a model could generate correct behavior from vague instructions, people still need to reason about trade-offs, ethics, incentives, and strategy. That reasoning needs anchors in artifacts that can be read, debated, and revised.</p>\n\n\n\n<p>The experience of programming will keep changing. We&#8217;ll spend less time typing boilerplate and more time orchestrating. But the deeper pattern — humans defining architecture and standards, AI generating and evolving code within those constraints — looks robust across multiple generations of AI.</p>\n\n\n\n<h2 class=\"wp-block-heading\">The Heart of It</h2>\n\n\n\n<p>I&#8217;ve argued throughout this series that Synthesis Coding isn&#8217;t merely &#8220;using AI to write code.&#8221; That&#8217;s table stakes now. Synthesis Coding means treating architecture, standards, and context as first-class citizens. It means using LLMs to accelerate the creation and evolution of code, not to bypass it. It means building teams and organizations that can wield AI responsibly and effectively over years, not just in clever demos.</p>\n\n\n\n<p>The math puzzle I worked on with Fitz was a small, playful example of that mindset. We took a fuzzy problem and turned it into explicit rules. We used natural language to instruct an LLM, but insisted on an algorithm and executable code as the outcome. We treated the generated program as an artifact we could reason about, not a mysterious oracle producing answers from nowhere.</p>\n\n\n\n<p>That same pattern scales from family math games to multi-repo enterprise platforms. If you&#8217;re an engineer, architect, or CTO wondering how to navigate the next decade of AI-assisted development, the north star I&#8217;d suggest is this: let LLMs expand what your teams can build, but keep code as the durable, shared source of truth.</p>\n\n\n\n<p>That&#8217;s the heart of Synthesis Coding. It&#8217;s why, even as the models keep improving, we will still be writing code — just with far more capable collaborators at our side.</p>\n\n\n\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n\n\n\n<p><em>Rajiv Pant is President of&nbsp;<a href=\"https://www.flatiron.software/\">Flatiron Software</a>&nbsp;and&nbsp;<a href=\"https://www.snapshot.reviews/\">Snapshot AI</a>, where he leads organizational growth and AI innovation. He is former Chief Product &amp; Technology Officer at The Wall Street Journal, The New York Times, and Hearst Magazines. Earlier in his career, he headed technology for Condé Nast’s brands including Reddit. Rajiv has been working with AI in software engineering since the early days of natural language processing and was an early investor and advisor to AI search company&nbsp;<a href=\"https://you.com/\">You.com</a>. He coined the terms “Synthesis Engineering” and “Synthesis Coding” to describe the systematic integration of human expertise with AI capabilities in professional software development. Connect with him on&nbsp;<a href=\"https://www.linkedin.com/in/rajivpant/\">LinkedIn</a>&nbsp;or read more at&nbsp;<a href=\"https://rajiv.com/\">rajiv.com</a>.</em></p>\n\n\n\n<p></p>\n",
+    "excerpt": "<p>The answer is not &#8220;just let the model do it&#8221; — and code matters more, not less, as AI gets dramatically better Last spring, my son Fitz and I had an afternoon math duel. He was twelve at the time. Sharp. Competitive. He took on the puzzle the traditional way — paper, pencil, and focused [&hellip;]</p>\n",
+    "date": "2025-12-04",
+    "dateGmt": "2025-12-05T04:34:13",
+    "modified": "2025-12-04",
+    "modifiedGmt": "2025-12-05T04:38:40",
+    "status": "publish",
+    "type": "post",
+    "link": "https://rajiv.com/blog/2025/12/04/why-synthesis-coding-still-writes-code-in-the-age-of-llms/",
+    "author": {
+      "id": 918046,
+      "name": "Rajiv Pant",
+      "slug": "rajivpant",
+      "avatar": ""
+    },
+    "categories": [
+      {
+        "id": 6,
+        "name": "Technology",
+        "slug": "technology"
+      }
+    ],
+    "tags": [
+      {
+        "id": 12374,
+        "name": "artificial intelligence",
+        "slug": "artificial-intelligence"
+      },
+      {
+        "id": 276453,
+        "name": "CTO",
+        "slug": "cto"
+      },
+      {
+        "id": 485374580,
+        "name": "ctobook",
+        "slug": "ctobook"
+      },
+      {
+        "id": 8434,
+        "name": "product development",
+        "slug": "product-development"
+      },
+      {
+        "id": 196,
+        "name": "programming",
+        "slug": "programming"
+      },
+      {
+        "id": 11176,
+        "name": "software engineering",
+        "slug": "software-engineering"
+      },
+      {
+        "id": 727048346,
+        "name": "technology",
+        "slug": "technology"
+      }
+    ],
+    "featuredImage": {
+      "id": 6704,
+      "url": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1",
+      "alt": "",
+      "title": "Synthesis-Engineering-Logo-2",
+      "width": 800,
+      "height": 400
+    },
+    "format": "standard",
+    "meta": {
+      "advanced_seo_description": "",
+      "jetpack_seo_html_title": "",
+      "jetpack_seo_noindex": false,
+      "jetpack_post_was_ever_published": false,
+      "_jetpack_newsletter_access": "",
+      "_jetpack_dont_email_post_to_subs": false,
+      "_jetpack_newsletter_tier_id": 0,
+      "_jetpack_memberships_contains_paywalled_content": false,
+      "_jetpack_memberships_contains_paid_content": false,
+      "footnotes": ""
+    }
+  }
+}

@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synthesis Coding: The Professional Practice Emerging in AI-Assisted Development (Synthesis Engineering) — Synthesis Coding</title>
+    <meta name="description" content="Why the most effective engineering organizations are developing systematic approaches that go beyond vibe coding — and why this practice needs a name This blog post is for CTOs, Engineering Leaders, Technical Executives. I've also written it be accessible to non-technical readers. I've had the same ">
+    <meta name="keywords" content="synthesis coding, synthesis engineering, AI-assisted development, software engineering">
+
+    <!-- Canonical URL pointing to WordPress -->
+    <link rel="canonical" href="https://rajiv.com/blog/2025/11/09/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Synthesis Coding: The Professional Practice Emerging in AI-Assisted Development (Synthesis Engineering)">
+    <meta property="og:description" content="Why the most effective engineering organizations are developing systematic approaches that go beyond vibe coding — and why this practice needs a name This blog post is for CTOs, Engineering Leaders, Technical Executives. I've also written it be accessible to non-technical readers. I've had the same ">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://synthesiscoding.com/articles/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/">
+    <meta property="og:image" content="https://synthesiscoding.com/assets/logo.webp">
+    <meta property="og:site_name" content="Synthesis Coding">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Synthesis Coding: The Professional Practice Emerging in AI-Assisted Development (Synthesis Engineering)">
+    <meta name="twitter:description" content="Why the most effective engineering organizations are developing systematic approaches that go beyond vibe coding — and why this practice needs a name This blog post is for CTOs, Engineering Leaders, Technical Executives. I've also written it be accessible to non-technical readers. I've had the same ">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --black: #0a0a0a;
+            --dark: #1a1a1a;
+            --gray-dark: #3a3a3a;
+            --gray: #666;
+            --gray-light: #999;
+            --gray-lighter: #e5e5e5;
+            --white: #fafafa;
+            --cream: #f5f4f0;
+            --accent: #2a2a2a;
+
+            --font-serif: 'Newsreader', Georgia, serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+
+            --max-width: 720px;
+            --wide-width: 960px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 18px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-serif);
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--dark);
+            background: var(--white);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Header */
+        header {
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--gray-lighter);
+        }
+
+        .logo {
+            max-width: 240px;
+            width: 100%;
+            height: auto;
+        }
+
+        /* Nav */
+        nav {
+            position: sticky;
+            top: 0;
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-lighter);
+            padding: 0.75rem 2rem;
+            z-index: 100;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--gray);
+        }
+
+        nav a:hover {
+            color: var(--black);
+        }
+
+        /* Main content */
+        main {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Article header */
+        .article-header {
+            padding: 3rem 0 2rem;
+            border-bottom: 1px solid var(--gray-lighter);
+            margin-bottom: 2rem;
+        }
+
+        .article-header h1 {
+            font-size: 2rem;
+            font-weight: 500;
+            line-height: 1.3;
+            color: var(--black);
+            margin: 0 0 1rem;
+        }
+
+        .article-meta {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--gray-light);
+            letter-spacing: 0.02em;
+        }
+
+        .article-meta .category {
+            background: var(--cream);
+            padding: 0.25rem 0.5rem;
+            margin-left: 1rem;
+        }
+
+        .canonical-notice {
+            margin-top: 1rem;
+            padding: 0.75rem 1rem;
+            background: var(--cream);
+            font-size: 0.85rem;
+            color: var(--gray);
+            border-left: 3px solid var(--gray-lighter);
+        }
+
+        .canonical-notice a {
+            color: var(--dark);
+        }
+
+        /* Article content */
+        .article-content {
+            padding: 2rem 0 3rem;
+        }
+
+        .article-content h2 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            line-height: 1.3;
+            color: var(--black);
+            margin: 2.5rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--black);
+            display: inline-block;
+        }
+
+        .article-content h3 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            line-height: 1.3;
+            color: var(--black);
+            margin: 2rem 0 0.75rem;
+        }
+
+        .article-content h4 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            line-height: 1.3;
+            color: var(--black);
+            margin: 1.5rem 0 0.5rem;
+        }
+
+        .article-content p {
+            margin: 0 0 1.25rem;
+        }
+
+        .article-content a {
+            color: var(--dark);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            text-decoration-thickness: 1px;
+            transition: color 0.2s;
+        }
+
+        .article-content a:hover {
+            color: var(--gray);
+        }
+
+        .article-content ul,
+        .article-content ol {
+            margin: 0 0 1.25rem;
+            padding-left: 1.5rem;
+        }
+
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .article-content li strong {
+            font-weight: 600;
+        }
+
+        .article-content blockquote {
+            margin: 1.5rem 0;
+            padding: 1rem 1.5rem;
+            background: var(--cream);
+            border-left: 3px solid var(--black);
+            font-style: italic;
+        }
+
+        .article-content blockquote p:last-child {
+            margin-bottom: 0;
+        }
+
+        .article-content code {
+            font-family: var(--font-mono);
+            font-size: 0.9em;
+            background: var(--cream);
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+        }
+
+        .article-content pre {
+            margin: 1.5rem 0;
+            padding: 1.25rem;
+            background: var(--dark);
+            color: var(--white);
+            overflow-x: auto;
+            border-radius: 4px;
+        }
+
+        .article-content pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        .article-content hr {
+            border: none;
+            border-top: 1px solid var(--gray-lighter);
+            margin: 2.5rem 0;
+        }
+
+        .article-content em {
+            font-style: italic;
+        }
+
+        .article-content strong {
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 3rem 2rem 4rem;
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--gray-lighter);
+        }
+
+        footer p {
+            margin: 0 0 0.75rem;
+        }
+
+        footer a {
+            color: var(--dark);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            text-decoration-thickness: 1px;
+        }
+
+        .cc0 {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--gray-light);
+            letter-spacing: 0.02em;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            html {
+                font-size: 16px;
+            }
+
+            header {
+                padding: 1.5rem;
+            }
+
+            .logo {
+                max-width: 200px;
+            }
+
+            main {
+                padding: 0 1.5rem;
+            }
+
+            .article-header {
+                padding: 2rem 0 1.5rem;
+            }
+
+            .article-header h1 {
+                font-size: 1.6rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            nav {
+                display: none;
+            }
+
+            header {
+                border-bottom: none;
+            }
+
+            .canonical-notice {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/">
+            <img src="/assets/logo.webp" alt="Synthesis Coding" class="logo">
+        </a>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="/#what">What</a></li>
+            <li><a href="/#principles">Principles</a></li>
+            <li><a href="/#when">When to Use</a></li>
+            <li><a href="/articles/">Articles</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <div class="article-header">
+                <h1>Synthesis Coding: The Professional Practice Emerging in AI-Assisted Development (Synthesis Engineering)</h1>
+                <div class="article-meta">
+                    <time datetime="2025-11-09">November 8, 2025</time>
+                    <span class="category"></span>
+                </div>
+                <p class="canonical-notice">
+                    Originally published on <a href="https://rajiv.com/blog/2025/11/09/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/">rajiv.com</a>
+                </p>
+            </div>
+
+            <div class="article-content">
+                <p><em>Why the most effective engineering organizations are developing systematic approaches that go beyond vibe coding — and why this practice needs a name</em></p>
+<p>This blog post is for CTOs, Engineering Leaders, Technical Executives. I’ve also written it be accessible to non-technical readers.</p>
+<p>I’ve had the same conversation with CTOs at least two dozen times over the past year. It usually starts with someone asking about our AI-assisted development practices, and within minutes we’re describing nearly identical approaches — systematic frameworks for integrating AI capabilities into professional software engineering. Different terminology, same patterns.</p>
+<p>Last month, during a technical architecture review, I watched a senior engineer demonstrate what I’d been observing across organizations. They used AI to generate an initial implementation, performed systematic security analysis, refactored the architecture based on scaling requirements, generated comprehensive tests, and deployed with full monitoring instrumentation. When I asked what they called this approach, they shrugged: “Just how we work with AI now.”</p>
+<p>This practice exists. It’s emerging independently across leading engineering organizations. It just doesn’t have a name or shared framework yet.</p>
+<p>I’m calling it <strong>Synthesis Engineering</strong>: the systematic integration of human expertise with AI capabilities to build production-grade software systems. To position this as a complementary system to <strong>Vibe Coding</strong>, I also call it <strong><a href="https://synthesiscoding.com/">Synthesis Coding</a></strong>.</p>
+<p>Vibe coding serves different purposes. Synthesis Engineering is a fundamentally different practice with different goals.</p>
+<h2>A Case Study: Building an Agentic Workflow System</h2>
+<p>Here’s how this works in practice. I built an agentic AI-powered workflow automation platform where teams of specialized AI agents amplify human expertise rather than replace it. The architecture uses multi-agent orchestration: distinct agents handle research synthesis, quality validation, output formatting, and domain-specific processing. Humans remain the decision-makers and domain experts. AI agents handle the systematic execution and variation generation.</p>
+<p>The distinction matters. A single AI model doesn’t do everything. Instead, a team of specialists — each with distinct expertise — orchestrates through a stateful workflow engine built on LangGraph. The architecture mirrors how human organizations actually work: specialists collaborating, not generalists attempting everything.</p>
+<p>Each agent has its own role definition and expertise domain. Research synthesis agents process source material differently than quality validation agents verify outputs. Platform formatting agents optimize for different distribution channels while maintaining consistent quality standards. The orchestration layer manages dependencies — some agents run in parallel where independent, sequentially where one depends on another’s output.</p>
+<p>What makes this defensible isn’t just using AI. It’s the orchestration logic, the feedback loops, the domain-specific tuning of each specialist agent. A competitor trying to replicate this needs more than access to Claude or GPT-4. They need the architecture that coordinates these agents, the quality standards each validates against, and the accumulated learning about which agent patterns work for which problem types.</p>
+<p>This became my laboratory for Synthesis Engineering principles. The architectural decisions I made — and more importantly, the ones I refused to delegate to AI — determined whether this system would work at all.</p>
+<h2>The Vibe Coding Context: Valid and Valuable</h2>
+<p>When Andrej Karpathy described “fully giving in to the vibes” and forgetting the code exists, he articulated something real. For many use cases, this approach is optimal.</p>
+<p>I use vibe coding regularly. When I want to quickly test an API integration or explore a new library, describing what I want and running the result is often the most efficient approach. For weekend projects, personal automation scripts, and experimental prototypes, vibe coding is frequently the right tool.</p>
+<p>Vibe coding excels for:</p>
+<ul>
+<li><strong>Rapid prototyping</strong> when you need to explore ideas quickly without production constraints</li>
+<li><strong>Personal tools</strong> when you’re the only user and can tolerate occasional failures</li>
+<li><strong>Learning contexts</strong> where seeing AI-generated examples helps you understand new frameworks</li>
+<li><strong>Non-technical builders</strong> creating functional software that solves real problems</li>
+<li><strong>Exploratory work</strong> when you’re testing concepts and will throw away the code anyway</li>
+</ul>
+<p>These aren’t trivial use cases. They represent significant value. The challenge emerges when organizations try scaling vibe coding to production systems or expecting it to work for complex software that needs to be maintained over months and years.</p>
+<h2>What I’ve Been Observing: A Different Pattern</h2>
+<p>Across engineering organizations I work with and in conversations with CTO peers, I’ve noticed teams developing remarkably consistent practices for production software development with AI assistance. These aren’t occasional techniques — they’re becoming systematic methodologies.</p>
+<p>The first time I really noticed the pattern was during a code review where an engineer had clearly used AI extensively, but the code was exceptionally well-structured. When I asked about their process, they described planning the architecture first, then having AI implement within those constraints, then systematically reviewing everything for security and performance. They’d essentially created a workflow that maintained all the quality standards we expect while dramatically accelerating implementation.</p>
+<p>That conversation stuck with me. Over the next few months, I heard variations of it repeatedly.</p>
+<h3>Architectural Authority Remains Human</h3>
+<p>In every effective team I’ve observed, engineers maintain architectural decision-making authority. They choose databases, select frameworks, define system boundaries, and establish integration patterns. AI implements within these constraints rather than inventing architecture.</p>
+<p>One CTO described their approach: “We use AI to amplify implementation velocity within architectural guardrails we establish. The moment AI starts making architectural decisions, we’ve lost control of our system’s evolution.”</p>
+<p>System coherence requires consistent architectural vision that spans months or years. AI operates conversation by conversation.</p>
+<p>I saw this play out when a team tried letting AI drive architectural decisions for a microservices project. Within two weeks, they had five different authentication patterns, three approaches to error handling, and no consistent logging strategy. The code worked, but nobody could maintain it. They spent the next month refactoring to impose architectural consistency.</p>
+<p>The contrast with systematic approaches is stark. When engineers establish architectural patterns first — here’s our authentication model, this is how we handle errors, these are our database access patterns — AI implementations stay coherent across the entire system. Multiple engineers can work simultaneously without creating architectural drift.</p>
+<p>In the agentic workflow system, this principle manifested early. Someone suggested SQLite for the database — get something working quickly, migrate to PostgreSQL later for production. Standard “move fast” thinking.</p>
+<p>I pushed back. Hard.</p>
+<p>SQLite could have handled it. But when you’re using AI to accelerate implementation, temporary shortcuts compound. You generate connection pooling logic optimized for SQLite’s single-writer architecture. Retry mechanisms working around database lock limitations. Migration scripts handling SQLite-specific constraints. Then you need AI’s help refactoring all of it for PostgreSQL’s concurrent connection model. You’ve paid twice for the same capability.</p>
+<p>We went with PostgreSQL from day one. Docker Compose setup, connection pooling configured (20 connections + 10 overflow = 30 concurrent operations), asyncpg drivers in place. The “slower” choice cost an extra afternoon. The avoided refactoring would have consumed a week.</p>
+<p>Understanding that seemingly minor initial decisions cascade through implementation is architectural thinking. When you amplify implementation speed with AI, you also amplify the cost of getting early architecture wrong.</p>
+<h3>Systematic Context Preservation</h3>
+<p>One thing I learned fast: AI’s value compounds when context accumulates.</p>
+<p>Early versions of the workflow system, I’d start fresh conversations for each feature. New conversation, explain the architecture again, specify patterns again, describe existing code structure again. Slow.</p>
+<p>Then I tried maintaining long-running sessions where context built up. Same conversation continuing as I built v0.4, v0.5, v0.6, v0.7. By v0.8, AI understood the project’s patterns deeply. It knew our database models, our API conventions, our testing approach, our error handling strategy.</p>
+<p>Implementation velocity increased dramatically. Not because AI got smarter — because context got richer.</p>
+<p>Context preservation is a first-class concern for Synthesis Engineering. Some teams do this through comprehensive documentation that gets updated with each architectural decision. Others maintain living architecture decision records (ADRs) that AI reads before implementation. Some use template prompts that establish project context efficiently.</p>
+<p>The specific mechanism matters less than the principle.</p>
+<h3>Quality as Systematic Practice</h3>
+<p>AI makes it trivially easy to generate code that runs. Making that code production-ready requires systematic quality practices.</p>
+<p>In traditional development, quality often depends on individual engineer diligence. Some engineers write comprehensive tests, others skip testing. Some do security reviews, others assume their code is secure. Some optimize performance, others ship and hope.</p>
+<p>Synthesis Engineering makes quality systematic by establishing workflows where AI assists in implementing quality practices consistently.</p>
+<p>For the agentic workflow system, I established a quality checkpoint process:</p>
+<ol>
+<li><strong>Implementation</strong>: AI generates initial code following architectural patterns</li>
+<li><strong>Security review</strong>: AI performs systematic security analysis against OWASP Top 10 and common vulnerabilities</li>
+<li><strong>Performance analysis</strong>: AI identifies potential bottlenecks and optimization opportunities</li>
+<li><strong>Test generation</strong>: AI creates comprehensive test suites including edge cases and error conditions</li>
+<li><strong>Code review</strong>: Human review focusing on architecture, logic, and edge cases AI might miss</li>
+</ol>
+<p>Each step builds on the previous. By the time code reaches production, it’s been through multiple systematic quality checks.</p>
+<p>Vibe coding asks “Does it work?” Synthesis Engineering asks whether the code meets production quality standards systematically.</p>
+<h3>The Learning Loop: Continuous Improvement</h3>
+<p>Sophisticated Synthesis Engineering differs from basic AI usage by building systems that learn and improve over time.</p>
+<p>The workflow uses LangGraph for stateful multi-agent orchestration. LangGraph enables measurement at each decision point in the workflow, not just at the output.</p>
+<p>Most AI workflows are linear pipelines — step 1, then step 2, then step 3. Complex real-world work isn’t linear. LangGraph enables:</p>
+<ul>
+<li><strong>Cyclic workflows:</strong> Agent A processes, Agent B reviews, routes back to Agent A for refinement based on quality scores</li>
+<li><strong>Conditional branching:</strong> Route to specialist C or D depending on intermediate results</li>
+<li><strong>State persistence:</strong> Context flows through the entire multi-step process</li>
+<li><strong>Observability:</strong> Track exactly which agent decisions led to which outcomes</li>
+</ul>
+<p>When validator agents identify quality issues and route outputs back for regeneration, the system learns from those cycles. It correlates input characteristics with validation failure rates. It identifies which agent combinations produce outputs that pass validation on first try versus require iteration.</p>
+<p>The orchestration DAG itself evolves based on performance data. Successful routing patterns get reinforced. Problematic patterns trigger architectural refinement.</p>
+<h3>Why This Creates Strategic Moats</h3>
+<p>Four compounding advantages emerge:</p>
+<p><strong>Data flywheel:</strong> More usage generates better training data, which improves system performance, which attracts more usage. Month 12 outperforms Month 1 dramatically — and competitors at Month 1 can’t catch up just by copying current features.</p>
+<p><strong>Domain specificity:</strong> The learning tunes to your specific problem domain and quality standards. Generic AI tools optimize for average use cases. Your system optimizes for your exact requirements, incorporating expert judgment that took years to develop.</p>
+<p><strong>Transfer learning:</strong> Successful patterns identified in task type A apply to adjacent task type B, often providing 15-20% immediate improvement without additional training. The system learns abstract principles, not just specific examples.</p>
+<p><strong>Cost efficiency:</strong> As quality improved in our system, average tokens per high-quality output decreased 23%. The system learned to be more efficient, not just more capable. Better results at lower cost — compound advantage on two dimensions simultaneously.</p>
+<h3>What This Means for Organizations</h3>
+<p>Most organizations treat AI as a static tool. Install the software, write some prompts, get consistent output. That’s table stakes.</p>
+<p>Sophisticated organizations build AI systems that learn. They instrument feedback loops, track performance metrics, correlate prompt versions with outcomes, and create continuous improvement cycles. Their systems get better while competitors’ systems stay static.</p>
+<p>Human architects design learning systems. AI executes at scale. The combination creates capabilities neither could achieve independently.</p>
+<h2>Why This Matters: The Organizational Implications</h2>
+<p>Synthesis Engineering isn’t just about individual developer productivity. It represents a fundamental shift in how engineering organizations build software.</p>
+<p>When teams maintain architectural coherence and systematic quality practices, multiple engineers can work effectively on AI-assisted codebases. The code remains comprehensible because humans made the key design decisions. One engineering manager told me: “With pure vibe coding, only the engineer who generated the code could maintain it. With Synthesis Engineering, the whole team understands the architecture because we made those decisions collectively.”</p>
+<p>Because engineers maintain system understanding, organizational knowledge accumulates. Teams learn patterns, build intuition, and improve their ability to solve similar problems. This matters for long-term sustainability. Software systems live for years or decades. Organizations need engineers who understand these systems deeply enough to evolve them.</p>
+<p>When quality practices are systematic rather than ad-hoc, they scale across teams. Security review processes, testing standards, performance requirements — these become organizational capabilities rather than individual practices.</p>
+<p>Systematic practices enable faster innovation. When engineers trust their quality processes, they can move quickly on new features. When they maintain architectural understanding, they can make changes confidently.</p>
+<h2>The Evolution Continues</h2>
+<p>Synthesis Engineering isn’t a finished methodology — it’s an emerging practice. Teams are developing increasingly sophisticated approaches to human-AI collaboration.</p>
+<p>I’m seeing organizations experiment with AI-assisted architectural analysis during design reviews, systematic AI-generated test suites that exceed human-written coverage, AI-powered security audits integrated into deployment pipelines, automated performance optimization within human-defined constraints, and AI-generated documentation that stays current with code evolution.</p>
+<p>These aren’t future possibilities — they’re current practices at leading engineering organizations.</p>
+<h2>What’s Next</h2>
+<p>This practice needs more than a name. It needs shared frameworks and methodologies, best practices for different contexts, organizational implementation patterns, education approaches for teams, and tool ecosystems designed for systematic human-AI collaboration.</p>
+<p>In my next article, I’ll detail the Synthesis Engineering framework: how it works systematically, when to apply it versus other approaches, and how organizations can implement it at scale.</p>
+<p>For now, if you’re a CTO or engineering leader, look at how your most effective teams work with AI. I’d bet they’re practicing something that looks a lot like Synthesis Engineering — they just might not call it that yet.</p>
+<p>The practice exists. Now it has a name. Let’s build the methodology together.</p>
+<h2>On Terminology and Usage</h2>
+<p>These terms – Synthesis Engineering, Synthesis Coding, and the accompanying visual identity – are offered to the community without restriction. They’re released under CC0 1.0 Universal (public domain) for anyone to use, modify, or build upon.</p>
+<p>I’ve documented these practices because teams needed vocabulary for what they were already doing. If these terms help your organization distinguish between exploratory prototyping and systematic production development, use them. If they help you hire, train, or structure your engineering practices, even better.</p>
+<p>No permission required. No attribution needed. Just use what works.</p>
+<hr>
+<p><em>This is the first article in a three-part series on Synthesis Engineering:</em></p>
+<ol>
+<li><em>“Synthesis Engineering: The Professional Practice Emerging in AI-Assisted Development” (this article)</em></li>
+<li><em>“<a href="https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/">The Synthesis Engineering Framework: How Organizations Build Production Software with AI</a>“</em></li>
+<li><em>“<a href="https://rajiv.com/blog/2025/11/09/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/">Synthesis Engineering with Claude Code: Technical Implementation and Workflows</a>“</em></li>
+</ol>
+<hr>
+<p><em>Rajiv Pant is President of <a href="https://www.flatiron.software/">Flatiron Software</a> and <a href="https://www.snapshot.reviews/">Snapshot AI</a>, where he leads organizational growth and AI innovation. He is former Chief Product &amp; Technology Officer at The Wall Street Journal, The New York Times, and Hearst Magazines. Earlier in his career, he headed technology for Conde Nast’s brands including Reddit. Rajiv has been working with AI in software engineering since the early days of natural language processing and was an early investor and advisor to AI search company <a href="https://you.com/">You.com</a>. He coined the terms “Synthesis Engineering” and “<a href="https://synthesiscoding.com/">Synthesis Coding</a>” to describe the systematic integration of human expertise with AI capabilities in professional software development. Connect with him on <a href="https://www.linkedin.com/in/rajivpant/">LinkedIn</a> or read more at <a href="https://rajiv.com/">rajiv.com</a>.</em></p>
+
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <p class="cc0">The terms "Synthesis Coding" and "Synthesis Engineering," along with the associated logo and visual identity, are released under <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0 Universal</a> (public domain).</p>
+        <p><a href="/">← Back to Synthesis Coding</a></p>
+    </footer>
+</body>
+</html>

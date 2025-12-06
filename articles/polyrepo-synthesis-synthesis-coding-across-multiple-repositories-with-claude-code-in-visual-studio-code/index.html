@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polyrepo Synthesis: Synthesis Coding Across Multiple Repositories with Claude Code in Visual Studio Code — Synthesis Coding</title>
+    <meta name="description" content="I wrote this blog post for Software Engineers, Architects, and Technical Leads. It is code-heavy and implementation-focused. This weekend I was working across three repositories simultaneously in Visual Studio Code. I worked on RagBot — a multi-LLM chatbot that lets you switch between OpenAI, Anthro">
+    <meta name="keywords" content="synthesis coding, synthesis engineering, AI-assisted development, software engineering">
+
+    <!-- Canonical URL pointing to WordPress -->
+    <link rel="canonical" href="https://rajiv.com/blog/2025/11/30/polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code/">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Polyrepo Synthesis: Synthesis Coding Across Multiple Repositories with Claude Code in Visual Studio Code">
+    <meta property="og:description" content="I wrote this blog post for Software Engineers, Architects, and Technical Leads. It is code-heavy and implementation-focused. This weekend I was working across three repositories simultaneously in Visual Studio Code. I worked on RagBot — a multi-LLM chatbot that lets you switch between OpenAI, Anthro">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://synthesiscoding.com/articles/polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code/">
+    <meta property="og:image" content="https://synthesiscoding.com/assets/logo.webp">
+    <meta property="og:site_name" content="Synthesis Coding">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Polyrepo Synthesis: Synthesis Coding Across Multiple Repositories with Claude Code in Visual Studio Code">
+    <meta name="twitter:description" content="I wrote this blog post for Software Engineers, Architects, and Technical Leads. It is code-heavy and implementation-focused. This weekend I was working across three repositories simultaneously in Visual Studio Code. I worked on RagBot — a multi-LLM chatbot that lets you switch between OpenAI, Anthro">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --black: #0a0a0a;
+            --dark: #1a1a1a;
+            --gray-dark: #3a3a3a;
+            --gray: #666;
+            --gray-light: #999;
+            --gray-lighter: #e5e5e5;
+            --white: #fafafa;
+            --cream: #f5f4f0;
+            --accent: #2a2a2a;
+
+            --font-serif: 'Newsreader', Georgia, serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+
+            --max-width: 720px;
+            --wide-width: 960px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 18px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-serif);
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--dark);
+            background: var(--white);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Header */
+        header {
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--gray-lighter);
+        }
+
+        .logo {
+            max-width: 240px;
+            width: 100%;
+            height: auto;
+        }
+
+        /* Nav */
+        nav {
+            position: sticky;
+            top: 0;
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-lighter);
+            padding: 0.75rem 2rem;
+            z-index: 100;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--gray);
+        }
+
+        nav a:hover {
+            color: var(--black);
+        }
+
+        /* Main content */
+        main {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Article header */
+        .article-header {
+            padding: 3rem 0 2rem;
+            border-bottom: 1px solid var(--gray-lighter);
+            margin-bottom: 2rem;
+        }
+
+        .article-header h1 {
+            font-size: 2rem;
+            font-weight: 500;
+            line-height: 1.3;
+            color: var(--black);
+            margin: 0 0 1rem;
+        }
+
+        .article-meta {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--gray-light);
+            letter-spacing: 0.02em;
+        }
+
+        .article-meta .category {
+            background: var(--cream);
+            padding: 0.25rem 0.5rem;
+            margin-left: 1rem;
+        }
+
+        .canonical-notice {
+            margin-top: 1rem;
+            padding: 0.75rem 1rem;
+            background: var(--cream);
+            font-size: 0.85rem;
+            color: var(--gray);
+            border-left: 3px solid var(--gray-lighter);
+        }
+
+        .canonical-notice a {
+            color: var(--dark);
+        }
+
+        /* Article content */
+        .article-content {
+            padding: 2rem 0 3rem;
+        }
+
+        .article-content h2 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            line-height: 1.3;
+            color: var(--black);
+            margin: 2.5rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--black);
+            display: inline-block;
+        }
+
+        .article-content h3 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            line-height: 1.3;
+            color: var(--black);
+            margin: 2rem 0 0.75rem;
+        }
+
+        .article-content h4 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            line-height: 1.3;
+            color: var(--black);
+            margin: 1.5rem 0 0.5rem;
+        }
+
+        .article-content p {
+            margin: 0 0 1.25rem;
+        }
+
+        .article-content a {
+            color: var(--dark);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            text-decoration-thickness: 1px;
+            transition: color 0.2s;
+        }
+
+        .article-content a:hover {
+            color: var(--gray);
+        }
+
+        .article-content ul,
+        .article-content ol {
+            margin: 0 0 1.25rem;
+            padding-left: 1.5rem;
+        }
+
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .article-content li strong {
+            font-weight: 600;
+        }
+
+        .article-content blockquote {
+            margin: 1.5rem 0;
+            padding: 1rem 1.5rem;
+            background: var(--cream);
+            border-left: 3px solid var(--black);
+            font-style: italic;
+        }
+
+        .article-content blockquote p:last-child {
+            margin-bottom: 0;
+        }
+
+        .article-content code {
+            font-family: var(--font-mono);
+            font-size: 0.9em;
+            background: var(--cream);
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+        }
+
+        .article-content pre {
+            margin: 1.5rem 0;
+            padding: 1.25rem;
+            background: var(--dark);
+            color: var(--white);
+            overflow-x: auto;
+            border-radius: 4px;
+        }
+
+        .article-content pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        .article-content hr {
+            border: none;
+            border-top: 1px solid var(--gray-lighter);
+            margin: 2.5rem 0;
+        }
+
+        .article-content em {
+            font-style: italic;
+        }
+
+        .article-content strong {
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 3rem 2rem 4rem;
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--gray-lighter);
+        }
+
+        footer p {
+            margin: 0 0 0.75rem;
+        }
+
+        footer a {
+            color: var(--dark);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            text-decoration-thickness: 1px;
+        }
+
+        .cc0 {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--gray-light);
+            letter-spacing: 0.02em;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            html {
+                font-size: 16px;
+            }
+
+            header {
+                padding: 1.5rem;
+            }
+
+            .logo {
+                max-width: 200px;
+            }
+
+            main {
+                padding: 0 1.5rem;
+            }
+
+            .article-header {
+                padding: 2rem 0 1.5rem;
+            }
+
+            .article-header h1 {
+                font-size: 1.6rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            nav {
+                display: none;
+            }
+
+            header {
+                border-bottom: none;
+            }
+
+            .canonical-notice {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/">
+            <img src="/assets/logo.webp" alt="Synthesis Coding" class="logo">
+        </a>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="/#what">What</a></li>
+            <li><a href="/#principles">Principles</a></li>
+            <li><a href="/#when">When to Use</a></li>
+            <li><a href="/articles/">Articles</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <div class="article-header">
+                <h1>Polyrepo Synthesis: Synthesis Coding Across Multiple Repositories with Claude Code in Visual Studio Code</h1>
+                <div class="article-meta">
+                    <time datetime="2025-11-30">November 29, 2025</time>
+                    <span class="category"></span>
+                </div>
+                <p class="canonical-notice">
+                    Originally published on <a href="https://rajiv.com/blog/2025/11/30/polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code/">rajiv.com</a>
+                </p>
+            </div>
+
+            <div class="article-content">
+                <p>I wrote this blog post for Software Engineers, Architects, and Technical Leads. It is code-heavy and implementation-focused.</p>
+<p>This weekend I was working across three repositories simultaneously in Visual Studio Code. I worked on <a href="https://ragbot.ai">RagBot</a> — a multi-LLM chatbot that lets you switch between OpenAI, Anthropic, Google, and other providers while maintaining conversation history and custom personas — alongside its successor <a href="https://ragenie.ai">RaGenie</a>, an agentic AI assistant designed to augment human capabilities through retrieval-augmented generation. Both products consume shared data from a third repository called ragbot-data: workspace configurations, custom instructions, knowledge bases.</p>
+<p>Claude Code understood something that would have been invisible in a single-repo context: a schema change in ragbot-data would affect both products differently. RagBot reads workspace configurations directly from the filesystem. RaGenie mounts the same data read-only via Docker and re-indexes it into a vector database. Same source, different consumption patterns, different implications for each product.</p>
+<p>This is fundamentally different from single-repo development. And it demands its own patterns.</p>
+<h2>The multi-repository reality</h2>
+<p>Most production software lives across multiple repositories. Look around your organization:</p>
+<p><strong>Frontend + Backend + Shared Types</strong> — The classic web application split. TypeScript interfaces defined once, consumed in two places, with deployment pipelines that need coordination.</p>
+<p><strong>Application code + Shared data/config</strong> — Products that read from a central source of configurations, knowledge bases, or datasets. My RagBot/RaGenie/ragbot-data setup follows this pattern: two applications consuming one authoritative data source.</p>
+<p><strong>Multiple related products</strong> — Platform teams maintaining products that share infrastructure, authentication, or data models. Changes ripple across boundaries.</p>
+<p><strong>Microservices architectures</strong> — Each service in its own repository, with shared contracts, API definitions, and deployment orchestration spanning the boundaries.</p>
+<p><strong>Notebooks + Production code + Data</strong> — Data science workflows where Jupyter exploration eventually becomes production pipelines, with model artifacts and evaluation datasets living separately.</p>
+<p><strong>Infrastructure-as-code + Application repos</strong> — DevOps patterns where Terraform or Pulumi lives separately from the applications they deploy.</p>
+<p><strong>Monorepo-to-polyrepo migrations</strong> — Organizations scaling beyond a single repository, splitting by team or domain while maintaining cross-repo dependencies.</p>
+<p>The common thread: context fragmentation and the need for consistency across systems that don’t share a git history.</p>
+<h2>Introducing Polyrepo Synthesis</h2>
+<p><strong>Polyrepo Synthesis</strong> is the practice of applying <a href="https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/">Synthesis Coding principles</a> across multiple interconnected repositories within a unified development environment.</p>
+<p>It’s not a separate methodology — it’s <a href="https://synthesiscoding.com/"><strong>Synthesis Coding</strong></a> scaled to the architectural reality of modern software systems.</p>
+<p>The key principle remains the same: human architectural authority guides everything; AI assists within that unified vision. But “everything” now spans repository boundaries. Your mental model encompasses the entire system, and your AI assistant needs to share that understanding.</p>
+<h2>Architectural patterns</h2>
+<p>Through my work on multi-repository systems, I’ve identified patterns that recur across organizations:</p>
+<h3>Hub-and-spoke (source of truth)</h3>
+<p>One repository serves as the authoritative source of data or configuration, with multiple consumer repositories reading from it.</p>
+<pre><code>┌─────────────────────────────────────────┐
+│        ragbot-data/ (private)           │
+│    Source of truth for workspaces&#39;      │
+│   instructions, runbooks, and datasets  │
+└─────────────┬───────────────┬───────────┘
+              │               │
+              ▼               ▼
+      ┌───────────────┐ ┌────────────────────┐
+      │    ragbot/    │ │     ragenie/       │
+      │  (Chat Bot)   │ │ (Agentic platform) │
+      └───────────────┘ └────────────────────┘
+</code></pre>
+<p>The hub is authoritative; spokes consume but don’t modify. This pattern works well when you have shared knowledge, configurations, or datasets that multiple applications need. In my case, ragbot-data contains workspace definitions organized by a WHO/HOW/WHAT framework — identity instructions, procedural runbooks, and reference datasets — that both products consume.</p>
+<h3>Product family</h3>
+<p>Related products evolving together, sharing patterns but diverging in implementation. RagBot and RaGenie are siblings: RagBot is a Python CLI with Streamlit UI; RaGenie is a FastAPI/React microservices platform. They solve related problems differently, but solutions discovered in one often inform the other.</p>
+<p>Cross-pollination happens naturally when Claude Code understands both codebases. A caching pattern that works in RagBot might apply to RaGenie’s API layer. A UI approach in RaGenie’s React frontend might inspire changes to RagBot’s Streamlit interface.</p>
+<h3>Stack slice</h3>
+<p>Frontend, backend, infrastructure, and data science repositories representing horizontal layers. Feature development cuts vertically across all of them.</p>
+<p>The challenge here is coordinated releases. A new API endpoint requires frontend changes, backend implementation, infrastructure updates, and possibly model retraining. Polyrepo Synthesis means Claude Code understands these dependencies and can trace the impact of changes across layers.</p>
+<h3>Microservices mesh</h3>
+<p>Multiple services, each in its own repository, communicating via APIs or message queues. Shared contracts (OpenAPI specs, protobuf definitions, JSON schemas) live somewhere — either in a dedicated contracts repo or duplicated across services.</p>
+<p>Claude Code with access to multiple service repositories can help maintain consistency: “Update the user schema in the auth service and show me everywhere else that needs to change.”</p>
+<h3>Monorepo extraction</h3>
+<p>Organizations that started with a monorepo and are splitting into multiple repositories. The dependencies are already implicit in the code; the challenge is making them explicit as boundaries form.</p>
+<p>This is where CLAUDE.md files become essential documentation — capturing the relationships that were previously just “everything in one place.”</p>
+<h3>ML pipeline architecture</h3>
+<p>Training code, inference code, model artifacts, and evaluation datasets in separate repositories. Different teams own different pieces. The data scientist’s notebook experiments eventually need to integrate with the ML engineer’s production serving code.</p>
+<h2>The CLAUDE.md context mesh</h2>
+<p>VS Code’s multi-root workspaces let you open multiple repositories in a single window. Claude Code reads CLAUDE.md files from each repository root. Together, these create what I call a <strong>context mesh</strong> — interconnected documentation that gives Claude Code ecosystem awareness.</p>
+<p>Here’s how I structure the CLAUDE.md files in my three-repository setup:</p>
+<h3>The repository ecosystem table</h3>
+<p>Every CLAUDE.md starts with the same table, ensuring Claude Code always knows the landscape:</p>
+<pre><code>## Repository Ecosystem
+
+| Repository | Type | Purpose | Location |
+|------------|------|---------|----------|
+| **ragbot** | Public | AI assistant CLI and Streamlit UI | `~/projects/my-projects/ragbot/` |
+| **ragenie** | Public | Next-gen RAG platform | `~/projects/my-projects/ragenie/` |
+| **ragbot-data** | Private | Shared data for both products | `~/ragbot-data/` |
+</code></pre>
+<p>This table appears identically in all three CLAUDE.md files. When Claude Code opens any repository, it immediately understands the ecosystem.</p>
+<h3>Cross-repository references</h3>
+<p>Each CLAUDE.md explicitly describes relationships to siblings:</p>
+<pre><code>## Product relationship
+
+- **RagBot**: Actively maintained CLI and Streamlit UI. Production-ready.
+- **RaGenie**: Successor product with advanced RAG capabilities. Under development.
+- Both products share ragbot-data as their data layer.
+- Both products will continue to be actively developed.
+</code></pre>
+<h3>Directory safety warnings</h3>
+<p>Multi-repo development’s most common error — running git commands in the wrong directory:</p>
+<pre><code>## Git operations
+
+**IMPORTANT**: Before any git commands for this repo, ensure you are in the correct directory:
+
+```bash
+cd ~/projects/my-projects/ragbot
+</code></pre>
+<p>Each repo in the ecosystem has its own git history. Don&#39;t run git commands from the wrong directory.</p>
+<pre><code>
+This warning appears in every CLAUDE.md, customized with the correct path. It sounds redundant, but it’s saved me from wrong-repo commits multiple times.
+
+### Architecture context
+
+Each repository’s CLAUDE.md describes its internal structure so Claude Code can navigate effectively:
+</code></pre>
+<h2>Data location</h2>
+<p>RagBot reads data from <code>~/ragbot-data/workspaces/</code>:</p>
+<ul>
+<li><strong>instructions/</strong> — WHO: Identity/persona files</li>
+<li><strong>runbooks/</strong> — HOW: Procedure guides</li>
+<li><strong>datasets/</strong> — WHAT: Reference knowledge</li>
+</ul>
+<pre><code>
+This WHO/HOW/WHAT framework organizes ragbot-data’s content. Both products understand this structure because their CLAUDE.md files reference it.
+
+## A real example: the three-repository workspace
+
+Here’s how my VS Code workspace ties these repositories together. The `.code-workspace` file:
+</code></pre>
+<p>{
+  &quot;folders&quot;: [
+    { &quot;path&quot;: &quot;projects/my-projects/ragbot&quot;, &quot;name&quot;: &quot;RagBot (public)&quot; },
+    { &quot;path&quot;: &quot;projects/my-projects/ragenie&quot;, &quot;name&quot;: &quot;RaGenie (public)&quot; },
+    { &quot;path&quot;: &quot;ragbot-data&quot;, &quot;name&quot;: &quot;ragbot-data (private)&quot; }
+  ],
+  &quot;settings&quot;: {
+    &quot;files.exclude&quot;: {
+      &quot;<strong>/.git&quot;: true,
+      &quot;</strong>/node_modules&quot;: true,
+      &quot;**/<strong>pycache</strong>&quot;: true
+    }
+  }
+}</p>
+<pre><code>
+The folder names appearing in VS Code’s sidebar — “RagBot (public)”, “RaGenie (public)”, “ragbot-data (private)” — serve as constant reminders of each repository’s nature.
+
+When I ask Claude Code to help with a cross-cutting change, it can trace dependencies:
+
+&gt; “I want to add a new workspace type to ragbot-data. What changes are needed in RagBot and RaGenie to support it?”
+
+Claude Code, having read all three CLAUDE.md files, understands:
+
+-   ragbot-data defines workspace structure in `workspaces/config.yaml`
+-   RagBot loads workspaces via direct file reading in `src/helpers.py`
+-   RaGenie watches for file changes and re-indexes into Qdrant
+
+It can provide a coherent plan spanning all three repositories.
+
+## Practical workflows
+
+### Cross-repo feature development
+
+When implementing a feature that spans repositories:
+
+1.  Start in the data/config repository — define the schema or configuration change
+2.  Move to the primary consumer — implement the feature using the new data structure
+3.  Check secondary consumers — ensure the change doesn’t break other dependents
+4.  Coordinate commits — meaningful commit messages that reference the cross-repo change
+
+Claude Code, having read all CLAUDE.md files, understands this sequence. Ask it “What else needs to change when I modify this schema?” and it can trace the dependencies.
+
+### The “follow the data” pattern
+
+For debugging or understanding, trace data flow across repositories:
+
+&gt; “Show me how workspace configurations flow from ragbot-data through RagBot’s loading mechanism to the Streamlit UI”
+
+Claude Code with ecosystem awareness can navigate this path without you manually opening each file. It understands that ragbot-data contains the source files, RagBot’s `helpers.py` loads them, and `ragbot_streamlit.py` renders them in the interface.
+
+### Coordinated releases
+
+When both products need updates:
+
+1.  Update ragbot-data with the new content or schema
+2.  Update RagBot to consume the changes (bump version in `VERSION` file)
+3.  Update RaGenie to handle the changes (bump version, potentially update Docker compose)
+4.  Tag releases across repositories with related version numbers
+
+Claude Code can help maintain this coordination: “Generate release notes for this change across all three repositories.”
+
+## Anti-patterns to avoid
+
+**Context overload**: CLAUDE.md files that try to document everything overwhelm Claude Code. Focus on what’s essential for cross-repo coordination — the ecosystem table, key relationships, and directory structure.
+
+**Conflicting instructions**: Different repos with contradictory coding standards or conventions. My RagBot uses Python with type hints; RaGenie uses Python with Pydantic models plus TypeScript for the frontend. The CLAUDE.md files clarify these differences rather than pretending they don’t exist.
+
+**Wrong directory syndrome**: Running `git commit` in the wrong repository. The directory warnings help, but vigilance remains necessary. I’ve adopted the habit of always running `pwd` before any git operation.
+
+**Stale context**: CLAUDE.md files that drift from reality. When architecture changes, update the documentation. I treat CLAUDE.md as a living document — when I add a new service or change a data flow, the CLAUDE.md files get updated in the same commit.
+
+## Getting started: your first Polyrepo Synthesis setup
+
+If you’re new to multi-repository development with Claude Code, start with these steps:
+
+### 1\. Create a VS Code multi-root workspace
+
+File → Add Folder to Workspace for each repository you want to include. Save the workspace file (`.code-workspace`) somewhere accessible.
+
+### 2\. Add minimal CLAUDE.md to each repository
+
+Start with just the ecosystem table:
+</code></pre>
+<h1>Claude Code Context: [repo-name]</h1>
+<h2>Repository ecosystem</h2>
+<table>
+<thead>
+<tr>
+<th>Repository</th>
+<th>Type</th>
+<th>Purpose</th>
+<th>Location</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>[this-repo]</strong></td>
+<td>[Public/Private]</td>
+<td>[Brief purpose]</td>
+<td><code>~/path/to/[this-repo]/</code></td>
+</tr>
+<tr>
+<td><strong>[related-repo]</strong></td>
+<td>[Public/Private]</td>
+<td>[Brief purpose]</td>
+<td><code>~/path/to/[related-repo]/</code></td>
+</tr>
+</tbody></table>
+<h2>Related repositories</h2>
+<p>This repo works alongside:</p>
+<ul>
+<li><strong>[related-repo]</strong>: [Brief description of relationship]</li>
+</ul>
+<h2>Git operations</h2>
+<p>Verify directory before git commands:</p>
+<pre><code class="language-bash">cd ~/path/to/[this-repo]
+</code></pre>
+<pre><code>
+### 3\. Cross-reference the repositories
+
+Ensure each CLAUDE.md mentions its siblings. The ecosystem table should be identical across all repositories — copy-paste it to maintain consistency.
+
+### 4\. Test with a cross-repo question
+
+Ask Claude Code something that requires understanding multiple repositories:
+
+&gt; “What files would need to change if I renamed the ‘workspace’ concept to ‘context’ across all repositories?”
+
+If Claude Code can trace the impact across repository boundaries, your context mesh is working.
+
+## CLAUDE.md templates
+
+### Template 1: Hub repository (shared data/config)
+</code></pre>
+<h1>Claude Code Context: [data-repo-name]</h1>
+<h2>Repository ecosystem</h2>
+<table>
+<thead>
+<tr>
+<th>Repository</th>
+<th>Type</th>
+<th>Purpose</th>
+<th>Location</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>[data-repo-name]</strong></td>
+<td>Private</td>
+<td>Shared data source of truth</td>
+<td><code>~/[data-repo-name]/</code></td>
+</tr>
+<tr>
+<td><strong>[consumer-a]</strong></td>
+<td>Public</td>
+<td>Primary consumer application</td>
+<td><code>~/projects/[consumer-a]/</code></td>
+</tr>
+<tr>
+<td><strong>[consumer-b]</strong></td>
+<td>Public</td>
+<td>Secondary consumer application</td>
+<td><code>~/projects/[consumer-b]/</code></td>
+</tr>
+</tbody></table>
+<h2>VS Code workspace</h2>
+<p>All repositories are configured in the same VS Code workspace for unified development.</p>
+<h2>Data organization</h2>
+<p>[Describe your data structure here — folders, file types, naming conventions]</p>
+<h2>How consumers use this data</h2>
+<ul>
+<li><strong>[consumer-a]</strong>: [How it reads/uses the data]</li>
+<li><strong>[consumer-b]</strong>: [How it reads/uses the data]</li>
+</ul>
+<p>Changes here affect both consumers. Test compatibility before committing.</p>
+<h2>Git operations</h2>
+<p><strong>IMPORTANT</strong>: Before any git commands, verify your directory:</p>
+<pre><code class="language-bash">cd ~/[data-repo-name]
+pwd  # Confirm location
+</code></pre>
+<p>Each repo has its own git history.</p>
+<pre><code>
+### Template 2: Consumer repository (application)
+</code></pre>
+<h1>Claude Code Context: [app-name]</h1>
+<h2>Repository ecosystem</h2>
+<table>
+<thead>
+<tr>
+<th>Repository</th>
+<th>Type</th>
+<th>Purpose</th>
+<th>Location</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>[app-name]</strong></td>
+<td>Public</td>
+<td>[Brief description]</td>
+<td><code>~/projects/[app-name]/</code></td>
+</tr>
+<tr>
+<td><strong>[sibling-app]</strong></td>
+<td>Public</td>
+<td>[Brief description]</td>
+<td><code>~/projects/[sibling-app]/</code></td>
+</tr>
+<tr>
+<td><strong>[data-repo]</strong></td>
+<td>Private</td>
+<td>Shared data source</td>
+<td><code>~/[data-repo]/</code></td>
+</tr>
+</tbody></table>
+<h2>VS Code workspace</h2>
+<p>All repositories are configured in the same VS Code workspace for unified development.</p>
+<h2>Relationship to [data-repo]</h2>
+<p>This repository consumes data from [data-repo]:</p>
+<ul>
+<li>[Describe what data is consumed]</li>
+<li>[Describe how it&#39;s loaded/accessed]</li>
+</ul>
+<p>Changes to [data-repo] may require updates here.</p>
+<h2>Architecture</h2>
+<p>[Brief description of key components, entry points, etc.]</p>
+<h2>Git operations</h2>
+<p><strong>IMPORTANT</strong>: Before any git commands, verify your directory:</p>
+<pre><code class="language-bash">cd ~/projects/[app-name]
+pwd  # Confirm location
+</code></pre>
+<h2>Development notes</h2>
+<ul>
+<li>When modifying shared interfaces, check [sibling-app] for compatibility</li>
+<li>[Other relevant development notes]</li>
+</ul>
+<pre><code>
+### Template 3: Minimal starter
+</code></pre>
+<h1>Claude Code Context: [repo-name]</h1>
+<h2>Repository ecosystem</h2>
+<table>
+<thead>
+<tr>
+<th>Repository</th>
+<th>Type</th>
+<th>Purpose</th>
+<th>Location</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>[repo-name]</strong></td>
+<td>[Public/Private]</td>
+<td>[Brief purpose]</td>
+<td><code>~/path/to/[repo-name]/</code></td>
+</tr>
+<tr>
+<td><strong>[related-repo]</strong></td>
+<td>[Public/Private]</td>
+<td>[Brief purpose]</td>
+<td><code>~/path/to/[related-repo]/</code></td>
+</tr>
+</tbody></table>
+<h2>Related repositories</h2>
+<p>This repo works alongside:</p>
+<ul>
+<li><strong>[related-repo]</strong>: [Brief description of relationship]</li>
+</ul>
+<h2>Git operations</h2>
+<p>Verify directory before git commands:</p>
+<pre><code class="language-bash">cd ~/path/to/[repo-name]
+</code></pre>
+<pre><code>
+## The architectural advantage
+
+I now think at the level of systems rather than files. Claude Code doesn’t just help me write code — it helps me navigate architectural relationships that would otherwise require holding too much context in my head.
+
+As I wrote in my earlier piece on [Synthesis Coding workflows](https://rajiv.com/blog/2025/11/09/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/), the compounding context advantage is real. Each session builds on previous understanding. CLAUDE.md files encode institutional knowledge. The investment in setting up proper context pays dividends across every future interaction.
+
+Modern software lives across multiple repositories. The engineers who master Polyrepo Synthesis — who can coordinate AI assistance across distributed systems while maintaining human architectural authority — will build the next generation of production software.
+
+If you’ve used [Vibe Coding](https://en.wikipedia.org/wiki/Vibe_coding) for rapid prototyping — and I do, for weekend projects and quick experiments — you know how liberating it feels to describe what you want and let the AI handle it. Polyrepo Synthesis brings that same collaborative power to production systems, with the discipline required when changes span multiple repositories, teams, and deployment pipelines.
+
+The CLAUDE.md context mesh is the key. Set it up once, maintain it as your architecture evolves, and watch your productivity multiply across your entire codebase.
+
+---
+
+*Rajiv Pant is President of [Flatiron Software](https://www.flatiron.software/) and [Snapshot AI](https://www.snapshot.reviews/), where he leads organizational growth and AI innovation. He is former Chief Product &amp; Technology Officer at The Wall Street Journal, The New York Times, and Hearst Magazines. Earlier in his career, he headed technology for Conde Nast’s brands including Reddit. Rajiv has been working with AI in software engineering since the early days of natural language processing and was an early investor and advisor to AI search company [You.com](https://you.com/). He coined the terms “Synthesis Engineering” and “[Synthesis Coding](https://synthesiscoding.com/)” to describe the systematic integration of human expertise with AI capabilities in professional software development. Connect with him on [LinkedIn](https://www.linkedin.com/in/rajivpant/) or read more at [rajiv.com](https://rajiv.com/).*
+</code></pre>
+
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <p class="cc0">The terms "Synthesis Coding" and "Synthesis Engineering," along with the associated logo and visual identity, are released under <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0 Universal</a> (public domain).</p>
+        <p><a href="/">← Back to Synthesis Coding</a></p>
+    </footer>
+</body>
+</html>

@@ -14,23 +14,61 @@ The terminology "Synthesis Coding" and "Synthesis Engineering," along with the l
 
 The website content and code are also released under CC0. No permission required. No attribution needed. Use freely.
 
-## Deployment
+## Repository Structure
 
-This site is deployed on [Cloudflare Pages](https://pages.cloudflare.com/).
+```
+├── index.html                # Main landing page
+├── content/
+│   └── articles/             # Markdown source files (source of truth)
+│       ├── *.md              # Article markdown files
+│       └── images/           # Article images
+├── articles/                 # Generated HTML (build output)
+│   ├── index.html            # Article listing page
+│   └── [slug]/index.html     # Individual article pages
+├── templates/
+│   ├── article.html          # Single article template
+│   └── article-list.html     # Article listing template
+├── scripts/
+│   ├── build.js              # Build script
+│   └── convert-wordpress-to-markdown.js  # WordPress HTML → Markdown converter
+├── wordpress-export/         # Generated WordPress-ready HTML (gitignored)
+└── assets/                   # Static assets (logo, etc.)
+```
 
-To deploy your own copy:
+## Dual Publishing
 
-1. Fork this repository
-2. Connect to Cloudflare Pages
-3. Set build output directory to `/` (root)
-4. No build command required—it's a static site
+Articles are published to both:
+- **synthesiscoding.com** (this site) - with canonical links pointing to rajiv.com
+- **rajiv.com** (WordPress) - the canonical source for SEO
 
-## Local Development
+This prevents duplicate content penalties while making the site self-sufficient.
 
-This is a static HTML/CSS site. No build process required.
+## Development
+
+### Prerequisites
+
+- Node.js 18+
+
+### Setup
 
 ```bash
-# Serve locally (any static file server works)
+npm install
+```
+
+### Build
+
+```bash
+npm run build
+```
+
+This generates:
+- `articles/` - HTML pages for the static site
+- `wordpress-export/` - Clean HTML for copy/paste to WordPress
+
+### Local Preview
+
+```bash
+# Any static file server works
 python3 -m http.server 8000
 # or
 npx serve
@@ -38,13 +76,81 @@ npx serve
 
 Open http://localhost:8000
 
+## Adding New Articles
+
+1. **Create the markdown file:**
+   ```bash
+   # Choose a slug (used on both sites)
+   touch content/articles/my-new-article.md
+   ```
+
+2. **Add front matter:**
+   ```yaml
+   ---
+   title: "My New Article Title"
+   slug: "my-new-article"
+   date: "2025-12-05"
+   canonical_url: "https://rajiv.com/blog/2025/12/05/my-new-article/"
+   description: "Brief description for SEO and article listings."
+   category: "Core Series"  # or: Case Study, Advanced Patterns, Comparison, Philosophical Foundation
+   series_order: 1
+   wordpress_synced: "2025-12-05"
+   ---
+
+   Article content in markdown...
+   ```
+
+3. **Build and preview:**
+   ```bash
+   npm run build
+   npx serve
+   ```
+
+4. **Publish to WordPress:**
+   - Copy content from `wordpress-export/my-new-article.html`
+   - Create new post in WordPress, paste HTML
+   - Set permalink slug to match: `my-new-article`
+   - Publish and verify URL matches `canonical_url`
+
+5. **Deploy:**
+   ```bash
+   git add .
+   git commit -m "Add: my-new-article"
+   git push
+   ```
+
+## Editing Existing Articles
+
+1. Edit the markdown file in `content/articles/`
+2. Run `npm run build`
+3. Update WordPress by pasting from `wordpress-export/`
+4. Update `wordpress_synced` date in front matter
+5. Commit and push
+
+## Images
+
+Store images in `content/articles/images/`. Reference them in markdown:
+
+```markdown
+![Description](/articles/images/my-image.webp)
+```
+
+The build script rewrites image URLs to absolute paths in WordPress exports.
+
+## Deployment
+
+This site is deployed on [Cloudflare Pages](https://pages.cloudflare.com/).
+
+**Build settings:**
+- Build command: `npm run build`
+- Build output directory: `/` (root)
+
 ## Reference Articles
 
-The methodology is documented in a series of articles at [rajiv.com](https://rajiv.com/):
-
-- [Synthesis Coding: The Professional Practice Emerging in AI-Assisted Development](https://rajiv.com/blog/2025/11/09/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/)
-- [The Synthesis Coding Framework: How Organizations Build Production Software with AI](https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/)
-- [Synthesis Coding with Claude Code: Technical Implementation and Workflows](https://rajiv.com/blog/2025/11/09/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/)
-- [Modernizing a 17-Year-Old WordPress Plugin Using Synthesis Coding](https://rajiv.com/blog/2025/11/29/seventeen-years-ago-i-built-a-tool-for-the-open-web-this-weekend-i-modernized-it-using-synthesis-coding-with-claude-code-ai/)
-- [Polyrepo Synthesis: Synthesis Coding Across Multiple Repositories](https://rajiv.com/blog/2025/11/30/polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code/)
-- [Vibe Coding and Synthesis Coding: Two Approaches, One Developer](https://rajiv.com/blog/2025/12/01/vibe-coding-and-synthesis-coding-two-approaches-one-developer/)
+- [Synthesis Coding: The Professional Practice Emerging in AI-Assisted Development](/articles/synthesis-coding-professional-practice/)
+- [The Synthesis Coding Framework: How Organizations Build Production Software with AI](/articles/synthesis-coding-framework/)
+- [Synthesis Coding with Claude Code: Technical Implementation and Workflows](/articles/synthesis-coding-with-claude-code/)
+- [Modernizing a 17-Year-Old WordPress Plugin Using Synthesis Coding](/articles/modernizing-wordpress-plugin/)
+- [Polyrepo Synthesis: Synthesis Coding Across Multiple Repositories](/articles/polyrepo-synthesis/)
+- [Vibe Coding and Synthesis Coding: Two Complementary Approaches](/articles/vibe-coding-and-synthesis-coding/)
+- [Why Synthesis Coding Still Writes Code in the Age of LLMs](/articles/why-synthesis-coding-still-writes-code/)

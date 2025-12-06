@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibe Coding and Synthesis Coding: Two Complementary Approaches — Synthesis Coding</title>
+    <meta name="description" content="Why the conversation isn't about which approach is better — it's about knowing when to use each This blog post is for software engineers, engineering leaders, and anyone interested in AI-assisted development. Since publishing my series on Synthesis Coding, I've received a recurring question: "How do">
+    <meta name="keywords" content="synthesis coding, synthesis engineering, AI-assisted development, software engineering">
+
+    <!-- Canonical URL pointing to WordPress -->
+    <link rel="canonical" href="https://rajiv.com/blog/2025/12/01/vibe-coding-and-synthesis-coding-two-approaches-one-developer/">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Vibe Coding and Synthesis Coding: Two Complementary Approaches">
+    <meta property="og:description" content="Why the conversation isn't about which approach is better — it's about knowing when to use each This blog post is for software engineers, engineering leaders, and anyone interested in AI-assisted development. Since publishing my series on Synthesis Coding, I've received a recurring question: "How do">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://synthesiscoding.com/articles/vibe-coding-and-synthesis-coding-two-approaches-one-developer/">
+    <meta property="og:image" content="https://synthesiscoding.com/assets/logo.webp">
+    <meta property="og:site_name" content="Synthesis Coding">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Vibe Coding and Synthesis Coding: Two Complementary Approaches">
+    <meta name="twitter:description" content="Why the conversation isn't about which approach is better — it's about knowing when to use each This blog post is for software engineers, engineering leaders, and anyone interested in AI-assisted development. Since publishing my series on Synthesis Coding, I've received a recurring question: "How do">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --black: #0a0a0a;
+            --dark: #1a1a1a;
+            --gray-dark: #3a3a3a;
+            --gray: #666;
+            --gray-light: #999;
+            --gray-lighter: #e5e5e5;
+            --white: #fafafa;
+            --cream: #f5f4f0;
+            --accent: #2a2a2a;
+
+            --font-serif: 'Newsreader', Georgia, serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+
+            --max-width: 720px;
+            --wide-width: 960px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 18px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-serif);
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--dark);
+            background: var(--white);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Header */
+        header {
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--gray-lighter);
+        }
+
+        .logo {
+            max-width: 240px;
+            width: 100%;
+            height: auto;
+        }
+
+        /* Nav */
+        nav {
+            position: sticky;
+            top: 0;
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-lighter);
+            padding: 0.75rem 2rem;
+            z-index: 100;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--gray);
+        }
+
+        nav a:hover {
+            color: var(--black);
+        }
+
+        /* Main content */
+        main {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Article header */
+        .article-header {
+            padding: 3rem 0 2rem;
+            border-bottom: 1px solid var(--gray-lighter);
+            margin-bottom: 2rem;
+        }
+
+        .article-header h1 {
+            font-size: 2rem;
+            font-weight: 500;
+            line-height: 1.3;
+            color: var(--black);
+            margin: 0 0 1rem;
+        }
+
+        .article-meta {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--gray-light);
+            letter-spacing: 0.02em;
+        }
+
+        .article-meta .category {
+            background: var(--cream);
+            padding: 0.25rem 0.5rem;
+            margin-left: 1rem;
+        }
+
+        .canonical-notice {
+            margin-top: 1rem;
+            padding: 0.75rem 1rem;
+            background: var(--cream);
+            font-size: 0.85rem;
+            color: var(--gray);
+            border-left: 3px solid var(--gray-lighter);
+        }
+
+        .canonical-notice a {
+            color: var(--dark);
+        }
+
+        /* Article content */
+        .article-content {
+            padding: 2rem 0 3rem;
+        }
+
+        .article-content h2 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            line-height: 1.3;
+            color: var(--black);
+            margin: 2.5rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--black);
+            display: inline-block;
+        }
+
+        .article-content h3 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            line-height: 1.3;
+            color: var(--black);
+            margin: 2rem 0 0.75rem;
+        }
+
+        .article-content h4 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            line-height: 1.3;
+            color: var(--black);
+            margin: 1.5rem 0 0.5rem;
+        }
+
+        .article-content p {
+            margin: 0 0 1.25rem;
+        }
+
+        .article-content a {
+            color: var(--dark);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            text-decoration-thickness: 1px;
+            transition: color 0.2s;
+        }
+
+        .article-content a:hover {
+            color: var(--gray);
+        }
+
+        .article-content ul,
+        .article-content ol {
+            margin: 0 0 1.25rem;
+            padding-left: 1.5rem;
+        }
+
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .article-content li strong {
+            font-weight: 600;
+        }
+
+        .article-content blockquote {
+            margin: 1.5rem 0;
+            padding: 1rem 1.5rem;
+            background: var(--cream);
+            border-left: 3px solid var(--black);
+            font-style: italic;
+        }
+
+        .article-content blockquote p:last-child {
+            margin-bottom: 0;
+        }
+
+        .article-content code {
+            font-family: var(--font-mono);
+            font-size: 0.9em;
+            background: var(--cream);
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+        }
+
+        .article-content pre {
+            margin: 1.5rem 0;
+            padding: 1.25rem;
+            background: var(--dark);
+            color: var(--white);
+            overflow-x: auto;
+            border-radius: 4px;
+        }
+
+        .article-content pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        .article-content hr {
+            border: none;
+            border-top: 1px solid var(--gray-lighter);
+            margin: 2.5rem 0;
+        }
+
+        .article-content em {
+            font-style: italic;
+        }
+
+        .article-content strong {
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 3rem 2rem 4rem;
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--gray-lighter);
+        }
+
+        footer p {
+            margin: 0 0 0.75rem;
+        }
+
+        footer a {
+            color: var(--dark);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            text-decoration-thickness: 1px;
+        }
+
+        .cc0 {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--gray-light);
+            letter-spacing: 0.02em;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            html {
+                font-size: 16px;
+            }
+
+            header {
+                padding: 1.5rem;
+            }
+
+            .logo {
+                max-width: 200px;
+            }
+
+            main {
+                padding: 0 1.5rem;
+            }
+
+            .article-header {
+                padding: 2rem 0 1.5rem;
+            }
+
+            .article-header h1 {
+                font-size: 1.6rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            nav {
+                display: none;
+            }
+
+            header {
+                border-bottom: none;
+            }
+
+            .canonical-notice {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/">
+            <img src="/assets/logo.webp" alt="Synthesis Coding" class="logo">
+        </a>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="/#what">What</a></li>
+            <li><a href="/#principles">Principles</a></li>
+            <li><a href="/#when">When to Use</a></li>
+            <li><a href="/articles/">Articles</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <div class="article-header">
+                <h1>Vibe Coding and Synthesis Coding: Two Complementary Approaches</h1>
+                <div class="article-meta">
+                    <time datetime="2025-12-01">November 30, 2025</time>
+                    <span class="category"></span>
+                </div>
+                <p class="canonical-notice">
+                    Originally published on <a href="https://rajiv.com/blog/2025/12/01/vibe-coding-and-synthesis-coding-two-approaches-one-developer/">rajiv.com</a>
+                </p>
+            </div>
+
+            <div class="article-content">
+                <p><em>Why the conversation isn’t about which approach is better — it’s about knowing when to use each</em></p>
+<p>This blog post is for software engineers, engineering leaders, and anyone interested in AI-assisted development.</p>
+<p>Since publishing my series on <a href="https://rajiv.com/blog/2025/11/09/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/">Synthesis Coding</a>, I’ve received a recurring question: “How does this differ from vibe coding?”</p>
+<p>It’s the right question. Both approaches involve working with AI to create software. Both can be remarkably productive. Both have passionate practitioners. The distinction matters because understanding it helps you choose the right approach for what you’re building.</p>
+<p>This isn’t a competition. I use both.</p>
+<h2>What Vibe Coding Gets Right</h2>
+<p>When Andrej Karpathy described “fully giving in to the vibes” and forgetting the code exists, he articulated something that resonated with developers worldwide. There’s a reason vibe coding became a phenomenon.</p>
+<p>Vibe coding removes friction. Describe what you want, run the result, iterate through conversation. The mental overhead of scaffolding, boilerplate, and setup dissolves. You’re thinking about outcomes, not syntax.</p>
+<p>For certain contexts, this is what you want.</p>
+<p>I use vibe coding regularly. When I want to explore a new API, I’ll describe the integration I’m imagining and see what emerges. When I’m building a personal automation script that only I’ll use, I focus on the outcome, not the elegance of implementation. When I’m learning a new framework, seeing AI-generated examples helps me understand patterns faster than reading documentation alone.</p>
+<p>Last month I needed a quick script to reorganize some files on my desktop. Vibe coding: describe the goal, run it, adjust. Done in minutes. The code isn’t elegant. It doesn’t need to be. It works, and I’ll probably never look at it again.</p>
+<p>Vibe coding excels for:</p>
+<ul>
+<li><strong>Rapid prototyping</strong> when you’re exploring ideas without production constraints</li>
+<li><strong>Personal tools</strong> when you’re the only user and can tolerate occasional quirks</li>
+<li><strong>Learning</strong> when seeing AI-generated examples accelerates understanding</li>
+<li><strong>Quick experiments</strong> when you’re testing a concept you might discard tomorrow</li>
+<li><strong>Non-technical builders</strong> creating functional software that solves real problems</li>
+</ul>
+<p>These aren’t trivial use cases. They represent real value. The developer experience of vibe coding — that feeling of describing something and watching it materialize — is genuinely exciting.</p>
+<h2>What Synthesis Coding Addresses</h2>
+<p><a href="https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/">Synthesis Coding</a> emerged from observing what happens when software needs to be maintained, secured, extended by teams, and run in production for months or years.</p>
+<p>The requirements change. Not because vibe coding failed, but because the context is fundamentally different.</p>
+<p>Production systems need architectural coherence that spans many conversations over many months. Security must be systematic, not incidental. Multiple engineers need to understand and modify the code. When something breaks at 2 AM, someone needs to debug it.</p>
+<p><a href="https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/">The Synthesis Coding framework</a> addresses these needs through four principles:</p>
+<p><strong>Human architectural authority</strong> — I choose the technology stack, define system boundaries, establish security patterns, and make integration decisions. AI implements within those constraints. The architecture reflects intentional human choices that persist across AI sessions.</p>
+<p><strong>Systematic quality standards</strong> — The same rigor applies to AI-generated code as human-written code. Code review, comprehensive testing, security analysis, performance validation. AI helps achieve these standards more thoroughly, but the standards themselves don’t relax.</p>
+<p><strong>Active system understanding</strong> — Engineers must understand what AI generates. If I can’t debug this code when it fails in production, I either need to understand it better or it needs to be simpler.</p>
+<p><strong>Iterative context building</strong> — AI gets more effective as context accumulates. Architectural decisions documented, patterns established, conventions clarified. Each session builds on the previous.</p>
+<p>When I <a href="https://rajiv.com/blog/2025/11/29/seventeen-years-ago-i-built-a-tool-for-the-open-web-this-weekend-i-modernized-it-using-synthesis-coding-with-claude-code-ai/">modernized my 17-year-old WordPress plugin</a> using Synthesis Coding, these principles mattered. The plugin serves thousands of sites. Security gaps that wouldn’t matter in a personal script could expose those sites to vulnerabilities. PHP 8 compatibility needed systematic verification. WordPress coding standards needed to be followed for the plugin to be accepted in the WordPress.org repository.</p>
+<h2>Same Developer, Different Contexts</h2>
+<p>Here’s what I want to emphasize: the choice isn’t about which approach is superior. It’s about matching approach to context.</p>
+<table>
+<thead>
+<tr>
+<th>Context</th>
+<th>Approach</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Weekend experiment</td>
+<td>Vibe coding</td>
+<td>Speed matters, permanence doesn’t</td>
+</tr>
+<tr>
+<td>Production API</td>
+<td>Synthesis Coding</td>
+<td>Maintainability, security, team comprehension matter</td>
+</tr>
+<tr>
+<td>Learning a new framework</td>
+<td>Vibe coding</td>
+<td>Exploration and quick feedback loops help</td>
+</tr>
+<tr>
+<td>Legacy system modernization</td>
+<td>Synthesis Coding</td>
+<td>Architectural control and quality validation essential</td>
+</tr>
+<tr>
+<td>Personal automation script</td>
+<td>Vibe coding</td>
+<td>Only I use it, only I need to understand it</td>
+</tr>
+<tr>
+<td>Multi-repository platform</td>
+<td>Synthesis Coding</td>
+<td>Cross-system coherence requires explicit architecture</td>
+</tr>
+<tr>
+<td>Prototype for stakeholder demo</td>
+<td>Vibe coding</td>
+<td>Demonstrating possibility, not building for production</td>
+</tr>
+<tr>
+<td>Enterprise application</td>
+<td>Synthesis Coding</td>
+<td>Team collaboration, compliance, long-term maintenance</td>
+</tr>
+</tbody></table>
+<p>The same developer — using the same AI tools — might work in both modes on the same day.</p>
+<h2>The Spectrum Between Them</h2>
+<p>These aren’t binary categories. They’re regions on a spectrum.</p>
+<p>At one end: pure vibe coding. Describe what you want, accept what emerges, iterate through natural language. Minimal planning, minimal review, maximum speed.</p>
+<p>At the other end: full Synthesis Coding with comprehensive <a href="https://rajiv.com/blog/2025/11/09/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/">technical workflows</a>, architectural decision records, systematic security audits, and coordinated <a href="https://rajiv.com/blog/2025/11/30/polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code/">multi-repository development</a>.</p>
+<p>Between them: various blends. A weekend project that starts as vibe coding might adopt Synthesis Coding patterns if it evolves into something you want to maintain. A production system might have components where vibe-style exploration is appropriate during early design, transitioning to Synthesis Coding rigor as implementation solidifies.</p>
+<p>The skill is recognizing where on the spectrum your current work belongs — and being willing to move along that spectrum as context changes.</p>
+<h2>When Vibe Coding Evolves</h2>
+<p>Sometimes a vibe-coded project succeeds so well that it needs to become production software. This is a good problem to have.</p>
+<p>The transition is more about adding discipline than abandoning what worked. The prototype showed the concept has value. Now you need architectural decisions, quality validation, and maintainability.</p>
+<p>I’ve seen teams handle this transition well by:</p>
+<ol>
+<li>Keeping the prototype as reference — it captured the original vision</li>
+<li>Making explicit architectural decisions about what the production version should look like</li>
+<li>Implementing the production version using Synthesis Coding principles</li>
+<li>Validating that the production version delivers the same value the prototype demonstrated</li>
+</ol>
+<p>The prototype didn’t fail. It succeeded at being a prototype. The production system has different requirements.</p>
+<h2>When Synthesis Coding Can Relax</h2>
+<p>In the other direction: sometimes a heavily-architected system has components where full rigor isn’t necessary.</p>
+<p>Internal tools used only by your team. Experimental features behind feature flags. Data processing scripts that run once and get discarded.</p>
+<p>Synthesis Coding isn’t about applying maximum process to everything. It’s about maintaining the discipline appropriate to what you’re building. When stakes are lower, process can be lighter.</p>
+<h2>The Shared Foundation</h2>
+<p>Both approaches share something important: they represent humans working with AI to create software.</p>
+<p>The questions both approaches ask:</p>
+<ul>
+<li>What am I trying to build?</li>
+<li>What does success look like?</li>
+<li>How do I communicate my intent to the AI effectively?</li>
+<li>How do I validate that what emerged matches what I need?</li>
+</ul>
+<p>Vibe coding answers these questions through rapid iteration and conversation. Synthesis Coding answers them through explicit architecture and systematic validation. Different mechanics, same fundamental collaboration.</p>
+<p>Engineers skilled in one approach can learn the other. The intuition about how to communicate effectively with AI, how to recognize when output needs refinement, how to iterate toward a goal — these transfer.</p>
+<h2>What This Means for Your Practice</h2>
+<p>If you’re primarily doing vibe coding today and wondering about Synthesis Coding:</p>
+<p>You don’t need to abandon what’s working. Vibe coding is excellent for what it’s designed for. When you have projects that need to be maintained long-term, extended by teams, or run in production with security requirements, explore how Synthesis Coding principles might apply.</p>
+<p>My series covers the framework in depth:</p>
+<ul>
+<li><a href="https://rajiv.com/blog/2025/11/09/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/">The emerging practice and why it matters</a></li>
+<li><a href="https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/">The organizational framework for building production software with AI</a></li>
+<li><a href="https://rajiv.com/blog/2025/11/09/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/">Technical implementation and workflows with Claude Code</a></li>
+<li><a href="https://rajiv.com/blog/2025/11/29/seventeen-years-ago-i-built-a-tool-for-the-open-web-this-weekend-i-modernized-it-using-synthesis-coding-with-claude-code-ai/">A case study in modernizing legacy software</a></li>
+<li><a href="https://rajiv.com/blog/2025/11/30/polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code/">Applying these principles across multiple repositories</a></li>
+</ul>
+<p>If you’re practicing Synthesis Coding and haven’t tried vibe coding:</p>
+<p>Give yourself permission to experiment. Not every interaction with AI needs full architectural rigor. When you’re exploring, learning, or building something personal and ephemeral, the liberation of vibe coding has real value. You might find it sparks ideas that later become production projects developed with Synthesis Coding discipline.</p>
+<h2>The Bigger Picture</h2>
+<p>AI-assisted development is still new. The practices that work are still being discovered, refined, and shared.</p>
+<p>Vibe coding captured something real about the excitement of working with AI — the feeling that software creation has become more accessible and more immediate. Synthesis Coding captures something real about what production software demands — the discipline that separates working prototypes from sustainable systems.</p>
+<p>Both contributions matter. Both approaches will continue evolving.</p>
+<p>The engineers and organizations that thrive will be those who develop fluency in both — knowing when to give in to the vibes and when to apply systematic rigor. Not choosing sides, but choosing wisely.</p>
+<h2>On Terminology and Usage</h2>
+<p>These terms – Synthesis Engineering, Synthesis Coding, and the accompanying visual identity – are offered to the community without restriction. They’re released under CC0 1.0 Universal (public domain) for anyone to use, modify, or build upon.</p>
+<p>I’ve documented these practices because teams needed vocabulary for what they were already doing. If these terms help your organization distinguish between exploratory prototyping and systematic production development, use them. If they help you hire, train, or structure your engineering practices, even better.</p>
+<p>No permission required. No attribution needed. Just use what works.</p>
+<hr>
+<h2>Related Articles in the Synthesis Coding Series</h2>
+<ol>
+<li><a href="https://rajiv.com/blog/2025/11/09/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/">Synthesis Coding: The Professional Practice Emerging in AI-Assisted Development</a></li>
+<li><a href="https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/">The Synthesis Coding Framework: How Organizations Build Production Software with AI</a></li>
+<li><a href="https://rajiv.com/blog/2025/11/09/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/">Synthesis Coding with Claude Code: Technical Implementation and Workflows</a></li>
+<li><a href="https://rajiv.com/blog/2025/11/29/seventeen-years-ago-i-built-a-tool-for-the-open-web-this-weekend-i-modernized-it-using-synthesis-coding-with-claude-code-ai/">Seventeen Years Ago, I Built a Tool for the Open Web. This Weekend, I Modernized It Using Synthesis Coding with Claude Code AI</a></li>
+<li><a href="https://rajiv.com/blog/2025/11/30/polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code/">Polyrepo Synthesis: Synthesis Coding Across Multiple Repositories with Claude Code in Visual Studio Code</a></li>
+</ol>
+<hr>
+<p><em>Rajiv Pant is President of <a href="https://www.flatiron.software/">Flatiron Software</a> and <a href="https://www.snapshot.reviews/">Snapshot AI</a>, where he leads organizational growth and AI innovation. He is former Chief Product &amp; Technology Officer at The Wall Street Journal, The New York Times, and Hearst Magazines. Earlier in his career, he headed technology for Condé Nast’s brands including Reddit. Rajiv has been working with AI in software engineering since the early days of natural language processing and was an early investor and advisor to AI search company <a href="https://you.com/">You.com</a>. He coined the terms “Synthesis Engineering” and “Synthesis Coding” to describe the systematic integration of human expertise with AI capabilities in professional software development. Connect with him on <a href="https://www.linkedin.com/in/rajivpant/">LinkedIn</a> or read more at <a href="https://rajiv.com/">rajiv.com</a>.</em></p>
+<p><a href="https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-1-e1764033418594.webp?ssl=1"><img src="https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-1-e1764033418594.webp?resize=800%2C400&ssl=1" alt=""></a></p>
+
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <p class="cc0">The terms "Synthesis Coding" and "Synthesis Engineering," along with the associated logo and visual identity, are released under <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0 Universal</a> (public domain).</p>
+        <p><a href="/">← Back to Synthesis Coding</a></p>
+    </footer>
+</body>
+</html>

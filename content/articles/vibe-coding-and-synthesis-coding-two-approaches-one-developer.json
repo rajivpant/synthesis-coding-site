@@ -1,0 +1,837 @@
+{
+  "_meta": {
+    "fetchedAt": "2025-12-06T03:21:47.330Z",
+    "ownwordsVersion": "1.2.0",
+    "sourceUrl": "https://rajiv.com/blog/2025/04/12/vibe-coding-and-synthesis-coding-two-approaches-one-developer/"
+  },
+  "raw": {
+    "id": 6760,
+    "date": "2025-12-01T21:57:49",
+    "date_gmt": "2025-12-02T02:57:49",
+    "guid": {
+      "rendered": "https://rajiv.com/?p=6760"
+    },
+    "modified": "2025-12-01T21:58:30",
+    "modified_gmt": "2025-12-02T02:58:30",
+    "slug": "vibe-coding-and-synthesis-coding-two-approaches-one-developer",
+    "status": "publish",
+    "type": "post",
+    "link": "https://rajiv.com/blog/2025/12/01/vibe-coding-and-synthesis-coding-two-approaches-one-developer/",
+    "title": {
+      "rendered": "Vibe Coding and Synthesis Coding: Two Complementary Approaches"
+    },
+    "content": {
+      "rendered": "\n<p><em>Why the conversation isn&#8217;t about which approach is better — it&#8217;s about knowing when to use each</em></p>\n\n\n\n<p>This blog post is for software engineers, engineering leaders, and anyone interested in AI-assisted development.</p>\n\n\n\n<p>Since publishing my series on <a href=\"https://rajiv.com/blog/2025/11/09/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/\">Synthesis Coding</a>, I&#8217;ve received a recurring question: &#8220;How does this differ from vibe coding?&#8221;</p>\n\n\n\n<p>It&#8217;s the right question. Both approaches involve working with AI to create software. Both can be remarkably productive. Both have passionate practitioners. The distinction matters because understanding it helps you choose the right approach for what you&#8217;re building.</p>\n\n\n\n<p>This isn&#8217;t a competition. I use both.</p>\n\n\n\n<h2 class=\"wp-block-heading\">What Vibe Coding Gets Right</h2>\n\n\n\n<p>When Andrej Karpathy described &#8220;fully giving in to the vibes&#8221; and forgetting the code exists, he articulated something that resonated with developers worldwide. There&#8217;s a reason vibe coding became a phenomenon.</p>\n\n\n\n<p>Vibe coding removes friction. Describe what you want, run the result, iterate through conversation. The mental overhead of scaffolding, boilerplate, and setup dissolves. You&#8217;re thinking about outcomes, not syntax.</p>\n\n\n\n<p>For certain contexts, this is what you want.</p>\n\n\n\n<p>I use vibe coding regularly. When I want to explore a new API, I&#8217;ll describe the integration I&#8217;m imagining and see what emerges. When I&#8217;m building a personal automation script that only I&#8217;ll use, I focus on the outcome, not the elegance of implementation. When I&#8217;m learning a new framework, seeing AI-generated examples helps me understand patterns faster than reading documentation alone.</p>\n\n\n\n<p>Last month I needed a quick script to reorganize some files on my desktop. Vibe coding: describe the goal, run it, adjust. Done in minutes. The code isn&#8217;t elegant. It doesn&#8217;t need to be. It works, and I&#8217;ll probably never look at it again.</p>\n\n\n\n<p>Vibe coding excels for:</p>\n\n\n\n<ul class=\"wp-block-list\">\n<li><strong>Rapid prototyping</strong> when you&#8217;re exploring ideas without production constraints</li>\n\n\n\n<li><strong>Personal tools</strong> when you&#8217;re the only user and can tolerate occasional quirks</li>\n\n\n\n<li><strong>Learning</strong> when seeing AI-generated examples accelerates understanding</li>\n\n\n\n<li><strong>Quick experiments</strong> when you&#8217;re testing a concept you might discard tomorrow</li>\n\n\n\n<li><strong>Non-technical builders</strong> creating functional software that solves real problems</li>\n</ul>\n\n\n\n<p>These aren&#8217;t trivial use cases. They represent real value. The developer experience of vibe coding — that feeling of describing something and watching it materialize — is genuinely exciting.</p>\n\n\n\n<h2 class=\"wp-block-heading\">What Synthesis Coding Addresses</h2>\n\n\n\n<p><a href=\"https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/\">Synthesis Coding</a> emerged from observing what happens when software needs to be maintained, secured, extended by teams, and run in production for months or years.</p>\n\n\n\n<p>The requirements change. Not because vibe coding failed, but because the context is fundamentally different.</p>\n\n\n\n<p>Production systems need architectural coherence that spans many conversations over many months. Security must be systematic, not incidental. Multiple engineers need to understand and modify the code. When something breaks at 2 AM, someone needs to debug it.</p>\n\n\n\n<p><a href=\"https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/\">The Synthesis Coding framework</a> addresses these needs through four principles:</p>\n\n\n\n<p><strong>Human architectural authority</strong> — I choose the technology stack, define system boundaries, establish security patterns, and make integration decisions. AI implements within those constraints. The architecture reflects intentional human choices that persist across AI sessions.</p>\n\n\n\n<p><strong>Systematic quality standards</strong> — The same rigor applies to AI-generated code as human-written code. Code review, comprehensive testing, security analysis, performance validation. AI helps achieve these standards more thoroughly, but the standards themselves don&#8217;t relax.</p>\n\n\n\n<p><strong>Active system understanding</strong> — Engineers must understand what AI generates. If I can&#8217;t debug this code when it fails in production, I either need to understand it better or it needs to be simpler.</p>\n\n\n\n<p><strong>Iterative context building</strong> — AI gets more effective as context accumulates. Architectural decisions documented, patterns established, conventions clarified. Each session builds on the previous.</p>\n\n\n\n<p>When I <a href=\"https://rajiv.com/blog/2025/11/29/seventeen-years-ago-i-built-a-tool-for-the-open-web-this-weekend-i-modernized-it-using-synthesis-coding-with-claude-code-ai/\">modernized my 17-year-old WordPress plugin</a> using Synthesis Coding, these principles mattered. The plugin serves thousands of sites. Security gaps that wouldn&#8217;t matter in a personal script could expose those sites to vulnerabilities. PHP 8 compatibility needed systematic verification. WordPress coding standards needed to be followed for the plugin to be accepted in the WordPress.org repository.</p>\n\n\n\n<h2 class=\"wp-block-heading\">Same Developer, Different Contexts</h2>\n\n\n\n<p>Here&#8217;s what I want to emphasize: the choice isn&#8217;t about which approach is superior. It&#8217;s about matching approach to context.</p>\n\n\n\n<figure class=\"wp-block-table\"><table class=\"has-fixed-layout\"><thead><tr><th>Context</th><th>Approach</th><th>Why</th></tr></thead><tbody><tr><td>Weekend experiment</td><td>Vibe coding</td><td>Speed matters, permanence doesn&#8217;t</td></tr><tr><td>Production API</td><td>Synthesis Coding</td><td>Maintainability, security, team comprehension matter</td></tr><tr><td>Learning a new framework</td><td>Vibe coding</td><td>Exploration and quick feedback loops help</td></tr><tr><td>Legacy system modernization</td><td>Synthesis Coding</td><td>Architectural control and quality validation essential</td></tr><tr><td>Personal automation script</td><td>Vibe coding</td><td>Only I use it, only I need to understand it</td></tr><tr><td>Multi-repository platform</td><td>Synthesis Coding</td><td>Cross-system coherence requires explicit architecture</td></tr><tr><td>Prototype for stakeholder demo</td><td>Vibe coding</td><td>Demonstrating possibility, not building for production</td></tr><tr><td>Enterprise application</td><td>Synthesis Coding</td><td>Team collaboration, compliance, long-term maintenance</td></tr></tbody></table></figure>\n\n\n\n<p>The same developer — using the same AI tools — might work in both modes on the same day.</p>\n\n\n\n<h2 class=\"wp-block-heading\">The Spectrum Between Them</h2>\n\n\n\n<p>These aren&#8217;t binary categories. They&#8217;re regions on a spectrum.</p>\n\n\n\n<p>At one end: pure vibe coding. Describe what you want, accept what emerges, iterate through natural language. Minimal planning, minimal review, maximum speed.</p>\n\n\n\n<p>At the other end: full Synthesis Coding with comprehensive <a href=\"https://rajiv.com/blog/2025/11/09/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/\">technical workflows</a>, architectural decision records, systematic security audits, and coordinated <a href=\"https://rajiv.com/blog/2025/11/30/polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code/\">multi-repository development</a>.</p>\n\n\n\n<p>Between them: various blends. A weekend project that starts as vibe coding might adopt Synthesis Coding patterns if it evolves into something you want to maintain. A production system might have components where vibe-style exploration is appropriate during early design, transitioning to Synthesis Coding rigor as implementation solidifies.</p>\n\n\n\n<p>The skill is recognizing where on the spectrum your current work belongs — and being willing to move along that spectrum as context changes.</p>\n\n\n\n<h2 class=\"wp-block-heading\">When Vibe Coding Evolves</h2>\n\n\n\n<p>Sometimes a vibe-coded project succeeds so well that it needs to become production software. This is a good problem to have.</p>\n\n\n\n<p>The transition is more about adding discipline than abandoning what worked. The prototype showed the concept has value. Now you need architectural decisions, quality validation, and maintainability.</p>\n\n\n\n<p>I&#8217;ve seen teams handle this transition well by:</p>\n\n\n\n<ol class=\"wp-block-list\">\n<li>Keeping the prototype as reference — it captured the original vision</li>\n\n\n\n<li>Making explicit architectural decisions about what the production version should look like</li>\n\n\n\n<li>Implementing the production version using Synthesis Coding principles</li>\n\n\n\n<li>Validating that the production version delivers the same value the prototype demonstrated</li>\n</ol>\n\n\n\n<p>The prototype didn&#8217;t fail. It succeeded at being a prototype. The production system has different requirements.</p>\n\n\n\n<h2 class=\"wp-block-heading\">When Synthesis Coding Can Relax</h2>\n\n\n\n<p>In the other direction: sometimes a heavily-architected system has components where full rigor isn&#8217;t necessary.</p>\n\n\n\n<p>Internal tools used only by your team. Experimental features behind feature flags. Data processing scripts that run once and get discarded.</p>\n\n\n\n<p>Synthesis Coding isn&#8217;t about applying maximum process to everything. It&#8217;s about maintaining the discipline appropriate to what you&#8217;re building. When stakes are lower, process can be lighter.</p>\n\n\n\n<h2 class=\"wp-block-heading\">The Shared Foundation</h2>\n\n\n\n<p>Both approaches share something important: they represent humans working with AI to create software.</p>\n\n\n\n<p>The questions both approaches ask:</p>\n\n\n\n<ul class=\"wp-block-list\">\n<li>What am I trying to build?</li>\n\n\n\n<li>What does success look like?</li>\n\n\n\n<li>How do I communicate my intent to the AI effectively?</li>\n\n\n\n<li>How do I validate that what emerged matches what I need?</li>\n</ul>\n\n\n\n<p>Vibe coding answers these questions through rapid iteration and conversation. Synthesis Coding answers them through explicit architecture and systematic validation. Different mechanics, same fundamental collaboration.</p>\n\n\n\n<p>Engineers skilled in one approach can learn the other. The intuition about how to communicate effectively with AI, how to recognize when output needs refinement, how to iterate toward a goal — these transfer.</p>\n\n\n\n<h2 class=\"wp-block-heading\">What This Means for Your Practice</h2>\n\n\n\n<p>If you&#8217;re primarily doing vibe coding today and wondering about Synthesis Coding:</p>\n\n\n\n<p>You don&#8217;t need to abandon what&#8217;s working. Vibe coding is excellent for what it&#8217;s designed for. When you have projects that need to be maintained long-term, extended by teams, or run in production with security requirements, explore how Synthesis Coding principles might apply.</p>\n\n\n\n<p>My series covers the framework in depth:</p>\n\n\n\n<ul class=\"wp-block-list\">\n<li><a href=\"https://rajiv.com/blog/2025/11/09/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/\">The emerging practice and why it matters</a></li>\n\n\n\n<li><a href=\"https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/\">The organizational framework for building production software with AI</a></li>\n\n\n\n<li><a href=\"https://rajiv.com/blog/2025/11/09/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/\">Technical implementation and workflows with Claude Code</a></li>\n\n\n\n<li><a href=\"https://rajiv.com/blog/2025/11/29/seventeen-years-ago-i-built-a-tool-for-the-open-web-this-weekend-i-modernized-it-using-synthesis-coding-with-claude-code-ai/\">A case study in modernizing legacy software</a></li>\n\n\n\n<li><a href=\"https://rajiv.com/blog/2025/11/30/polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code/\">Applying these principles across multiple repositories</a></li>\n</ul>\n\n\n\n<p>If you&#8217;re practicing Synthesis Coding and haven&#8217;t tried vibe coding:</p>\n\n\n\n<p>Give yourself permission to experiment. Not every interaction with AI needs full architectural rigor. When you&#8217;re exploring, learning, or building something personal and ephemeral, the liberation of vibe coding has real value. You might find it sparks ideas that later become production projects developed with Synthesis Coding discipline.</p>\n\n\n\n<h2 class=\"wp-block-heading\">The Bigger Picture</h2>\n\n\n\n<p>AI-assisted development is still new. The practices that work are still being discovered, refined, and shared.</p>\n\n\n\n<p>Vibe coding captured something real about the excitement of working with AI — the feeling that software creation has become more accessible and more immediate. Synthesis Coding captures something real about what production software demands — the discipline that separates working prototypes from sustainable systems.</p>\n\n\n\n<p>Both contributions matter. Both approaches will continue evolving.</p>\n\n\n\n<p>The engineers and organizations that thrive will be those who develop fluency in both — knowing when to give in to the vibes and when to apply systematic rigor. Not choosing sides, but choosing wisely.</p>\n\n\n\n<h2 class=\"wp-block-heading\">On Terminology and Usage</h2>\n\n\n\n<p>These terms &#8211; Synthesis Engineering, Synthesis Coding, and the accompanying visual identity &#8211; are offered to the community without restriction. They&#8217;re released under CC0 1.0 Universal (public domain) for anyone to use, modify, or build upon.</p>\n\n\n\n<p>I&#8217;ve documented these practices because teams needed vocabulary for what they were already doing. If these terms help your organization distinguish between exploratory prototyping and systematic production development, use them. If they help you hire, train, or structure your engineering practices, even better.</p>\n\n\n\n<p>No permission required. No attribution needed. Just use what works.</p>\n\n\n\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n\n\n\n<h2 class=\"wp-block-heading\">Related Articles in the Synthesis Coding Series</h2>\n\n\n\n<ol class=\"wp-block-list\">\n<li><a href=\"https://rajiv.com/blog/2025/11/09/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/\">Synthesis Coding: The Professional Practice Emerging in AI-Assisted Development</a></li>\n\n\n\n<li><a href=\"https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/\">The Synthesis Coding Framework: How Organizations Build Production Software with AI</a></li>\n\n\n\n<li><a href=\"https://rajiv.com/blog/2025/11/09/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/\">Synthesis Coding with Claude Code: Technical Implementation and Workflows</a></li>\n\n\n\n<li><a href=\"https://rajiv.com/blog/2025/11/29/seventeen-years-ago-i-built-a-tool-for-the-open-web-this-weekend-i-modernized-it-using-synthesis-coding-with-claude-code-ai/\">Seventeen Years Ago, I Built a Tool for the Open Web. This Weekend, I Modernized It Using Synthesis Coding with Claude Code AI</a></li>\n\n\n\n<li><a href=\"https://rajiv.com/blog/2025/11/30/polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code/\">Polyrepo Synthesis: Synthesis Coding Across Multiple Repositories with Claude Code in Visual Studio Code</a></li>\n</ol>\n\n\n\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n\n\n\n<p><em>Rajiv Pant is President of <a href=\"https://www.flatiron.software/\">Flatiron Software</a> and <a href=\"https://www.snapshot.reviews/\">Snapshot AI</a>, where he leads organizational growth and AI innovation. He is former Chief Product &amp; Technology Officer at The Wall Street Journal, The New York Times, and Hearst Magazines. Earlier in his career, he headed technology for Condé Nast&#8217;s brands including Reddit. Rajiv has been working with AI in software engineering since the early days of natural language processing and was an early investor and advisor to AI search company <a href=\"https://you.com/\">You.com</a>. He coined the terms &#8220;Synthesis Engineering&#8221; and &#8220;Synthesis Coding&#8221; to describe the systematic integration of human expertise with AI capabilities in professional software development. Connect with him on <a href=\"https://www.linkedin.com/in/rajivpant/\">LinkedIn</a> or read more at <a href=\"https://rajiv.com/\">rajiv.com</a>.</em></p>\n\n\n\n<figure class=\"wp-block-image size-full\"><a href=\"https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-1-e1764033418594.webp?ssl=1\"><img data-recalc-dims=\"1\" loading=\"lazy\" decoding=\"async\" width=\"800\" height=\"400\" data-attachment-id=\"6703\" data-permalink=\"https://rajiv.com/blog/2025/11/09/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/synthesis-engineering-logo-1/\" data-orig-file=\"https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-1-e1764033418594.webp?fit=800%2C400&amp;ssl=1\" data-orig-size=\"800,400\" data-comments-opened=\"1\" data-image-meta=\"{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}\" data-image-title=\"Synthesis-Engineering-Logo-1\" data-image-description=\"\" data-image-caption=\"\" data-medium-file=\"https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-1-e1764033418594.webp?fit=300%2C150&amp;ssl=1\" data-large-file=\"https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-1-e1764033418594.webp?fit=800%2C400&amp;ssl=1\" src=\"https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-1-e1764033418594.webp?resize=800%2C400&#038;ssl=1\" alt=\"\" class=\"wp-image-6703\" srcset=\"https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-1-e1764033418594.webp?w=800&amp;ssl=1 800w, https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-1-e1764033418594.webp?resize=300%2C150&amp;ssl=1 300w, https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-1-e1764033418594.webp?resize=768%2C384&amp;ssl=1 768w\" sizes=\"auto, (max-width: 800px) 100vw, 800px\" /></a></figure>\n",
+      "protected": false
+    },
+    "excerpt": {
+      "rendered": "<p>Why the conversation isn&#8217;t about which approach is better — it&#8217;s about knowing when to use each This blog post is for software engineers, engineering leaders, and anyone interested in AI-assisted development. Since publishing my series on Synthesis Coding, I&#8217;ve received a recurring question: &#8220;How does this differ from vibe coding?&#8221; It&#8217;s the right question. [&hellip;]</p>\n",
+      "protected": false
+    },
+    "author": 918046,
+    "featured_media": 6704,
+    "comment_status": "open",
+    "ping_status": "open",
+    "sticky": false,
+    "template": "",
+    "format": "standard",
+    "meta": {
+      "advanced_seo_description": "",
+      "jetpack_seo_html_title": "",
+      "jetpack_seo_noindex": false,
+      "jetpack_post_was_ever_published": false,
+      "_jetpack_newsletter_access": "",
+      "_jetpack_dont_email_post_to_subs": false,
+      "_jetpack_newsletter_tier_id": 0,
+      "_jetpack_memberships_contains_paywalled_content": false,
+      "_jetpack_memberships_contains_paid_content": false,
+      "footnotes": ""
+    },
+    "categories": [
+      6
+    ],
+    "tags": [
+      12374,
+      276453,
+      485374580,
+      11176,
+      727048346
+    ],
+    "class_list": [
+      "post-6760",
+      "post",
+      "type-post",
+      "status-publish",
+      "format-standard",
+      "has-post-thumbnail",
+      "hentry",
+      "category-technology",
+      "tag-artificial-intelligence",
+      "tag-cto",
+      "tag-ctobook",
+      "tag-software-engineering",
+      "tag-technology"
+    ],
+    "jetpack_featured_media_url": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1",
+    "jetpack_sharing_enabled": true,
+    "jetpack_shortlink": "https://wp.me/p3HWs-1L2",
+    "jetpack-related-posts": [
+      {
+        "id": 6667,
+        "url": "https://rajiv.com/blog/2025/11/09/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/",
+        "url_meta": {
+          "origin": 6760,
+          "position": 0
+        },
+        "title": "Synthesis Coding: The Professional Practice Emerging in AI-Assisted Development (Synthesis Engineering)",
+        "author": "Rajiv Pant",
+        "date": "November 9, 2025",
+        "format": false,
+        "excerpt": "Why the most effective engineering organizations are developing systematic approaches that go beyond vibe coding — and why this practice needs a name This blog post is for CTOs, Engineering Leaders, Technical Executives. I've also written it be accessible to non-technical readers. I've had the same conversation with CTOs at…",
+        "rel": "",
+        "context": "In &quot;Technology&quot;",
+        "block_context": {
+          "text": "Technology",
+          "link": "https://rajiv.com/blog/category/technology/"
+        },
+        "img": {
+          "alt_text": "",
+          "src": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=350%2C200",
+          "width": 350,
+          "height": 200,
+          "srcset": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=350%2C200 1x, https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=525%2C300 1.5x, https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=700%2C400 2x"
+        },
+        "classes": []
+      },
+      {
+        "id": 6670,
+        "url": "https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/",
+        "url_meta": {
+          "origin": 6760,
+          "position": 1
+        },
+        "title": "The Synthesis Coding Framework: How Organizations Build Production Software with AI (Synthesis Engineering)",
+        "author": "Rajiv Pant",
+        "date": "November 9, 2025",
+        "format": false,
+        "excerpt": "From individual practice to organizational capability: a systematic approach to human-AI collaboration in professional software development This blog post is for Engineering Leaders, CTOs, and Product Managers. In my previous article, I introduced Synthesis Coding (a.k.a. Synthesis Engineering) — the systematic integration of human expertise with AI capabilities that I've…",
+        "rel": "",
+        "context": "In &quot;Technology&quot;",
+        "block_context": {
+          "text": "Technology",
+          "link": "https://rajiv.com/blog/category/technology/"
+        },
+        "img": {
+          "alt_text": "",
+          "src": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=350%2C200",
+          "width": 350,
+          "height": 200,
+          "srcset": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=350%2C200 1x, https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=525%2C300 1.5x, https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=700%2C400 2x"
+        },
+        "classes": []
+      },
+      {
+        "id": 6724,
+        "url": "https://rajiv.com/blog/2025/11/29/seventeen-years-ago-i-built-a-tool-for-the-open-web-this-weekend-i-modernized-it-using-synthesis-coding-with-claude-code-ai/",
+        "url_meta": {
+          "origin": 6760,
+          "position": 2
+        },
+        "title": "Seventeen years ago, I built a tool for the open Web. This weekend, I modernized it using Synthesis Coding with Claude Code AI",
+        "author": "Rajiv Pant",
+        "date": "November 29, 2025",
+        "format": false,
+        "excerpt": "In 2008, I released a WordPress plugin called Blogroll Links. The plugin displayed lists of links on WordPress pages using a shortcode. But the idea behind it was more ambitious than the implementation might suggest. I built Blogroll Links because I believed people should control their own online presence. At the…",
+        "rel": "",
+        "context": "In &quot;Technology&quot;",
+        "block_context": {
+          "text": "Technology",
+          "link": "https://rajiv.com/blog/category/technology/"
+        },
+        "img": {
+          "alt_text": "",
+          "src": "",
+          "width": 0,
+          "height": 0
+        },
+        "classes": []
+      },
+      {
+        "id": 6788,
+        "url": "https://rajiv.com/blog/2025/12/04/why-synthesis-coding-still-writes-code-in-the-age-of-llms/",
+        "url_meta": {
+          "origin": 6760,
+          "position": 3
+        },
+        "title": "Why Synthesis Coding Still Writes Code in the Age of LLMs",
+        "author": "Rajiv Pant",
+        "date": "December 4, 2025",
+        "format": false,
+        "excerpt": "The answer is not \"just let the model do it\" — and code matters more, not less, as AI gets dramatically better Last spring, my son Fitz and I had an afternoon math duel. He was twelve at the time. Sharp. Competitive. He took on the puzzle the traditional way…",
+        "rel": "",
+        "context": "In &quot;Technology&quot;",
+        "block_context": {
+          "text": "Technology",
+          "link": "https://rajiv.com/blog/category/technology/"
+        },
+        "img": {
+          "alt_text": "",
+          "src": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=350%2C200",
+          "width": 350,
+          "height": 200,
+          "srcset": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=350%2C200 1x, https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=525%2C300 1.5x, https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=700%2C400 2x"
+        },
+        "classes": []
+      },
+      {
+        "id": 6673,
+        "url": "https://rajiv.com/blog/2025/11/09/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/",
+        "url_meta": {
+          "origin": 6760,
+          "position": 4
+        },
+        "title": "Synthesis Coding with Claude Code: Technical Implementation and Workflows (Synthesis Engineering)",
+        "author": "Rajiv Pant",
+        "date": "November 9, 2025",
+        "format": false,
+        "excerpt": "A hands-on guide to practicing Synthesis Coding (a.k.a. Synthesis Engineering) with concrete examples, real workflows, and lessons from production systems I wrote this blog post for Software Engineers, Architects, and Technical Leads. This one is code-heavy and implementation-focused. In the first two articles of this series, I introduced Synthesis Engineering…",
+        "rel": "",
+        "context": "In &quot;Technology&quot;",
+        "block_context": {
+          "text": "Technology",
+          "link": "https://rajiv.com/blog/category/technology/"
+        },
+        "img": {
+          "alt_text": "",
+          "src": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=350%2C200",
+          "width": 350,
+          "height": 200,
+          "srcset": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=350%2C200 1x, https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=525%2C300 1.5x, https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=700%2C400 2x"
+        },
+        "classes": []
+      },
+      {
+        "id": 6730,
+        "url": "https://rajiv.com/blog/2025/11/30/polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code/",
+        "url_meta": {
+          "origin": 6760,
+          "position": 5
+        },
+        "title": "Polyrepo Synthesis: Synthesis Coding Across Multiple Repositories with Claude Code in Visual Studio Code",
+        "author": "Rajiv Pant",
+        "date": "November 30, 2025",
+        "format": false,
+        "excerpt": "I wrote this blog post for Software Engineers, Architects, and Technical Leads. It is code-heavy and implementation-focused. This weekend I was working across three repositories simultaneously in Visual Studio Code. I worked on RagBot — a multi-LLM chatbot that lets you switch between OpenAI, Anthropic, Google, and other providers while maintaining conversation…",
+        "rel": "",
+        "context": "In &quot;Technology&quot;",
+        "block_context": {
+          "text": "Technology",
+          "link": "https://rajiv.com/blog/category/technology/"
+        },
+        "img": {
+          "alt_text": "",
+          "src": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=350%2C200",
+          "width": 350,
+          "height": 200,
+          "srcset": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=350%2C200 1x, https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=525%2C300 1.5x, https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1&resize=700%2C400 2x"
+        },
+        "classes": []
+      }
+    ],
+    "jetpack_likes_enabled": true,
+    "_links": {
+      "self": [
+        {
+          "href": "https://rajiv.com/wp-json/wp/v2/posts/6760",
+          "targetHints": {
+            "allow": [
+              "GET",
+              "POST",
+              "PUT",
+              "PATCH",
+              "DELETE"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://rajiv.com/wp-json/wp/v2/posts"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://rajiv.com/wp-json/wp/v2/types/post"
+        }
+      ],
+      "author": [
+        {
+          "embeddable": true,
+          "href": "https://rajiv.com/wp-json/wp/v2/users/918046"
+        }
+      ],
+      "replies": [
+        {
+          "embeddable": true,
+          "href": "https://rajiv.com/wp-json/wp/v2/comments?post=6760"
+        }
+      ],
+      "version-history": [
+        {
+          "count": 6,
+          "href": "https://rajiv.com/wp-json/wp/v2/posts/6760/revisions"
+        }
+      ],
+      "predecessor-version": [
+        {
+          "id": 6768,
+          "href": "https://rajiv.com/wp-json/wp/v2/posts/6760/revisions/6768"
+        }
+      ],
+      "wp:featuredmedia": [
+        {
+          "embeddable": true,
+          "href": "https://rajiv.com/wp-json/wp/v2/media/6704"
+        }
+      ],
+      "wp:attachment": [
+        {
+          "href": "https://rajiv.com/wp-json/wp/v2/media?parent=6760"
+        }
+      ],
+      "wp:term": [
+        {
+          "taxonomy": "category",
+          "embeddable": true,
+          "href": "https://rajiv.com/wp-json/wp/v2/categories?post=6760"
+        },
+        {
+          "taxonomy": "post_tag",
+          "embeddable": true,
+          "href": "https://rajiv.com/wp-json/wp/v2/tags?post=6760"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    },
+    "_embedded": {
+      "author": [
+        {
+          "id": 918046,
+          "name": "Rajiv Pant",
+          "url": "https://rajiv.com/",
+          "description": "Rajiv Pant   राजीव पंत   潘睿哲\n\"Victory is winning people over, not defeating others.\"\nhttps://rajiv.com/",
+          "link": "https://rajiv.com/blog/author/rajivpant/",
+          "slug": "rajivpant",
+          "_links": {
+            "self": [
+              {
+                "href": "https://rajiv.com/wp-json/wp/v2/users/918046",
+                "targetHints": {
+                  "allow": [
+                    "GET",
+                    "POST",
+                    "PUT",
+                    "PATCH",
+                    "DELETE"
+                  ]
+                }
+              }
+            ],
+            "collection": [
+              {
+                "href": "https://rajiv.com/wp-json/wp/v2/users"
+              }
+            ]
+          }
+        }
+      ],
+      "wp:featuredmedia": [
+        {
+          "id": 6704,
+          "date": "2025-11-24T20:10:13",
+          "slug": "synthesis-engineering-logo-2",
+          "type": "attachment",
+          "link": "https://rajiv.com/blog/2025/11/09/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/synthesis-engineering-logo-2/",
+          "title": {
+            "rendered": "Synthesis-Engineering-Logo-2"
+          },
+          "author": 918046,
+          "featured_media": 0,
+          "jetpack_sharing_enabled": true,
+          "jetpack_shortlink": "https://wp.me/a3HWs-1K8",
+          "jetpack_likes_enabled": true,
+          "caption": {
+            "rendered": ""
+          },
+          "alt_text": "",
+          "media_type": "image",
+          "mime_type": "image/webp",
+          "media_details": {
+            "width": 800,
+            "height": 400,
+            "file": "2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp",
+            "filesize": 10676,
+            "sizes": {
+              "medium": {
+                "file": "Synthesis-Engineering-Logo-2-e1764033363626-300x150.webp",
+                "width": 300,
+                "height": 150,
+                "virtual": true,
+                "mime_type": "image/webp",
+                "source_url": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=300%2C150&ssl=1"
+              },
+              "thumbnail": {
+                "file": "Synthesis-Engineering-Logo-2-e1764033363626-150x150.webp",
+                "width": 150,
+                "height": 150,
+                "virtual": true,
+                "mime_type": "image/webp",
+                "source_url": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?resize=150%2C150&ssl=1"
+              },
+              "medium_large": {
+                "file": "Synthesis-Engineering-Logo-2-e1764033363626-768x384.webp",
+                "width": 768,
+                "height": 384,
+                "virtual": true,
+                "mime_type": "image/webp",
+                "source_url": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=768%2C384&ssl=1"
+              },
+              "full": {
+                "file": "Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1",
+                "width": 800,
+                "height": 400,
+                "mime_type": "image/webp",
+                "source_url": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1"
+              }
+            },
+            "image_meta": {
+              "aperture": "0",
+              "credit": "",
+              "camera": "",
+              "caption": "",
+              "created_timestamp": "0",
+              "copyright": "",
+              "focal_length": "0",
+              "iso": "0",
+              "shutter_speed": "0",
+              "title": "",
+              "orientation": "0",
+              "keywords": []
+            }
+          },
+          "source_url": "https://rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp",
+          "_links": {
+            "self": [
+              {
+                "href": "https://rajiv.com/wp-json/wp/v2/media/6704",
+                "targetHints": {
+                  "allow": [
+                    "GET",
+                    "POST",
+                    "PUT",
+                    "PATCH",
+                    "DELETE"
+                  ]
+                }
+              }
+            ],
+            "collection": [
+              {
+                "href": "https://rajiv.com/wp-json/wp/v2/media"
+              }
+            ],
+            "about": [
+              {
+                "href": "https://rajiv.com/wp-json/wp/v2/types/attachment"
+              }
+            ],
+            "author": [
+              {
+                "embeddable": true,
+                "href": "https://rajiv.com/wp-json/wp/v2/users/918046"
+              }
+            ],
+            "replies": [
+              {
+                "embeddable": true,
+                "href": "https://rajiv.com/wp-json/wp/v2/comments?post=6704"
+              }
+            ],
+            "wp:attached-to": [
+              {
+                "embeddable": true,
+                "post_type": "post",
+                "id": 6667,
+                "href": "https://rajiv.com/wp-json/wp/v2/posts/6667"
+              }
+            ],
+            "curies": [
+              {
+                "name": "wp",
+                "href": "https://api.w.org/{rel}",
+                "templated": true
+              }
+            ]
+          }
+        }
+      ],
+      "wp:term": [
+        [
+          {
+            "id": 6,
+            "link": "https://rajiv.com/blog/category/technology/",
+            "name": "Technology",
+            "slug": "technology",
+            "taxonomy": "category",
+            "_links": {
+              "self": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/categories/6",
+                  "targetHints": {
+                    "allow": [
+                      "GET",
+                      "POST",
+                      "PUT",
+                      "PATCH",
+                      "DELETE"
+                    ]
+                  }
+                }
+              ],
+              "collection": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/categories"
+                }
+              ],
+              "about": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/taxonomies/category"
+                }
+              ],
+              "wp:post_type": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/posts?categories=6"
+                }
+              ],
+              "curies": [
+                {
+                  "name": "wp",
+                  "href": "https://api.w.org/{rel}",
+                  "templated": true
+                }
+              ]
+            }
+          }
+        ],
+        [
+          {
+            "id": 12374,
+            "link": "https://rajiv.com/blog/tag/artificial-intelligence/",
+            "name": "artificial intelligence",
+            "slug": "artificial-intelligence",
+            "taxonomy": "post_tag",
+            "_links": {
+              "self": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/tags/12374",
+                  "targetHints": {
+                    "allow": [
+                      "GET",
+                      "POST",
+                      "PUT",
+                      "PATCH",
+                      "DELETE"
+                    ]
+                  }
+                }
+              ],
+              "collection": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/tags"
+                }
+              ],
+              "about": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/taxonomies/post_tag"
+                }
+              ],
+              "wp:post_type": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/posts?tags=12374"
+                }
+              ],
+              "curies": [
+                {
+                  "name": "wp",
+                  "href": "https://api.w.org/{rel}",
+                  "templated": true
+                }
+              ]
+            }
+          },
+          {
+            "id": 276453,
+            "link": "https://rajiv.com/blog/tag/cto/",
+            "name": "CTO",
+            "slug": "cto",
+            "taxonomy": "post_tag",
+            "_links": {
+              "self": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/tags/276453",
+                  "targetHints": {
+                    "allow": [
+                      "GET",
+                      "POST",
+                      "PUT",
+                      "PATCH",
+                      "DELETE"
+                    ]
+                  }
+                }
+              ],
+              "collection": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/tags"
+                }
+              ],
+              "about": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/taxonomies/post_tag"
+                }
+              ],
+              "wp:post_type": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/posts?tags=276453"
+                }
+              ],
+              "curies": [
+                {
+                  "name": "wp",
+                  "href": "https://api.w.org/{rel}",
+                  "templated": true
+                }
+              ]
+            }
+          },
+          {
+            "id": 485374580,
+            "link": "https://rajiv.com/blog/tag/ctobook/",
+            "name": "ctobook",
+            "slug": "ctobook",
+            "taxonomy": "post_tag",
+            "_links": {
+              "self": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/tags/485374580",
+                  "targetHints": {
+                    "allow": [
+                      "GET",
+                      "POST",
+                      "PUT",
+                      "PATCH",
+                      "DELETE"
+                    ]
+                  }
+                }
+              ],
+              "collection": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/tags"
+                }
+              ],
+              "about": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/taxonomies/post_tag"
+                }
+              ],
+              "wp:post_type": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/posts?tags=485374580"
+                }
+              ],
+              "curies": [
+                {
+                  "name": "wp",
+                  "href": "https://api.w.org/{rel}",
+                  "templated": true
+                }
+              ]
+            }
+          },
+          {
+            "id": 11176,
+            "link": "https://rajiv.com/blog/tag/software-engineering/",
+            "name": "software engineering",
+            "slug": "software-engineering",
+            "taxonomy": "post_tag",
+            "_links": {
+              "self": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/tags/11176",
+                  "targetHints": {
+                    "allow": [
+                      "GET",
+                      "POST",
+                      "PUT",
+                      "PATCH",
+                      "DELETE"
+                    ]
+                  }
+                }
+              ],
+              "collection": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/tags"
+                }
+              ],
+              "about": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/taxonomies/post_tag"
+                }
+              ],
+              "wp:post_type": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/posts?tags=11176"
+                }
+              ],
+              "curies": [
+                {
+                  "name": "wp",
+                  "href": "https://api.w.org/{rel}",
+                  "templated": true
+                }
+              ]
+            }
+          },
+          {
+            "id": 727048346,
+            "link": "https://rajiv.com/blog/tag/technology/",
+            "name": "technology",
+            "slug": "technology",
+            "taxonomy": "post_tag",
+            "_links": {
+              "self": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/tags/727048346",
+                  "targetHints": {
+                    "allow": [
+                      "GET",
+                      "POST",
+                      "PUT",
+                      "PATCH",
+                      "DELETE"
+                    ]
+                  }
+                }
+              ],
+              "collection": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/tags"
+                }
+              ],
+              "about": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/taxonomies/post_tag"
+                }
+              ],
+              "wp:post_type": [
+                {
+                  "href": "https://rajiv.com/wp-json/wp/v2/posts?tags=727048346"
+                }
+              ],
+              "curies": [
+                {
+                  "name": "wp",
+                  "href": "https://api.w.org/{rel}",
+                  "templated": true
+                }
+              ]
+            }
+          }
+        ]
+      ]
+    }
+  },
+  "normalized": {
+    "id": 6760,
+    "slug": "vibe-coding-and-synthesis-coding-two-approaches-one-developer",
+    "title": "Vibe Coding and Synthesis Coding: Two Complementary Approaches",
+    "content": "\n<p><em>Why the conversation isn&#8217;t about which approach is better — it&#8217;s about knowing when to use each</em></p>\n\n\n\n<p>This blog post is for software engineers, engineering leaders, and anyone interested in AI-assisted development.</p>\n\n\n\n<p>Since publishing my series on <a href=\"https://rajiv.com/blog/2025/11/09/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/\">Synthesis Coding</a>, I&#8217;ve received a recurring question: &#8220;How does this differ from vibe coding?&#8221;</p>\n\n\n\n<p>It&#8217;s the right question. Both approaches involve working with AI to create software. Both can be remarkably productive. Both have passionate practitioners. The distinction matters because understanding it helps you choose the right approach for what you&#8217;re building.</p>\n\n\n\n<p>This isn&#8217;t a competition. I use both.</p>\n\n\n\n<h2 class=\"wp-block-heading\">What Vibe Coding Gets Right</h2>\n\n\n\n<p>When Andrej Karpathy described &#8220;fully giving in to the vibes&#8221; and forgetting the code exists, he articulated something that resonated with developers worldwide. There&#8217;s a reason vibe coding became a phenomenon.</p>\n\n\n\n<p>Vibe coding removes friction. Describe what you want, run the result, iterate through conversation. The mental overhead of scaffolding, boilerplate, and setup dissolves. You&#8217;re thinking about outcomes, not syntax.</p>\n\n\n\n<p>For certain contexts, this is what you want.</p>\n\n\n\n<p>I use vibe coding regularly. When I want to explore a new API, I&#8217;ll describe the integration I&#8217;m imagining and see what emerges. When I&#8217;m building a personal automation script that only I&#8217;ll use, I focus on the outcome, not the elegance of implementation. When I&#8217;m learning a new framework, seeing AI-generated examples helps me understand patterns faster than reading documentation alone.</p>\n\n\n\n<p>Last month I needed a quick script to reorganize some files on my desktop. Vibe coding: describe the goal, run it, adjust. Done in minutes. The code isn&#8217;t elegant. It doesn&#8217;t need to be. It works, and I&#8217;ll probably never look at it again.</p>\n\n\n\n<p>Vibe coding excels for:</p>\n\n\n\n<ul class=\"wp-block-list\">\n<li><strong>Rapid prototyping</strong> when you&#8217;re exploring ideas without production constraints</li>\n\n\n\n<li><strong>Personal tools</strong> when you&#8217;re the only user and can tolerate occasional quirks</li>\n\n\n\n<li><strong>Learning</strong> when seeing AI-generated examples accelerates understanding</li>\n\n\n\n<li><strong>Quick experiments</strong> when you&#8217;re testing a concept you might discard tomorrow</li>\n\n\n\n<li><strong>Non-technical builders</strong> creating functional software that solves real problems</li>\n</ul>\n\n\n\n<p>These aren&#8217;t trivial use cases. They represent real value. The developer experience of vibe coding — that feeling of describing something and watching it materialize — is genuinely exciting.</p>\n\n\n\n<h2 class=\"wp-block-heading\">What Synthesis Coding Addresses</h2>\n\n\n\n<p><a href=\"https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/\">Synthesis Coding</a> emerged from observing what happens when software needs to be maintained, secured, extended by teams, and run in production for months or years.</p>\n\n\n\n<p>The requirements change. Not because vibe coding failed, but because the context is fundamentally different.</p>\n\n\n\n<p>Production systems need architectural coherence that spans many conversations over many months. Security must be systematic, not incidental. Multiple engineers need to understand and modify the code. When something breaks at 2 AM, someone needs to debug it.</p>\n\n\n\n<p><a href=\"https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/\">The Synthesis Coding framework</a> addresses these needs through four principles:</p>\n\n\n\n<p><strong>Human architectural authority</strong> — I choose the technology stack, define system boundaries, establish security patterns, and make integration decisions. AI implements within those constraints. The architecture reflects intentional human choices that persist across AI sessions.</p>\n\n\n\n<p><strong>Systematic quality standards</strong> — The same rigor applies to AI-generated code as human-written code. Code review, comprehensive testing, security analysis, performance validation. AI helps achieve these standards more thoroughly, but the standards themselves don&#8217;t relax.</p>\n\n\n\n<p><strong>Active system understanding</strong> — Engineers must understand what AI generates. If I can&#8217;t debug this code when it fails in production, I either need to understand it better or it needs to be simpler.</p>\n\n\n\n<p><strong>Iterative context building</strong> — AI gets more effective as context accumulates. Architectural decisions documented, patterns established, conventions clarified. Each session builds on the previous.</p>\n\n\n\n<p>When I <a href=\"https://rajiv.com/blog/2025/11/29/seventeen-years-ago-i-built-a-tool-for-the-open-web-this-weekend-i-modernized-it-using-synthesis-coding-with-claude-code-ai/\">modernized my 17-year-old WordPress plugin</a> using Synthesis Coding, these principles mattered. The plugin serves thousands of sites. Security gaps that wouldn&#8217;t matter in a personal script could expose those sites to vulnerabilities. PHP 8 compatibility needed systematic verification. WordPress coding standards needed to be followed for the plugin to be accepted in the WordPress.org repository.</p>\n\n\n\n<h2 class=\"wp-block-heading\">Same Developer, Different Contexts</h2>\n\n\n\n<p>Here&#8217;s what I want to emphasize: the choice isn&#8217;t about which approach is superior. It&#8217;s about matching approach to context.</p>\n\n\n\n<figure class=\"wp-block-table\"><table class=\"has-fixed-layout\"><thead><tr><th>Context</th><th>Approach</th><th>Why</th></tr></thead><tbody><tr><td>Weekend experiment</td><td>Vibe coding</td><td>Speed matters, permanence doesn&#8217;t</td></tr><tr><td>Production API</td><td>Synthesis Coding</td><td>Maintainability, security, team comprehension matter</td></tr><tr><td>Learning a new framework</td><td>Vibe coding</td><td>Exploration and quick feedback loops help</td></tr><tr><td>Legacy system modernization</td><td>Synthesis Coding</td><td>Architectural control and quality validation essential</td></tr><tr><td>Personal automation script</td><td>Vibe coding</td><td>Only I use it, only I need to understand it</td></tr><tr><td>Multi-repository platform</td><td>Synthesis Coding</td><td>Cross-system coherence requires explicit architecture</td></tr><tr><td>Prototype for stakeholder demo</td><td>Vibe coding</td><td>Demonstrating possibility, not building for production</td></tr><tr><td>Enterprise application</td><td>Synthesis Coding</td><td>Team collaboration, compliance, long-term maintenance</td></tr></tbody></table></figure>\n\n\n\n<p>The same developer — using the same AI tools — might work in both modes on the same day.</p>\n\n\n\n<h2 class=\"wp-block-heading\">The Spectrum Between Them</h2>\n\n\n\n<p>These aren&#8217;t binary categories. They&#8217;re regions on a spectrum.</p>\n\n\n\n<p>At one end: pure vibe coding. Describe what you want, accept what emerges, iterate through natural language. Minimal planning, minimal review, maximum speed.</p>\n\n\n\n<p>At the other end: full Synthesis Coding with comprehensive <a href=\"https://rajiv.com/blog/2025/11/09/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/\">technical workflows</a>, architectural decision records, systematic security audits, and coordinated <a href=\"https://rajiv.com/blog/2025/11/30/polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code/\">multi-repository development</a>.</p>\n\n\n\n<p>Between them: various blends. A weekend project that starts as vibe coding might adopt Synthesis Coding patterns if it evolves into something you want to maintain. A production system might have components where vibe-style exploration is appropriate during early design, transitioning to Synthesis Coding rigor as implementation solidifies.</p>\n\n\n\n<p>The skill is recognizing where on the spectrum your current work belongs — and being willing to move along that spectrum as context changes.</p>\n\n\n\n<h2 class=\"wp-block-heading\">When Vibe Coding Evolves</h2>\n\n\n\n<p>Sometimes a vibe-coded project succeeds so well that it needs to become production software. This is a good problem to have.</p>\n\n\n\n<p>The transition is more about adding discipline than abandoning what worked. The prototype showed the concept has value. Now you need architectural decisions, quality validation, and maintainability.</p>\n\n\n\n<p>I&#8217;ve seen teams handle this transition well by:</p>\n\n\n\n<ol class=\"wp-block-list\">\n<li>Keeping the prototype as reference — it captured the original vision</li>\n\n\n\n<li>Making explicit architectural decisions about what the production version should look like</li>\n\n\n\n<li>Implementing the production version using Synthesis Coding principles</li>\n\n\n\n<li>Validating that the production version delivers the same value the prototype demonstrated</li>\n</ol>\n\n\n\n<p>The prototype didn&#8217;t fail. It succeeded at being a prototype. The production system has different requirements.</p>\n\n\n\n<h2 class=\"wp-block-heading\">When Synthesis Coding Can Relax</h2>\n\n\n\n<p>In the other direction: sometimes a heavily-architected system has components where full rigor isn&#8217;t necessary.</p>\n\n\n\n<p>Internal tools used only by your team. Experimental features behind feature flags. Data processing scripts that run once and get discarded.</p>\n\n\n\n<p>Synthesis Coding isn&#8217;t about applying maximum process to everything. It&#8217;s about maintaining the discipline appropriate to what you&#8217;re building. When stakes are lower, process can be lighter.</p>\n\n\n\n<h2 class=\"wp-block-heading\">The Shared Foundation</h2>\n\n\n\n<p>Both approaches share something important: they represent humans working with AI to create software.</p>\n\n\n\n<p>The questions both approaches ask:</p>\n\n\n\n<ul class=\"wp-block-list\">\n<li>What am I trying to build?</li>\n\n\n\n<li>What does success look like?</li>\n\n\n\n<li>How do I communicate my intent to the AI effectively?</li>\n\n\n\n<li>How do I validate that what emerged matches what I need?</li>\n</ul>\n\n\n\n<p>Vibe coding answers these questions through rapid iteration and conversation. Synthesis Coding answers them through explicit architecture and systematic validation. Different mechanics, same fundamental collaboration.</p>\n\n\n\n<p>Engineers skilled in one approach can learn the other. The intuition about how to communicate effectively with AI, how to recognize when output needs refinement, how to iterate toward a goal — these transfer.</p>\n\n\n\n<h2 class=\"wp-block-heading\">What This Means for Your Practice</h2>\n\n\n\n<p>If you&#8217;re primarily doing vibe coding today and wondering about Synthesis Coding:</p>\n\n\n\n<p>You don&#8217;t need to abandon what&#8217;s working. Vibe coding is excellent for what it&#8217;s designed for. When you have projects that need to be maintained long-term, extended by teams, or run in production with security requirements, explore how Synthesis Coding principles might apply.</p>\n\n\n\n<p>My series covers the framework in depth:</p>\n\n\n\n<ul class=\"wp-block-list\">\n<li><a href=\"https://rajiv.com/blog/2025/11/09/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/\">The emerging practice and why it matters</a></li>\n\n\n\n<li><a href=\"https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/\">The organizational framework for building production software with AI</a></li>\n\n\n\n<li><a href=\"https://rajiv.com/blog/2025/11/09/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/\">Technical implementation and workflows with Claude Code</a></li>\n\n\n\n<li><a href=\"https://rajiv.com/blog/2025/11/29/seventeen-years-ago-i-built-a-tool-for-the-open-web-this-weekend-i-modernized-it-using-synthesis-coding-with-claude-code-ai/\">A case study in modernizing legacy software</a></li>\n\n\n\n<li><a href=\"https://rajiv.com/blog/2025/11/30/polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code/\">Applying these principles across multiple repositories</a></li>\n</ul>\n\n\n\n<p>If you&#8217;re practicing Synthesis Coding and haven&#8217;t tried vibe coding:</p>\n\n\n\n<p>Give yourself permission to experiment. Not every interaction with AI needs full architectural rigor. When you&#8217;re exploring, learning, or building something personal and ephemeral, the liberation of vibe coding has real value. You might find it sparks ideas that later become production projects developed with Synthesis Coding discipline.</p>\n\n\n\n<h2 class=\"wp-block-heading\">The Bigger Picture</h2>\n\n\n\n<p>AI-assisted development is still new. The practices that work are still being discovered, refined, and shared.</p>\n\n\n\n<p>Vibe coding captured something real about the excitement of working with AI — the feeling that software creation has become more accessible and more immediate. Synthesis Coding captures something real about what production software demands — the discipline that separates working prototypes from sustainable systems.</p>\n\n\n\n<p>Both contributions matter. Both approaches will continue evolving.</p>\n\n\n\n<p>The engineers and organizations that thrive will be those who develop fluency in both — knowing when to give in to the vibes and when to apply systematic rigor. Not choosing sides, but choosing wisely.</p>\n\n\n\n<h2 class=\"wp-block-heading\">On Terminology and Usage</h2>\n\n\n\n<p>These terms &#8211; Synthesis Engineering, Synthesis Coding, and the accompanying visual identity &#8211; are offered to the community without restriction. They&#8217;re released under CC0 1.0 Universal (public domain) for anyone to use, modify, or build upon.</p>\n\n\n\n<p>I&#8217;ve documented these practices because teams needed vocabulary for what they were already doing. If these terms help your organization distinguish between exploratory prototyping and systematic production development, use them. If they help you hire, train, or structure your engineering practices, even better.</p>\n\n\n\n<p>No permission required. No attribution needed. Just use what works.</p>\n\n\n\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n\n\n\n<h2 class=\"wp-block-heading\">Related Articles in the Synthesis Coding Series</h2>\n\n\n\n<ol class=\"wp-block-list\">\n<li><a href=\"https://rajiv.com/blog/2025/11/09/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/\">Synthesis Coding: The Professional Practice Emerging in AI-Assisted Development</a></li>\n\n\n\n<li><a href=\"https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/\">The Synthesis Coding Framework: How Organizations Build Production Software with AI</a></li>\n\n\n\n<li><a href=\"https://rajiv.com/blog/2025/11/09/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/\">Synthesis Coding with Claude Code: Technical Implementation and Workflows</a></li>\n\n\n\n<li><a href=\"https://rajiv.com/blog/2025/11/29/seventeen-years-ago-i-built-a-tool-for-the-open-web-this-weekend-i-modernized-it-using-synthesis-coding-with-claude-code-ai/\">Seventeen Years Ago, I Built a Tool for the Open Web. This Weekend, I Modernized It Using Synthesis Coding with Claude Code AI</a></li>\n\n\n\n<li><a href=\"https://rajiv.com/blog/2025/11/30/polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code/\">Polyrepo Synthesis: Synthesis Coding Across Multiple Repositories with Claude Code in Visual Studio Code</a></li>\n</ol>\n\n\n\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n\n\n\n<p><em>Rajiv Pant is President of <a href=\"https://www.flatiron.software/\">Flatiron Software</a> and <a href=\"https://www.snapshot.reviews/\">Snapshot AI</a>, where he leads organizational growth and AI innovation. He is former Chief Product &amp; Technology Officer at The Wall Street Journal, The New York Times, and Hearst Magazines. Earlier in his career, he headed technology for Condé Nast&#8217;s brands including Reddit. Rajiv has been working with AI in software engineering since the early days of natural language processing and was an early investor and advisor to AI search company <a href=\"https://you.com/\">You.com</a>. He coined the terms &#8220;Synthesis Engineering&#8221; and &#8220;Synthesis Coding&#8221; to describe the systematic integration of human expertise with AI capabilities in professional software development. Connect with him on <a href=\"https://www.linkedin.com/in/rajivpant/\">LinkedIn</a> or read more at <a href=\"https://rajiv.com/\">rajiv.com</a>.</em></p>\n\n\n\n<figure class=\"wp-block-image size-full\"><a href=\"https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-1-e1764033418594.webp?ssl=1\"><img data-recalc-dims=\"1\" loading=\"lazy\" decoding=\"async\" width=\"800\" height=\"400\" data-attachment-id=\"6703\" data-permalink=\"https://rajiv.com/blog/2025/11/09/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/synthesis-engineering-logo-1/\" data-orig-file=\"https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-1-e1764033418594.webp?fit=800%2C400&amp;ssl=1\" data-orig-size=\"800,400\" data-comments-opened=\"1\" data-image-meta=\"{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}\" data-image-title=\"Synthesis-Engineering-Logo-1\" data-image-description=\"\" data-image-caption=\"\" data-medium-file=\"https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-1-e1764033418594.webp?fit=300%2C150&amp;ssl=1\" data-large-file=\"https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-1-e1764033418594.webp?fit=800%2C400&amp;ssl=1\" src=\"https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-1-e1764033418594.webp?resize=800%2C400&#038;ssl=1\" alt=\"\" class=\"wp-image-6703\" srcset=\"https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-1-e1764033418594.webp?w=800&amp;ssl=1 800w, https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-1-e1764033418594.webp?resize=300%2C150&amp;ssl=1 300w, https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-1-e1764033418594.webp?resize=768%2C384&amp;ssl=1 768w\" sizes=\"auto, (max-width: 800px) 100vw, 800px\" /></a></figure>\n",
+    "excerpt": "<p>Why the conversation isn&#8217;t about which approach is better — it&#8217;s about knowing when to use each This blog post is for software engineers, engineering leaders, and anyone interested in AI-assisted development. Since publishing my series on Synthesis Coding, I&#8217;ve received a recurring question: &#8220;How does this differ from vibe coding?&#8221; It&#8217;s the right question. [&hellip;]</p>\n",
+    "date": "2025-12-01",
+    "dateGmt": "2025-12-02T02:57:49",
+    "modified": "2025-12-01",
+    "modifiedGmt": "2025-12-02T02:58:30",
+    "status": "publish",
+    "type": "post",
+    "link": "https://rajiv.com/blog/2025/12/01/vibe-coding-and-synthesis-coding-two-approaches-one-developer/",
+    "author": {
+      "id": 918046,
+      "name": "Rajiv Pant",
+      "slug": "rajivpant",
+      "avatar": ""
+    },
+    "categories": [
+      {
+        "id": 6,
+        "name": "Technology",
+        "slug": "technology"
+      }
+    ],
+    "tags": [
+      {
+        "id": 12374,
+        "name": "artificial intelligence",
+        "slug": "artificial-intelligence"
+      },
+      {
+        "id": 276453,
+        "name": "CTO",
+        "slug": "cto"
+      },
+      {
+        "id": 485374580,
+        "name": "ctobook",
+        "slug": "ctobook"
+      },
+      {
+        "id": 11176,
+        "name": "software engineering",
+        "slug": "software-engineering"
+      },
+      {
+        "id": 727048346,
+        "name": "technology",
+        "slug": "technology"
+      }
+    ],
+    "featuredImage": {
+      "id": 6704,
+      "url": "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1",
+      "alt": "",
+      "title": "Synthesis-Engineering-Logo-2",
+      "width": 800,
+      "height": 400
+    },
+    "format": "standard",
+    "meta": {
+      "advanced_seo_description": "",
+      "jetpack_seo_html_title": "",
+      "jetpack_seo_noindex": false,
+      "jetpack_post_was_ever_published": false,
+      "_jetpack_newsletter_access": "",
+      "_jetpack_dont_email_post_to_subs": false,
+      "_jetpack_newsletter_tier_id": 0,
+      "_jetpack_memberships_contains_paywalled_content": false,
+      "_jetpack_memberships_contains_paid_content": false,
+      "footnotes": ""
+    }
+  }
+}
