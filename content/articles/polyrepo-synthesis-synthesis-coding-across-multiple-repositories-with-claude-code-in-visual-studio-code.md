@@ -57,9 +57,9 @@ The common thread: context fragmentation and the need for consistency across sys
 
 ## Introducing Polyrepo Synthesis
 
-**Polyrepo Synthesis** is the practice of applying [Synthesis Engineering principles](https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/) across multiple interconnected repositories within a unified development environment.
+**Polyrepo Synthesis** is the practice of applying [synthesis engineering principles](https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/) across multiple interconnected repositories within a unified development environment.
 
-It’s not a separate methodology — it’s [**Synthesis Coding**](https://synthesiscoding.com/) scaled to the architectural reality of modern software systems.
+It’s not a separate methodology — it’s [**synthesis coding**](https://synthesiscoding.com/) scaled to the architectural reality of modern software systems.
 
 The key principle remains the same: human architectural authority guides everything; AI assists within that unified vision. But “everything” now spans repository boundaries. Your mental model encompasses the entire system, and your AI assistant needs to share that understanding.
 
@@ -97,7 +97,7 @@ Cross-pollination happens naturally when Claude Code understands both codebases.
 
 Frontend, backend, infrastructure, and data science repositories representing horizontal layers. Feature development cuts vertically across all of them.
 
-The challenge here is coordinated releases. A new API endpoint requires frontend changes, backend implementation, infrastructure updates, and possibly model retraining. Polyrepo Synthesis means Claude Code understands these dependencies and can trace the impact of changes across layers.
+The challenge here is coordinated releases. A new API endpoint requires frontend changes, backend implementation, infrastructure updates, and possibly model retraining. Polyrepo synthesis means Claude Code understands these dependencies and can trace the impact of changes across layers.
 
 ### Microservices mesh
 
@@ -261,7 +261,7 @@ Claude Code can help maintain this coordination: “Generate release notes for t
 
 **Stale context**: CLAUDE.md files that drift from reality. When architecture changes, update the documentation. I treat CLAUDE.md as a living document — when I add a new service or change a data flow, the CLAUDE.md files get updated in the same commit.
 
-## Getting started: your first Polyrepo Synthesis setup
+## Getting started: your first polyrepo synthesis setup
 
 If you’re new to multi-repository development with Claude Code, start with these steps:
 
@@ -425,7 +425,7 @@ cd ~/path/to/[repo-name]
 
 I now think at the level of systems rather than files. Claude Code doesn’t just help me write code — it helps me navigate architectural relationships that would otherwise require holding too much context in my head.
 
-As I wrote in my earlier piece on [Synthesis Coding workflows](https://rajiv.com/blog/2025/11/09/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/), the compounding context advantage is real. Each session builds on previous understanding. CLAUDE.md files encode institutional knowledge. The investment in setting up proper context pays dividends across every future interaction.
+As I wrote in my earlier piece on [synthesis coding workflows](https://rajiv.com/blog/2025/11/09/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/), the compounding context advantage is real. Each session builds on previous understanding. CLAUDE.md files encode institutional knowledge. The investment in setting up proper context pays dividends across every future interaction.
 
 Modern software lives across multiple repositories. The engineers who master Polyrepo Synthesis — who can coordinate AI assistance across distributed systems while maintaining human architectural authority — will build the next generation of production software.
 
@@ -435,4 +435,4 @@ The CLAUDE.md context mesh is the key. Set it up once, maintain it as your archi
 
 ---
 
-*Rajiv Pant is President of [Flatiron Software](https://www.flatiron.software/) and [Snapshot AI](https://www.snapshot.reviews/), where he leads organizational growth and AI innovation. He is former Chief Product & Technology Officer at The Wall Street Journal, The New York Times, and Hearst Magazines. Earlier in his career, he headed technology for Conde Nast’s brands including Reddit. Rajiv has been working with AI in software engineering since the early days of natural language processing and was an early investor and advisor to AI search company [You.com](https://you.com/). He coined the terms “Synthesis Engineering” and “[Synthesis Coding](https://synthesiscoding.com/)” to describe the systematic integration of human expertise with AI capabilities in professional software development. Connect with him on [LinkedIn](https://www.linkedin.com/in/rajivpant/) or read more at [rajiv.com](https://rajiv.com/).*
+*Rajiv Pant is President of [Flatiron Software](https://www.flatiron.software/) and [Snapshot AI](https://www.snapshot.reviews/), where he leads organizational growth and AI innovation. He is former Chief Product & Technology Officer at The Wall Street Journal, The New York Times, and Hearst Magazines. Earlier in his career, he headed technology for Conde Nast’s brands including Reddit. Rajiv has been working with AI in software engineering since the early days of natural language processing and was an early investor and advisor to AI search company [You.com](https://you.com/). He coined the terms "synthesis engineering" and "[synthesis coding](https://synthesiscoding.com/)" to describe the systematic integration of human expertise with AI capabilities in professional software development. Connect with him on [LinkedIn](https://www.linkedin.com/in/rajivpant/) or read more at [rajiv.com](https://rajiv.com/).*

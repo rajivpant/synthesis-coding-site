@@ -73,7 +73,7 @@
     ],
     "date": "2025-11-09",
     "readingTime": 14,
-    "excerpt": "A hands-on guide to practicing Synthesis Coding — the craft of rigorous AI-assisted development within the Synthesis Engineering discipline — with concrete examples, real workflows, and lessons from production systems I wrote this blog post for Software Engineers, Architects, and Technical Leads. This one is code-heavy and implementation-focused. In the first two articles of this series, I introduced Synthesis Engineering as an emerging professional practice and detailed the framework for organi"
+    "excerpt": "A hands-on guide to practicing synthesis coding — the craft of rigorous AI-assisted development within the synthesis engineering discipline — with concrete examples, real workflows, and lessons from production systems I wrote this blog post for Software Engineers, Architects, and Technical Leads. This one is code-heavy and implementation-focused. In the first two articles of this series, I introduced synthesis engineering as an emerging professional practice and detailed the framework for organi"
   },
   {
     "title": "The Synthesis Engineering Framework: How Organizations Build Production Software with AI",
@@ -92,7 +92,7 @@
     ],
     "date": "2025-11-09",
     "readingTime": 15,
-    "excerpt": "From individual practice to organizational capability: a systematic approach to human-AI collaboration in professional software development This blog post is for Engineering Leaders, CTOs, and Product Managers. In my previous article, I introduced Synthesis Engineering — the discipline of rigorous human-machine collaboration in professional software development. I call the hands-on craft Synthesis Coding. The response revealed something important: many teams are developing similar practices inde"
+    "excerpt": "From individual practice to organizational capability: a systematic approach to human-AI collaboration in professional software development This blog post is for Engineering Leaders, CTOs, and Product Managers. In my previous article, I introduced synthesis engineering — the discipline of rigorous human-machine collaboration in professional software development. I call the hands-on craft synthesis coding. The response revealed something important: many teams are developing similar practices inde"
   },
   {
     "title": "Vibe Coding and Synthesis Coding: Two Complementary Approaches",
@@ -109,7 +109,7 @@
     ],
     "date": "2025-12-01",
     "readingTime": 8,
-    "excerpt": "Why the conversation isn’t about which approach is better — it’s about knowing when to use each This blog post is for software engineers, engineering leaders, and anyone interested in AI-assisted development. Since publishing my series on Synthesis Engineering — the discipline of rigorous human-AI collaboration, of which Synthesis Coding is the hands-on craft — I&#39;ve received a recurring question: &quot;How does Synthesis Coding differ from vibe coding?&quot; It’s the right question. Both app"
+    "excerpt": "Why the conversation isn’t about which approach is better — it’s about knowing when to use each This blog post is for software engineers, engineering leaders, and anyone interested in AI-assisted development. Since publishing my series on synthesis engineering — the discipline of rigorous human-AI collaboration, of which synthesis coding is the hands-on craft — I&#39;ve received a recurring question: &quot;How does synthesis coding differ from vibe coding?&quot; It’s the right question. Both app"
   },
   {
     "title": "Why Synthesis Coding Still Writes Code in the Age of LLMs",

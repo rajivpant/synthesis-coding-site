@@ -37,9 +37,9 @@ Last month, during a technical architecture review, I watched a senior engineer 
 
 This practice exists. It’s emerging independently across leading engineering organizations. It just doesn’t have a name or shared framework yet.
 
-I'm calling the discipline **Synthesis Engineering**: the systematic integration of human expertise with AI capabilities to build production-grade software systems. The hands-on craft of writing code within this discipline I call **[Synthesis Coding](https://synthesiscoding.com/)** — which contrasts directly with **Vibe Coding** at the craft level.
+I'm calling the discipline **Synthesis Engineering**: the systematic integration of human expertise with AI capabilities to build production-grade software systems. The hands-on craft of writing code within this discipline I call **[synthesis coding](https://synthesiscoding.com/)** — which contrasts directly with **vibe coding** at the craft level.
 
-Vibe coding serves different purposes. Synthesis Engineering is a fundamentally different discipline with different goals.
+Vibe coding serves different purposes. Synthesis engineering is a fundamentally different discipline with different goals.
 
 ## A Case Study: Building an Agentic Workflow System
 
@@ -51,7 +51,7 @@ Each agent has its own role definition and expertise domain. Research synthesis 
 
 What makes this defensible isn’t just using AI. It’s the orchestration logic, the feedback loops, the domain-specific tuning of each specialist agent. A competitor trying to replicate this needs more than access to Claude or GPT-4. They need the architecture that coordinates these agents, the quality standards each validates against, and the accumulated learning about which agent patterns work for which problem types.
 
-This became my laboratory for Synthesis Engineering principles. The architectural decisions I made — and more importantly, the ones I refused to delegate to AI — determined whether this system would work at all.
+This became my laboratory for synthesis engineering principles. The architectural decisions I made — and more importantly, the ones I refused to delegate to AI — determined whether this system would work at all.
 
 ## The Vibe Coding Context: Valid and Valuable
 
@@ -109,7 +109,7 @@ Then I tried maintaining long-running sessions where context built up. Same conv
 
 Implementation velocity increased dramatically. Not because AI got smarter — because context got richer.
 
-Context preservation is a first-class concern for Synthesis Engineering. Some teams do this through comprehensive documentation that gets updated with each architectural decision. Others maintain living architecture decision records (ADRs) that AI reads before implementation. Some use template prompts that establish project context efficiently.
+Context preservation is a first-class concern for synthesis engineering. Some teams do this through comprehensive documentation that gets updated with each architectural decision. Others maintain living architecture decision records (ADRs) that AI reads before implementation. Some use template prompts that establish project context efficiently.
 
 The specific mechanism matters less than the principle.
 
@@ -119,7 +119,7 @@ AI makes it trivially easy to generate code that runs. Making that code producti
 
 In traditional development, quality often depends on individual engineer diligence. Some engineers write comprehensive tests, others skip testing. Some do security reviews, others assume their code is secure. Some optimize performance, others ship and hope.
 
-Synthesis Engineering makes quality systematic by establishing workflows where AI assists in implementing quality practices consistently.
+Synthesis engineering makes quality systematic by establishing workflows where AI assists in implementing quality practices consistently.
 
 For the agentic workflow system, I established a quality checkpoint process:
 
@@ -131,11 +131,11 @@ For the agentic workflow system, I established a quality checkpoint process:
 
 Each step builds on the previous. By the time code reaches production, it’s been through multiple systematic quality checks.
 
-Vibe coding asks "Does it work?" Synthesis Coding asks whether the code meets production quality standards systematically.
+Vibe coding asks "Does it work?" Synthesis coding asks whether the code meets production quality standards systematically.
 
 ### The Learning Loop: Continuous Improvement
 
-Sophisticated Synthesis Engineering differs from basic AI usage by building systems that learn and improve over time.
+Sophisticated synthesis engineering differs from basic AI usage by building systems that learn and improve over time.
 
 The workflow uses LangGraph for stateful multi-agent orchestration. LangGraph enables measurement at each decision point in the workflow, not just at the output.
 
@@ -172,9 +172,9 @@ Human architects design learning systems. AI executes at scale. The combination 
 
 ## Why This Matters: The Organizational Implications
 
-Synthesis Engineering isn’t just about individual developer productivity. It represents a fundamental shift in how engineering organizations build software.
+Synthesis engineering isn't just about individual developer productivity. It represents a fundamental shift in how engineering organizations build software.
 
-When teams maintain architectural coherence and systematic quality practices, multiple engineers can work effectively on AI-assisted codebases. The code remains comprehensible because humans made the key design decisions. One engineering manager told me: "With pure vibe coding, only the engineer who generated the code could maintain it. With Synthesis Coding, the whole team understands the architecture because we made those decisions collectively."
+When teams maintain architectural coherence and systematic quality practices, multiple engineers can work effectively on AI-assisted codebases. The code remains comprehensible because humans made the key design decisions. One engineering manager told me: "With pure vibe coding, only the engineer who generated the code could maintain it. With synthesis coding, the whole team understands the architecture because we made those decisions collectively."
 
 Because engineers maintain system understanding, organizational knowledge accumulates. Teams learn patterns, build intuition, and improve their ability to solve similar problems. This matters for long-term sustainability. Software systems live for years or decades. Organizations need engineers who understand these systems deeply enough to evolve them.
 
@@ -184,7 +184,7 @@ Systematic practices enable faster innovation. When engineers trust their qualit
 
 ## The Evolution Continues
 
-Synthesis Engineering isn’t a finished methodology — it’s an emerging practice. Teams are developing increasingly sophisticated approaches to human-AI collaboration.
+Synthesis engineering isn't a finished methodology — it's an emerging practice. Teams are developing increasingly sophisticated approaches to human-AI collaboration.
 
 I’m seeing organizations experiment with AI-assisted architectural analysis during design reviews, systematic AI-generated test suites that exceed human-written coverage, AI-powered security audits integrated into deployment pipelines, automated performance optimization within human-defined constraints, and AI-generated documentation that stays current with code evolution.
 
@@ -194,24 +194,24 @@ These aren’t future possibilities — they’re current practices at leading e
 
 This practice needs more than a name. It needs shared frameworks and methodologies, best practices for different contexts, organizational implementation patterns, education approaches for teams, and tool ecosystems designed for systematic human-AI collaboration.
 
-In my next article, I’ll detail the Synthesis Engineering framework: how it works systematically, when to apply it versus other approaches, and how organizations can implement it at scale.
+In my next article, I'll detail the synthesis engineering framework: how it works systematically, when to apply it versus other approaches, and how organizations can implement it at scale.
 
-For now, if you’re a CTO or engineering leader, look at how your most effective teams work with AI. I’d bet they’re practicing something that looks a lot like Synthesis Engineering — they just might not call it that yet.
+For now, if you're a CTO or engineering leader, look at how your most effective teams work with AI. I'd bet they're practicing something that looks a lot like synthesis engineering — they just might not call it that yet.
 
 The practice exists. Now it has a name. Let’s build the methodology together.
 
 ## On Terminology and Usage
 
-These terms – Synthesis Engineering for the discipline, Synthesis Coding for the craft, and the accompanying visual identity – are offered to the community without restriction. They're released under CC0 1.0 Universal (public domain) for anyone to use, modify, or build upon.
+These terms – synthesis engineering for the discipline, synthesis coding for the craft, and the accompanying visual identity – are offered to the community without restriction. They're released under CC0 1.0 Universal (public domain) for anyone to use, modify, or build upon.
 
-I've documented these practices because teams needed vocabulary for what they were already doing. If these terms help your organization distinguish between exploratory prototyping and systematic production development, use them. Synthesis Engineering describes the broader methodology and organizational practices; Synthesis Coding describes the hands-on work of building software with AI assistance. If they help you hire, train, or structure your engineering practices, even better.
+I've documented these practices because teams needed vocabulary for what they were already doing. If these terms help your organization distinguish between exploratory prototyping and systematic production development, use them. Synthesis engineering describes the broader methodology and organizational practices; synthesis coding describes the hands-on work of building software with AI assistance. If they help you hire, train, or structure your engineering practices, even better.
 
 No permission required. No attribution needed. Just use what works.
 
 ---
 
-*This article is part of the [Synthesis Engineering series](https://synthesiscoding.com/), which explores the discipline of rigorous human-AI collaboration in professional software development.*
+*This article is part of the [synthesis engineering series](https://synthesiscoding.com/), which explores the discipline of rigorous human-AI collaboration in professional software development.*
 
 ---
 
-*Rajiv Pant is President of [Flatiron Software](https://www.flatiron.software/) and [Snapshot AI](https://www.snapshot.reviews/), where he leads organizational growth and AI innovation. He is former Chief Product & Technology Officer at The Wall Street Journal, The New York Times, and Hearst Magazines. Earlier in his career, he headed technology for Conde Nast’s brands including Reddit. Rajiv has been working with AI in software engineering since the early days of natural language processing and was an early investor and advisor to AI search company [You.com](https://you.com/). He coined the terms “Synthesis Engineering” and “[Synthesis Coding](https://synthesiscoding.com/)” to describe the systematic integration of human expertise with AI capabilities in professional software development. Connect with him on [LinkedIn](https://www.linkedin.com/in/rajivpant/) or read more at [rajiv.com](https://rajiv.com/).*
+*Rajiv Pant is President of [Flatiron Software](https://www.flatiron.software/) and [Snapshot AI](https://www.snapshot.reviews/), where he leads organizational growth and AI innovation. He is former Chief Product & Technology Officer at The Wall Street Journal, The New York Times, and Hearst Magazines. Earlier in his career, he headed technology for Conde Nast's brands including Reddit. Rajiv has been working with AI in software engineering since the early days of natural language processing and was an early investor and advisor to AI search company [You.com](https://you.com/). He coined the terms "synthesis engineering" and "[synthesis coding](https://synthesiscoding.com/)" to describe the systematic integration of human expertise with AI capabilities in professional software development. Connect with him on [LinkedIn](https://www.linkedin.com/in/rajivpant/) or read more at [rajiv.com](https://rajiv.com/).*

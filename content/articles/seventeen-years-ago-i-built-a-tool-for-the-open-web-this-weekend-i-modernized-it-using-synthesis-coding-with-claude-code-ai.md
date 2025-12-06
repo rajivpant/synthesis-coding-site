@@ -46,7 +46,7 @@ The IndieWeb movement calls this approach [POSSE](https://indieweb.org/POSSE): 
 
 My 17-year-old plugin, designed to help people manage links with XFN relationship tags, felt relevant again. But it needed updating — incompatible with modern PHP, with security practices that needed modernization, and an admin panel that needed work.
 
-## Senior product and engineering executives should keep their skills of building products sharp using Synthesis Coding
+## Senior product and engineering executives should keep their skills of building products sharp using synthesis coding
 
 Let me address the obvious question. Throughout my career — as CTO of The New York Times, Chief Product and Technology Officer at The Wall Street Journal and Hearst Magazines, and earlier leading technology for Condé Nast’s digital brands including Reddit — I’ve led teams of hundreds of engineers building systems serving millions of users.
 
@@ -56,13 +56,13 @@ The answer involves both philosophy and methodology.
 
 The philosophy: I’ve never believed that seniority means distance from the work. The best product and technology leaders I know maintain what I call “technical currency” — the ability to understand systems from the inside, not just from dashboards and reports. When you can still build, you evaluate architectural decisions differently. You ask better questions. You detect problems earlier.
 
-The methodology: a practice I’ve been using and writing about called [Synthesis Coding](https://rajiv.com/blog/2025/11/09/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/).
+The methodology: a practice I’ve been using and writing about called [synthesis coding](https://rajiv.com/blog/2025/11/09/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/).
 
 ## Synthesis Coding changes what’s possible for senior leaders
 
-[Synthesis Coding](https://synthesiscoding.com/) is the hands-on craft of rigorous AI-assisted development — building production-grade software through disciplined human-AI collaboration. It's the practical application of what I call Synthesis Engineering (the broader discipline). Synthesis Coding is distinct from what some people call "vibe coding" — using AI to quickly hack together prototypes or explore ideas. Vibe coding has its place, but it's not how you ship software that needs to be secure, maintainable, and reliable.
+[Synthesis coding](https://synthesiscoding.com/) is the hands-on craft of rigorous AI-assisted development — building production-grade software through disciplined human-AI collaboration. It's the practical application of what I call synthesis engineering (the broader discipline). Synthesis coding is distinct from what some people call "vibe coding" — using AI to quickly hack together prototypes or explore ideas. Vibe coding has its place, but it's not how you ship software that needs to be secure, maintainable, and reliable.
 
-The Synthesis Engineering practice rests on [four principles](https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/):
+The synthesis engineering practice rests on [four principles](https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/):
 
 **Human architectural authority.** I decide the security requirements, the coding standards, the compatibility targets. AI implements within those constraints — it doesn’t establish them.
 
@@ -82,7 +82,7 @@ The original code had some security gaps — I was using `sprintf()` with user
 
 Standards evolve, and I’ve evolved with them.
 
-Using [Synthesis Coding with Claude Code](https://rajiv.com/blog/2025/11/09/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/), I approached this systematically:
+Using [synthesis coding with Claude Code](https://rajiv.com/blog/2025/11/09/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/), I approached this systematically:
 
 **I established the constraints.** WordPress 6.x compatibility. PHP 7.4 minimum with 8.x full support. GPL-2.0-or-later licensing for WordPress.org compliance. Security best practices throughout. WordPress coding standards followed.
 
@@ -110,13 +110,13 @@ Tools like Blogroll Links are part of this infrastructure. They’re not glamoro
 
 ## What this means for product and technology leadership
 
-I’m sharing this story because I think it illustrates something important about where product and technology leadership is heading.
+I'm sharing this story because I think it illustrates something important about where product and technology leadership is heading.
 
 The economic pressures on organizations are real. The layers of middle management that once separated senior leaders from technical implementation are compressing. AI capabilities are accelerating this compression.
 
-In this environment, senior product and technology leaders who can go deep when needed — who maintain technical currency rather than just talking points — bring value. They can evaluate architectural proposals from experience, not just slides. They can sense when something is wrong because they’ve felt similar problems in their own hands.
+In this environment, senior product and technology leaders who can go deep when needed — who maintain technical currency rather than just talking points — bring value. They can evaluate architectural proposals from experience, not just slides. They can sense when something is wrong because they've felt similar problems in their own hands.
 
-Synthesis Coding makes this practical. It’s not about spending all your time coding instead of leading. It’s about having a methodology that lets you engage directly with technical work when it matters, at a pace that doesn’t sacrifice the strategic perspective your role requires.
+Synthesis coding makes this practical. It's not about spending all your time coding instead of leading. It's about having a methodology that lets you engage directly with technical work when it matters, at a pace that doesn't sacrifice the strategic perspective your role requires.
 
 I modernized a WordPress plugin this weekend. It took a few hours. I made architectural decisions, reviewed security-critical code, validated functionality, and published to a repository used by thousands of sites. And then I went back to the strategic work that occupies most of my time.
 
@@ -124,13 +124,13 @@ That combination — strategic leadership with maintained technical capability �
 
 ## The invitation
 
-If you’re interested in Synthesis Coding as a practice, I’ve written a [series exploring the methodology](https://rajiv.com/blog/2025/11/09/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/) in depth, including the [organizational framework](https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/) and [specific technical workflows](https://rajiv.com/blog/2025/11/09/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/).
+If you're interested in synthesis coding as a practice, I've written a [series exploring the methodology](https://rajiv.com/blog/2025/11/09/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/) in depth, including the [organizational framework](https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/) and [specific technical workflows](https://rajiv.com/blog/2025/11/09/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/).
 
 If you’re a WordPress user who cares about the open web, the [Blogroll Links plugin](https://wordpress.org/plugins/blogroll-links/) is available and actively maintained again. Use it to curate links on your site. Add XFN relationships. Own your corner of the web.
 
 And if you’re a product or technology leader — or aspiring to be one — consider this: what tools from your past deserve attention? What projects taught you something fundamental about how software works? Sometimes the most valuable thing you can do is return to something you built years ago and bring it forward with everything you’ve learned since.
 
-The open web is worth building. Synthesis Coding makes more building possible. And seventeen years later, I’m still excited about both.
+The open web is worth building. Synthesis coding makes more building possible. And seventeen years later, I'm still excited about both.
 
 ---
 
@@ -138,4 +138,4 @@ The open web is worth building. Synthesis Coding makes more building possible. A
 
 ---
 
-*Rajiv Pant is President of [Flatiron Software](https://www.flatiron.software/) and [Snapshot AI](https://www.snapshot.reviews/), where he leads organizational growth and AI innovation. He is former Chief Product & Technology Officer at The Wall Street Journal, The New York Times, and Hearst Magazines. Earlier in his career, he headed technology for Conde Nast’s brands including Reddit. Rajiv has been working with AI in software engineering since the early days of natural language processing and was an early investor and advisor to AI search company [You.com](https://you.com/). He coined the terms “Synthesis Engineering” and “[Synthesis Coding](https://synthesiscoding.com/)” to describe the systematic integration of human expertise with AI capabilities in professional software development. Connect with him on [LinkedIn](https://www.linkedin.com/in/rajivpant/) or read more at [rajiv.com](https://rajiv.com/).*
+*Rajiv Pant is President of [Flatiron Software](https://www.flatiron.software/) and [Snapshot AI](https://www.snapshot.reviews/), where he leads organizational growth and AI innovation. He is former Chief Product & Technology Officer at The Wall Street Journal, The New York Times, and Hearst Magazines. Earlier in his career, he headed technology for Conde Nast’s brands including Reddit. Rajiv has been working with AI in software engineering since the early days of natural language processing and was an early investor and advisor to AI search company [You.com](https://you.com/). He coined the terms "synthesis engineering" and "[synthesis coding](https://synthesiscoding.com/)" to describe the systematic integration of human expertise with AI capabilities in professional software development. Connect with him on [LinkedIn](https://www.linkedin.com/in/rajivpant/) or read more at [rajiv.com](https://rajiv.com/).*
