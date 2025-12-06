@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foundation — Synthesis Coding</title>
+    <meta name="description" content="Core concepts and philosophy behind Synthesis Coding methodology.">
+    <meta name="keywords" content="synthesis coding, synthesis engineering, Foundation, AI-assisted development">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Foundation — Synthesis Coding">
+    <meta property="og:description" content="Core concepts and philosophy behind Synthesis Coding methodology.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://synthesiscoding.com/articles/category/foundation/">
+    <meta property="og:image" content="https://synthesiscoding.com/assets/og-image.jpg">
+
+    <!-- RSS Feed -->
+    <link rel="alternate" type="application/rss+xml" title="Synthesis Coding RSS Feed" href="/feed.xml">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --black: #0a0a0a;
+            --dark: #1a1a1a;
+            --gray-dark: #3a3a3a;
+            --gray: #666;
+            --gray-light: #999;
+            --gray-lighter: #e5e5e5;
+            --white: #fafafa;
+            --cream: #f5f4f0;
+            --cat-color: #2563eb;
+
+            --font-serif: 'Newsreader', Georgia, serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+
+            --max-width: 720px;
+            --wide-width: 960px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+
+        html { font-size: 18px; scroll-behavior: smooth; }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-serif);
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--dark);
+            background: var(--white);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        header {
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--gray-lighter);
+        }
+
+        .logo { max-width: 240px; width: 100%; height: auto; }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-lighter);
+            padding: 0.75rem 2rem;
+            z-index: 100;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        nav a { text-decoration: none; color: var(--gray); }
+        nav a:hover { color: var(--black); }
+
+        main {
+            max-width: var(--wide-width);
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section { padding: 3rem 0; }
+
+        h1, h2 { font-weight: 500; line-height: 1.3; color: var(--black); }
+        h1 { font-size: 2rem; margin: 0 0 0.5rem; }
+        h2 { font-size: 1.5rem; margin: 0 0 1.5rem; }
+
+        p { margin: 0 0 1.25rem; }
+
+        a {
+            color: var(--dark);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            text-decoration-thickness: 1px;
+            transition: color 0.2s;
+        }
+        a:hover { color: var(--gray); }
+
+        .page-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--gray-lighter);
+        }
+
+        .category-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--cat-color);
+            margin-bottom: 0.75rem;
+        }
+
+        .category-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--cat-color);
+        }
+
+        .page-description {
+            font-size: 1rem;
+            color: var(--gray);
+            margin: 0.5rem 0 0;
+        }
+
+        .article-count {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--gray-light);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .articles-grid { display: grid; gap: 1.5rem; }
+
+        .article-card {
+            padding: 1.5rem;
+            background: var(--white);
+            border: 1px solid var(--gray-lighter);
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .article-card:hover {
+            border-color: var(--gray);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .category-badge {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            background: color-mix(in srgb, var(--cat-color) 15%, transparent);
+            color: var(--cat-color);
+            border: 1px solid color-mix(in srgb, var(--cat-color) 30%, transparent);
+        }
+
+        .new-badge {
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            background: #059669;
+            color: white;
+            font-weight: 500;
+        }
+
+        .card-title {
+            font-size: 1.15rem;
+            font-weight: 500;
+            margin: 0 0 0.5rem;
+            line-height: 1.4;
+        }
+
+        .card-title a { text-decoration: none; color: var(--black); }
+        .card-title a:hover { text-decoration: underline; }
+
+        .card-description {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin: 0 0 0.75rem;
+            line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card-meta {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--gray-light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-separator { color: var(--gray-lighter); }
+
+        .card-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+
+        .tag {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            text-decoration: none;
+            padding: 0.15rem 0.45rem;
+            border-radius: 3px;
+            background: var(--cream);
+            color: var(--gray);
+            transition: all 0.2s;
+        }
+
+        a.tag:hover { background: var(--gray-lighter); color: var(--dark); }
+
+        footer {
+            max-width: var(--wide-width);
+            margin: 0 auto;
+            padding: 3rem 2rem 4rem;
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--gray-lighter);
+        }
+
+        footer p { margin: 0 0 0.75rem; }
+
+        .cc0 {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--gray-light);
+            letter-spacing: 0.02em;
+        }
+
+        @media (max-width: 640px) {
+            html { font-size: 16px; }
+            header { padding: 1.5rem; }
+            .logo { max-width: 200px; }
+            main { padding: 0 1.5rem; }
+            section { padding: 2rem 0; }
+            nav ul { gap: 1rem; }
+            .article-card { padding: 1.25rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/">
+            <img src="/assets/logo.webp" alt="Synthesis Coding" class="logo">
+        </a>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="/#what">What</a></li>
+            <li><a href="/#principles">Principles</a></li>
+            <li><a href="/#when">When to Use</a></li>
+            <li><a href="/articles/">Articles</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section>
+            <a href="/articles/" class="back-link">← All Articles</a>
+
+            <div class="page-header">
+                <div class="category-indicator">
+                    <span class="category-dot"></span>
+                    Category
+                </div>
+                <h1>Foundation</h1>
+                <p class="page-description">Core concepts and philosophy behind Synthesis Coding methodology.</p>
+                <span class="article-count">1 article</span>
+            </div>
+
+            <div class="articles-grid">
+                
+    <article class="article-card" data-date="2025-11-09" data-category="Foundation">
+      <div class="card-header">
+        <a href="/articles/category/foundation/" class="category-badge" style="--cat-color: #2563eb">Foundation</a>
+        <span class="new-badge">New</span>
+      </div>
+      <h3 class="card-title">
+        <a href="/articles/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/">Synthesis Engineering: The Professional Practice Emerging in AI-Assisted Development</a>
+      </h3>
+      <p class="card-description">Why the most effective engineering organizations are developing systematic approaches that go beyond vibe coding — and why this practice needs a name This blog post is for CTOs, Engineering Leaders, Technical Executives. I've also written it be accessible to non-technical readers. I've had the same </p>
+      <div class="card-meta">
+        <span class="card-date">November 8, 2025</span>
+        <span class="card-separator">·</span>
+        <span class="card-reading-time">12 min read</span>
+      </div>
+      <div class="card-tags">
+        <a href="/articles/tag/artificial-intelligence/" class="tag">artificial intelligence</a><a href="/articles/tag/cto/" class="tag">CTO</a><a href="/articles/tag/ctobook/" class="tag">ctobook</a><a href="/articles/tag/engineering-leadership/" class="tag">engineering leadership</a><a href="/articles/tag/software-engineering/" class="tag">software engineering</a><a href="/articles/tag/synthesis-coding/" class="tag">synthesis coding</a><a href="/articles/tag/synthesis-engineering/" class="tag">synthesis engineering</a><a href="/articles/tag/vibe-coding/" class="tag">vibe coding</a>
+      </div>
+    </article>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p class="cc0">The terms "Synthesis Coding" and "Synthesis Engineering," along with the associated logo and visual identity, are released under <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0 Universal</a> (public domain). No permission required. No attribution needed. Use freely. The logo was hand-crafted by a human artist.</p>
+        <p><a href="/">← Back to Synthesis Coding</a></p>
+    </footer>
+</body>
+</html>

@@ -14,10 +14,13 @@
     <meta property="og:url" content="https://synthesiscoding.com">
     <meta property="og:image" content="https://synthesiscoding.com/assets/og-image.jpg">
 
+    <!-- RSS Feed -->
+    <link rel="alternate" type="application/rss+xml" title="Synthesis Coding RSS Feed" href="/feed.xml">
+
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-    
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -490,52 +493,57 @@
         </section>
         
         <section id="articles">
-            <h2>Reference Articles</h2>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
+                <h2 style="margin-bottom: 0;">Reference Articles</h2>
+                <a href="/feed.xml" style="display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--font-mono); font-size: 0.75rem; text-decoration: none; color: var(--gray); padding: 0.4rem 0.75rem; border: 1px solid var(--gray-lighter); border-radius: 4px;" title="Subscribe to RSS feed">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19 7.38 20 6.18 20C5 20 4 19 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1Z"/>
+                    </svg>
+                    RSS
+                </a>
+            </div>
             <p>The methodology is documented across a series of articles covering theory, organizational frameworks, and technical implementation:</p>
-            
+
             <ul class="articles-list">
-                <li>
-                    <a href="/articles/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/" class="article-title">Synthesis Engineering: The Professional Practice Emerging in AI-Assisted Development</a>
-                    <p class="article-description">Introduces the discipline and examines why leading engineering organizations are developing systematic approaches that go beyond vibe coding.</p>
-                    <div class="article-meta">Foundation</div>
-                </li>
-
-                <li>
-                    <a href="/articles/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/" class="article-title">The Synthesis Engineering Framework: How Organizations Build Production Software with AI</a>
-                    <p class="article-description">Details the four principles, implementation methodology, development cycle, and organizational adoption patterns for scaling the practice.</p>
-                    <div class="article-meta">Framework</div>
-                </li>
-
-                <li>
-                    <a href="/articles/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/" class="article-title">Synthesis Coding with Claude Code: Technical Implementation and Workflows</a>
-                    <p class="article-description">Hands-on guide with concrete code examples, real workflows, and lessons from production systems including security audits and performance optimization.</p>
-                    <div class="article-meta">Technical guide</div>
-                </li>
-
-                <li>
-                    <a href="/articles/seventeen-years-ago-i-built-a-tool-for-the-open-web-this-weekend-i-modernized-it-using-synthesis-coding-with-claude-code-ai/" class="article-title">Modernizing a 17-Year-Old WordPress Plugin Using Synthesis Coding</a>
-                    <p class="article-description">Case study applying Synthesis Coding to legacy software modernization, demonstrating how senior technical leaders can maintain hands-on capability.</p>
-                    <div class="article-meta">Case study</div>
-                </li>
-
-                <li>
-                    <a href="/articles/polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code/" class="article-title">Polyrepo Synthesis: Synthesis Coding Across Multiple Repositories</a>
-                    <p class="article-description">Patterns for applying the methodology across interconnected repositories, including CLAUDE.md context mesh strategies and multi-repo coordination.</p>
-                    <div class="article-meta">Advanced patterns</div>
-                </li>
-
-                <li>
-                    <a href="/articles/vibe-coding-and-synthesis-coding-two-approaches-one-developer/" class="article-title">Vibe Coding and Synthesis Coding: Two Complementary Approaches</a>
-                    <p class="article-description">Clarifies the relationship between vibe coding and Synthesis Coding as complementary practices on a spectrum, with guidance for choosing the right approach.</p>
-                    <div class="article-meta">Comparison and guidance</div>
-                </li>
-
+                
                 <li>
                     <a href="/articles/why-synthesis-coding-still-writes-code-in-the-age-of-llms/" class="article-title">Why Synthesis Coding Still Writes Code in the Age of LLMs</a>
-                    <p class="article-description">Explores why generating and maintaining explicit code remains essential for production systems, emphasizing durability, traceability, and team understanding that conversational AI alone cannot provide.</p>
-                    <div class="article-meta">Philosophical foundation</div>
+                    <p class="article-description">The answer is not "just let the model do it" — and code matters more, not less, as AI gets dramatically better Last spring, my son Fitz and I had an afternoon math duel. He was twelve at the time. Sharp. Competitive. He took on the puzzle the traditional way — paper, pencil, and focused [...]</p>
+                    <div class="article-meta">December 3, 2025 · 14 min read</div>
+                </li>
+                <li>
+                    <a href="/articles/vibe-coding-and-synthesis-coding-two-approaches-one-developer/" class="article-title">Vibe Coding and Synthesis Coding: Two Complementary Approaches</a>
+                    <p class="article-description">Why the conversation isn't about which approach is better — it's about knowing when to use each This blog post is for software engineers, engineering leaders, and anyone interested in AI-assisted development. Since publishing my series on Synthesis Coding, I've received a recurring question: "How do</p>
+                    <div class="article-meta">November 30, 2025 · 8 min read</div>
+                </li>
+                <li>
+                    <a href="/articles/polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code/" class="article-title">Polyrepo Synthesis: Synthesis Coding Across Multiple Repositories with Claude Code in Visual Studio Code</a>
+                    <p class="article-description">I wrote this blog post for Software Engineers, Architects, and Technical Leads. It is code-heavy and implementation-focused. This weekend I was working across three repositories simultaneously in Visual Studio Code. I worked on RagBot — a multi-LLM chatbot that lets you switch between OpenAI, Anthro</p>
+                    <div class="article-meta">November 29, 2025 · 10 min read</div>
+                </li>
+                <li>
+                    <a href="/articles/seventeen-years-ago-i-built-a-tool-for-the-open-web-this-weekend-i-modernized-it-using-synthesis-coding-with-claude-code-ai/" class="article-title">Seventeen years ago, I built a tool for the open Web. This weekend, I modernized it using Synthesis Coding with Claude Code AI</a>
+                    <p class="article-description">In 2008, I released a WordPress plugin called Blogroll Links. The plugin displayed lists of links on WordPress pages using a shortcode. But the idea behind it was more ambitious than the implementation might suggest. I built Blogroll Links because I believed people should control their own online pr</p>
+                    <div class="article-meta">November 28, 2025 · 8 min read</div>
+                </li>
+                <li>
+                    <a href="/articles/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/" class="article-title">Synthesis Engineering: The Professional Practice Emerging in AI-Assisted Development</a>
+                    <p class="article-description">Why the most effective engineering organizations are developing systematic approaches that go beyond vibe coding — and why this practice needs a name This blog post is for CTOs, Engineering Leaders, Technical Executives. I've also written it be accessible to non-technical readers. I've had the same </p>
+                    <div class="article-meta">November 8, 2025 · 12 min read</div>
+                </li>
+                <li>
+                    <a href="/articles/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/" class="article-title">Synthesis Coding with Claude Code: Technical Implementation and Workflows</a>
+                    <p class="article-description">A hands-on guide to practicing Synthesis Coding (a.k.a. Synthesis Engineering) with concrete examples, real workflows, and lessons from production systems I wrote this blog post for Software Engineers, Architects, and Technical Leads. This one is code-heavy and implementation-focused. In the first t</p>
+                    <div class="article-meta">November 8, 2025 · 14 min read</div>
+                </li>
+                <li>
+                    <a href="/articles/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/" class="article-title">The Synthesis Engineering Framework: How Organizations Build Production Software with AI</a>
+                    <p class="article-description">From individual practice to organizational capability: a systematic approach to human-AI collaboration in professional software development This blog post is for Engineering Leaders, CTOs, and Product Managers. In my previous article, I introduced Synthesis Coding (a.k.a. Synthesis Engineering) — th</p>
+                    <div class="article-meta">November 8, 2025 · 15 min read</div>
                 </li>
             </ul>
+
+            <p style="margin-top: 1.5rem;"><a href="/articles/" style="font-family: var(--font-mono); font-size: 0.85rem;">View all articles with search & filters →</a></p>
         </section>
     </main>
     

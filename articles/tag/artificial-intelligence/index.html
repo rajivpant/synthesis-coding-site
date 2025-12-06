@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Articles — Synthesis Coding</title>
-    <meta name="description" content="Articles on Synthesis Coding methodology for AI-assisted professional software development.">
-    <meta name="keywords" content="synthesis coding, synthesis engineering, AI-assisted development, software engineering, Claude Code">
+    <title>artificial intelligence — Synthesis Coding</title>
+    <meta name="description" content="Articles tagged with 'artificial intelligence' on Synthesis Coding.">
+    <meta name="keywords" content="synthesis coding, artificial intelligence, AI-assisted development">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="Synthesis Coding Articles">
-    <meta property="og:description" content="Articles on Synthesis Coding methodology for AI-assisted professional software development.">
+    <meta property="og:title" content="artificial intelligence — Synthesis Coding">
+    <meta property="og:description" content="Articles tagged with 'artificial intelligence' on Synthesis Coding.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://synthesiscoding.com/articles/">
+    <meta property="og:url" content="https://synthesiscoding.com/articles/tag/artificial-intelligence/">
     <meta property="og:image" content="https://synthesiscoding.com/assets/og-image.jpg">
 
     <!-- RSS Feed -->
@@ -36,7 +36,6 @@
             --gray-lighter: #e5e5e5;
             --white: #fafafa;
             --cream: #f5f4f0;
-            --accent: #2a2a2a;
 
             --font-serif: 'Newsreader', Georgia, serif;
             --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
@@ -45,14 +44,9 @@
             --wide-width: 960px;
         }
 
-        *, *::before, *::after {
-            box-sizing: border-box;
-        }
+        *, *::before, *::after { box-sizing: border-box; }
 
-        html {
-            font-size: 18px;
-            scroll-behavior: smooth;
-        }
+        html { font-size: 18px; scroll-behavior: smooth; }
 
         body {
             margin: 0;
@@ -65,20 +59,14 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Header */
         header {
             padding: 2rem;
             text-align: center;
             border-bottom: 1px solid var(--gray-lighter);
         }
 
-        .logo {
-            max-width: 240px;
-            width: 100%;
-            height: auto;
-        }
+        .logo { max-width: 240px; width: 100%; height: auto; }
 
-        /* Nav */
         nav {
             position: sticky;
             top: 0;
@@ -102,48 +90,22 @@
             flex-wrap: wrap;
         }
 
-        nav a {
-            text-decoration: none;
-            color: var(--gray);
-        }
+        nav a { text-decoration: none; color: var(--gray); }
+        nav a:hover { color: var(--black); }
 
-        nav a:hover {
-            color: var(--black);
-        }
-
-        /* Main content */
         main {
             max-width: var(--wide-width);
             margin: 0 auto;
             padding: 0 2rem;
         }
 
-        section {
-            padding: 3rem 0;
-        }
+        section { padding: 3rem 0; }
 
-        h1, h2 {
-            font-weight: 500;
-            line-height: 1.3;
-            color: var(--black);
-        }
+        h1, h2 { font-weight: 500; line-height: 1.3; color: var(--black); }
+        h1 { font-size: 2rem; margin: 0 0 0.5rem; }
+        h2 { font-size: 1.5rem; margin: 0 0 1.5rem; }
 
-        h1 {
-            font-size: 2rem;
-            margin: 0 0 0.5rem;
-        }
-
-        h2 {
-            font-size: 1.5rem;
-            margin: 0 0 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--black);
-            display: inline-block;
-        }
-
-        p {
-            margin: 0 0 1.25rem;
-        }
+        p { margin: 0 0 1.25rem; }
 
         a {
             color: var(--dark);
@@ -152,171 +114,48 @@
             text-decoration-thickness: 1px;
             transition: color 0.2s;
         }
+        a:hover { color: var(--gray); }
 
-        a:hover {
-            color: var(--gray);
-        }
-
-        /* Page header with stats */
         .page-header {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .page-header h2 {
-            margin: 0;
-        }
-
-        .article-count {
-            font-family: var(--font-mono);
-            font-size: 0.8rem;
-            color: var(--gray);
-            background: var(--cream);
-            padding: 0.3rem 0.75rem;
-            border-radius: 4px;
-        }
-
-        /* Category stats bar */
-        .category-stats {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .category-stat {
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            font-family: var(--font-mono);
-            font-size: 0.7rem;
-            text-decoration: none;
-            color: var(--gray-dark);
-            background: var(--cream);
-            padding: 0.3rem 0.6rem;
-            border-radius: 4px;
-            border-left: 3px solid var(--cat-color, var(--gray));
-            transition: all 0.2s;
-        }
-
-        .category-stat:hover {
-            background: var(--gray-lighter);
-            color: var(--black);
-        }
-
-        .stat-count {
-            background: var(--white);
-            padding: 0 0.35rem;
-            border-radius: 3px;
-            font-weight: 500;
-        }
-
-        /* Sort and search controls */
-        .controls {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
             margin-bottom: 2rem;
-            padding: 1rem;
-            background: var(--cream);
-            border-radius: 8px;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--gray-lighter);
         }
 
-        .sort-controls {
-            display: flex;
-            gap: 0.5rem;
+        .tag-indicator {
+            display: inline-flex;
             align-items: center;
-        }
-
-        .sort-label {
+            gap: 0.5rem;
             font-family: var(--font-mono);
             font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             color: var(--gray);
+            margin-bottom: 0.75rem;
         }
 
-        .sort-btn {
+        .tag-icon {
+            width: 14px;
+            height: 14px;
+        }
+
+        .article-count {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--gray-light);
+            margin-top: 0.5rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
             font-family: var(--font-mono);
             font-size: 0.75rem;
-            padding: 0.4rem 0.75rem;
-            border: 1px solid var(--gray-lighter);
-            background: var(--white);
-            color: var(--gray);
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.2s;
+            margin-bottom: 1.5rem;
         }
 
-        .sort-btn:hover {
-            border-color: var(--gray);
-            color: var(--dark);
-        }
-
-        .sort-btn.active {
-            background: var(--black);
-            color: var(--white);
-            border-color: var(--black);
-        }
-
-        .search-container {
-            flex: 1;
-            min-width: 200px;
-            position: relative;
-        }
-
-        .search-input {
-            width: 100%;
-            font-family: var(--font-mono);
-            font-size: 0.85rem;
-            padding: 0.5rem 1rem 0.5rem 2.5rem;
-            border: 1px solid var(--gray-lighter);
-            border-radius: 4px;
-            background: var(--white);
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .search-input:focus {
-            border-color: var(--gray);
-        }
-
-        .search-input::placeholder {
-            color: var(--gray-light);
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 0.75rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--gray-light);
-            pointer-events: none;
-        }
-
-        .search-shortcut {
-            position: absolute;
-            right: 0.75rem;
-            top: 50%;
-            transform: translateY(-50%);
-            font-family: var(--font-mono);
-            font-size: 0.65rem;
-            color: var(--gray-light);
-            background: var(--cream);
-            padding: 0.15rem 0.4rem;
-            border-radius: 3px;
-            border: 1px solid var(--gray-lighter);
-        }
-
-        /* Article cards grid */
-        .articles-grid {
-            display: grid;
-            gap: 1.5rem;
-        }
+        .articles-grid { display: grid; gap: 1.5rem; }
 
         .article-card {
             padding: 1.5rem;
@@ -349,12 +188,6 @@
             background: color-mix(in srgb, var(--cat-color, #6b7280) 15%, transparent);
             color: var(--cat-color, #6b7280);
             border: 1px solid color-mix(in srgb, var(--cat-color, #6b7280) 30%, transparent);
-            transition: all 0.2s;
-        }
-
-        .category-badge:hover {
-            background: color-mix(in srgb, var(--cat-color, #6b7280) 25%, transparent);
-            color: var(--cat-color, #6b7280);
         }
 
         .new-badge {
@@ -376,14 +209,8 @@
             line-height: 1.4;
         }
 
-        .card-title a {
-            text-decoration: none;
-            color: var(--black);
-        }
-
-        .card-title a:hover {
-            text-decoration: underline;
-        }
+        .card-title a { text-decoration: none; color: var(--black); }
+        .card-title a:hover { text-decoration: underline; }
 
         .card-description {
             font-size: 0.9rem;
@@ -406,15 +233,9 @@
             margin-bottom: 0.75rem;
         }
 
-        .card-separator {
-            color: var(--gray-lighter);
-        }
+        .card-separator { color: var(--gray-lighter); }
 
-        .card-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.35rem;
-        }
+        .card-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
 
         .tag {
             font-family: var(--font-mono);
@@ -427,49 +248,8 @@
             transition: all 0.2s;
         }
 
-        a.tag:hover {
-            background: var(--gray-lighter);
-            color: var(--dark);
-        }
+        a.tag:hover { background: var(--gray-lighter); color: var(--dark); }
 
-        /* No results message */
-        .no-results {
-            text-align: center;
-            padding: 3rem;
-            color: var(--gray);
-            display: none;
-        }
-
-        .no-results.visible {
-            display: block;
-        }
-
-        /* RSS link */
-        .rss-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            text-decoration: none;
-            color: var(--gray);
-            padding: 0.4rem 0.75rem;
-            border: 1px solid var(--gray-lighter);
-            border-radius: 4px;
-            transition: all 0.2s;
-        }
-
-        .rss-link:hover {
-            border-color: #f26522;
-            color: #f26522;
-        }
-
-        .rss-icon {
-            width: 14px;
-            height: 14px;
-        }
-
-        /* Footer */
         footer {
             max-width: var(--wide-width);
             margin: 0 auto;
@@ -480,9 +260,7 @@
             border-top: 1px solid var(--gray-lighter);
         }
 
-        footer p {
-            margin: 0 0 0.75rem;
-        }
+        footer p { margin: 0 0 0.75rem; }
 
         .cc0 {
             font-family: var(--font-mono);
@@ -491,62 +269,14 @@
             letter-spacing: 0.02em;
         }
 
-        /* Responsive */
         @media (max-width: 640px) {
-            html {
-                font-size: 16px;
-            }
-
-            header {
-                padding: 1.5rem;
-            }
-
-            .logo {
-                max-width: 200px;
-            }
-
-            main {
-                padding: 0 1.5rem;
-            }
-
-            section {
-                padding: 2rem 0;
-            }
-
-            nav ul {
-                gap: 1rem;
-            }
-
-            .controls {
-                flex-direction: column;
-            }
-
-            .sort-controls {
-                flex-wrap: wrap;
-            }
-
-            .search-shortcut {
-                display: none;
-            }
-
-            .article-card {
-                padding: 1.25rem;
-            }
-        }
-
-        /* Print styles */
-        @media print {
-            nav, .controls {
-                display: none;
-            }
-
-            header {
-                border-bottom: none;
-            }
-
-            .article-card {
-                break-inside: avoid;
-            }
+            html { font-size: 16px; }
+            header { padding: 1.5rem; }
+            .logo { max-width: 200px; }
+            main { padding: 0 1.5rem; }
+            section { padding: 2rem 0; }
+            nav ul { gap: 1rem; }
+            .article-card { padding: 1.25rem; }
         }
     </style>
 </head>
@@ -568,65 +298,21 @@
 
     <main>
         <section>
+            <a href="/articles/" class="back-link">← All Articles</a>
+
             <div class="page-header">
-                <div>
-                    <h2>Reference Articles</h2>
-                    <p style="margin: 0; color: var(--gray); font-size: 0.95rem;">The methodology documented across theory, frameworks, and technical implementation.</p>
-                </div>
-                <div style="display: flex; align-items: center; gap: 1rem;">
-                    <span class="article-count">7 articles</span>
-                    <a href="/feed.xml" class="rss-link" title="Subscribe to RSS feed">
-                        <svg class="rss-icon" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19 7.38 20 6.18 20C5 20 4 19 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1Z"/>
-                        </svg>
-                        RSS
-                    </a>
-                </div>
-            </div>
-
-            <div class="category-stats">
-                <a href="/articles/category/foundation/" class="category-stat" style="--cat-color: #2563eb">
-      <span class="stat-name">Foundation</span>
-      <span class="stat-count">1</span>
-    </a><a href="/articles/category/framework/" class="category-stat" style="--cat-color: #7c3aed">
-      <span class="stat-name">Framework</span>
-      <span class="stat-count">1</span>
-    </a><a href="/articles/category/technical-guide/" class="category-stat" style="--cat-color: #059669">
-      <span class="stat-name">Technical guide</span>
-      <span class="stat-count">1</span>
-    </a><a href="/articles/category/case-study/" class="category-stat" style="--cat-color: #d97706">
-      <span class="stat-name">Case study</span>
-      <span class="stat-count">1</span>
-    </a><a href="/articles/category/advanced-patterns/" class="category-stat" style="--cat-color: #dc2626">
-      <span class="stat-name">Advanced patterns</span>
-      <span class="stat-count">1</span>
-    </a><a href="/articles/category/comparison/" class="category-stat" style="--cat-color: #0891b2">
-      <span class="stat-name">Comparison and guidance</span>
-      <span class="stat-count">1</span>
-    </a><a href="/articles/category/philosophical/" class="category-stat" style="--cat-color: #6b7280">
-      <span class="stat-name">Philosophical foundation</span>
-      <span class="stat-count">1</span>
-    </a>
-            </div>
-
-            <div class="controls">
-                <div class="sort-controls">
-                    <span class="sort-label">Sort:</span>
-                    <button class="sort-btn active" data-sort="newest">Newest</button>
-                    <button class="sort-btn" data-sort="category">By Category</button>
-                    <button class="sort-btn" data-sort="oldest">Oldest</button>
-                </div>
-                <div class="search-container">
-                    <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <path d="m21 21-4.35-4.35"></path>
+                <div class="tag-indicator">
+                    <svg class="tag-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                        <line x1="7" y1="7" x2="7.01" y2="7"></line>
                     </svg>
-                    <input type="text" class="search-input" placeholder="Search articles..." id="search-input">
-                    <span class="search-shortcut">⌘K</span>
+                    Tag
                 </div>
+                <h1>artificial intelligence</h1>
+                <span class="article-count">7 articles</span>
             </div>
 
-            <div class="articles-grid" id="articles-grid">
+            <div class="articles-grid">
                 
     <article class="article-card" data-date="2025-11-30" data-category="Advanced patterns">
       <div class="card-header">
@@ -755,10 +441,6 @@
       </div>
     </article>
             </div>
-
-            <div class="no-results" id="no-results">
-                <p>No articles found matching your search.</p>
-            </div>
         </section>
     </main>
 
@@ -766,123 +448,5 @@
         <p class="cc0">The terms "Synthesis Coding" and "Synthesis Engineering," along with the associated logo and visual identity, are released under <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0 Universal</a> (public domain). No permission required. No attribution needed. Use freely. The logo was hand-crafted by a human artist.</p>
         <p><a href="/">← Back to Synthesis Coding</a></p>
     </footer>
-
-    <script>
-        // Articles data for sorting
-        const articlesData = [{"slug":"polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code","date":"2025-11-30","category":"Advanced patterns","categoryOrder":5,"seriesOrder":999},{"slug":"seventeen-years-ago-i-built-a-tool-for-the-open-web-this-weekend-i-modernized-it-using-synthesis-coding-with-claude-code-ai","date":"2025-11-29","category":"Case study","categoryOrder":4,"seriesOrder":999},{"slug":"synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development","date":"2025-11-09","category":"Foundation","categoryOrder":1,"seriesOrder":999},{"slug":"synthesis-engineering-with-claude-code-technical-implementation-and-workflows","date":"2025-11-09","category":"Technical guide","categoryOrder":3,"seriesOrder":999},{"slug":"the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai","date":"2025-11-09","category":"Framework","categoryOrder":2,"seriesOrder":999},{"slug":"vibe-coding-and-synthesis-coding-two-approaches-one-developer","date":"2025-12-01","category":"Comparison and guidance","categoryOrder":6,"seriesOrder":999},{"slug":"why-synthesis-coding-still-writes-code-in-the-age-of-llms","date":"2025-12-04","category":"Philosophical foundation","categoryOrder":7,"seriesOrder":999}];
-
-        // DOM elements
-        const grid = document.getElementById('articles-grid');
-        const searchInput = document.getElementById('search-input');
-        const noResults = document.getElementById('no-results');
-        const sortBtns = document.querySelectorAll('.sort-btn');
-
-        // Get all article cards
-        const cards = Array.from(grid.querySelectorAll('.article-card'));
-
-        // Create a map for quick lookup
-        const cardMap = new Map();
-        cards.forEach(card => {
-            const link = card.querySelector('.card-title a');
-            const slug = link.href.split('/articles/')[1].replace(/\/$/, '');
-            cardMap.set(slug, card);
-        });
-
-        // Sort function
-        function sortArticles(sortType) {
-            const sorted = [...articlesData];
-
-            switch (sortType) {
-                case 'newest':
-                    sorted.sort((a, b) => new Date(b.date) - new Date(a.date));
-                    break;
-                case 'oldest':
-                    sorted.sort((a, b) => new Date(a.date) - new Date(b.date));
-                    break;
-                case 'category':
-                    sorted.sort((a, b) => {
-                        if (a.categoryOrder !== b.categoryOrder) {
-                            return a.categoryOrder - b.categoryOrder;
-                        }
-                        if (a.seriesOrder !== b.seriesOrder) {
-                            return a.seriesOrder - b.seriesOrder;
-                        }
-                        return new Date(b.date) - new Date(a.date);
-                    });
-                    break;
-            }
-
-            // Reorder DOM
-            sorted.forEach(article => {
-                const card = cardMap.get(article.slug);
-                if (card) {
-                    grid.appendChild(card);
-                }
-            });
-
-            // Save preference
-            localStorage.setItem('articleSort', sortType);
-        }
-
-        // Search function
-        function searchArticles(query) {
-            const normalizedQuery = query.toLowerCase().trim();
-            let visibleCount = 0;
-
-            cards.forEach(card => {
-                const title = card.querySelector('.card-title').textContent.toLowerCase();
-                const description = card.querySelector('.card-description').textContent.toLowerCase();
-                const category = card.dataset.category.toLowerCase();
-                const tags = Array.from(card.querySelectorAll('.tag')).map(t => t.textContent.toLowerCase()).join(' ');
-
-                const matches = !normalizedQuery ||
-                    title.includes(normalizedQuery) ||
-                    description.includes(normalizedQuery) ||
-                    category.includes(normalizedQuery) ||
-                    tags.includes(normalizedQuery);
-
-                card.style.display = matches ? '' : 'none';
-                if (matches) visibleCount++;
-            });
-
-            noResults.classList.toggle('visible', visibleCount === 0 && normalizedQuery);
-        }
-
-        // Event listeners
-        sortBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                sortBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                sortArticles(btn.dataset.sort);
-            });
-        });
-
-        searchInput.addEventListener('input', (e) => {
-            searchArticles(e.target.value);
-        });
-
-        // Keyboard shortcut for search
-        document.addEventListener('keydown', (e) => {
-            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-                e.preventDefault();
-                searchInput.focus();
-                searchInput.select();
-            }
-            if (e.key === 'Escape' && document.activeElement === searchInput) {
-                searchInput.blur();
-                searchInput.value = '';
-                searchArticles('');
-            }
-        });
-
-        // Load saved preference and apply default sort
-        const savedSort = localStorage.getItem('articleSort') || 'newest';
-        const savedBtn = document.querySelector(`[data-sort="${savedSort}"]`);
-        if (savedBtn) {
-            sortBtns.forEach(b => b.classList.remove('active'));
-            savedBtn.classList.add('active');
-        }
-        sortArticles(savedSort);
-    </script>
 </body>
 </html>

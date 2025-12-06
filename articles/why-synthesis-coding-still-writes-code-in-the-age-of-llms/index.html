@@ -23,6 +23,9 @@
     <meta name="twitter:title" content="Why Synthesis Coding Still Writes Code in the Age of LLMs">
     <meta name="twitter:description" content="The answer is not "just let the model do it" — and code matters more, not less, as AI gets dramatically better Last spring, my son Fitz and I had an afternoon math duel. He was twelve at the time. Sharp. Competitive. He took on the puzzle the traditional way — paper, pencil, and focused [...]">
 
+    <!-- RSS Feed -->
+    <link rel="alternate" type="application/rss+xml" title="Synthesis Coding RSS Feed" href="/feed.xml">
+
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -150,10 +153,27 @@
             letter-spacing: 0.02em;
         }
 
-        .article-meta .category {
-            background: var(--cream);
-            padding: 0.25rem 0.5rem;
-            margin-left: 1rem;
+        .article-meta .separator {
+            margin: 0 0.5rem;
+            color: var(--gray-lighter);
+        }
+
+        .category-badge {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            background: color-mix(in srgb, var(--cat-color, #6b7280) 15%, transparent);
+            color: var(--cat-color, #6b7280);
+            border: 1px solid color-mix(in srgb, var(--cat-color, #6b7280) 30%, transparent);
+            transition: all 0.2s;
+        }
+
+        .category-badge:hover {
+            background: color-mix(in srgb, var(--cat-color, #6b7280) 25%, transparent);
         }
 
         .canonical-notice {
@@ -194,6 +214,59 @@
             padding: 0.25rem 0.6rem;
             margin: 0 0.4rem 0.4rem 0;
             border-radius: 3px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .article-tags a.tag:hover {
+            background: var(--gray-lighter);
+            color: var(--dark);
+        }
+
+        /* Related articles */
+        .related-articles {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gray-lighter);
+        }
+
+        .related-articles h2 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin: 0 0 1.25rem;
+            color: var(--black);
+        }
+
+        .related-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .related-card {
+            display: block;
+            padding: 1rem 1.25rem;
+            background: var(--cream);
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .related-card:hover {
+            background: var(--gray-lighter);
+        }
+
+        .related-title {
+            display: block;
+            font-weight: 500;
+            color: var(--dark);
+            margin-bottom: 0.25rem;
+            line-height: 1.4;
+        }
+
+        .related-meta {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--gray-light);
         }
 
         /* Article content */
@@ -437,7 +510,10 @@
                 <h1>Why Synthesis Coding Still Writes Code in the Age of LLMs</h1>
                 <div class="article-meta">
                     <time datetime="2025-12-04">December 3, 2025</time>
-                    <span class="category">Philosophical foundation</span>
+                    <span class="separator">·</span>
+                    <span>14 min read</span>
+                    <span class="separator">·</span>
+                    <a href="/articles/category/philosophical/" class="category-badge" style="--cat-color: #6b7280">Philosophical foundation</a>
                 </div>
             </div>
 
@@ -509,12 +585,30 @@
 
             <div class="article-tags">
                 <div class="article-tags-label">Tags</div>
-                <span class="tag">artificial intelligence</span><span class="tag">CTO</span><span class="tag">ctobook</span><span class="tag">programming</span><span class="tag">software engineering</span><span class="tag">synthesis coding</span><span class="tag">synthesis engineering</span><span class="tag">vibe coding</span>
+                <a href="/articles/tag/artificial-intelligence/" class="tag">artificial intelligence</a><a href="/articles/tag/cto/" class="tag">CTO</a><a href="/articles/tag/ctobook/" class="tag">ctobook</a><a href="/articles/tag/programming/" class="tag">programming</a><a href="/articles/tag/software-engineering/" class="tag">software engineering</a><a href="/articles/tag/synthesis-coding/" class="tag">synthesis coding</a><a href="/articles/tag/synthesis-engineering/" class="tag">synthesis engineering</a><a href="/articles/tag/vibe-coding/" class="tag">vibe coding</a>
             </div>
 
             <p class="canonical-notice">
                 Originally published on <a href="https://rajiv.com/blog/2025/12/04/why-synthesis-coding-still-writes-code-in-the-age-of-llms/">rajiv.com</a>
             </p>
+
+            <section class="related-articles">
+    <h2>Related Articles</h2>
+    <div class="related-grid">
+      <a href="/articles/polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code/" class="related-card">
+        <span class="related-title">Polyrepo Synthesis: Synthesis Coding Across Multiple Repositories with Claude Code in Visual Studio Code</span>
+        <span class="related-meta">10 min read</span>
+      </a>
+      <a href="/articles/seventeen-years-ago-i-built-a-tool-for-the-open-web-this-weekend-i-modernized-it-using-synthesis-coding-with-claude-code-ai/" class="related-card">
+        <span class="related-title">Seventeen years ago, I built a tool for the open Web. This weekend, I modernized it using Synthesis Coding with Claude Code AI</span>
+        <span class="related-meta">8 min read</span>
+      </a>
+      <a href="/articles/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/" class="related-card">
+        <span class="related-title">Synthesis Engineering: The Professional Practice Emerging in AI-Assisted Development</span>
+        <span class="related-meta">12 min read</span>
+      </a>
+    </div>
+  </section>
         </article>
     </main>
 
