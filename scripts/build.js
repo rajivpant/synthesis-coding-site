@@ -788,6 +788,18 @@ function build() {
       fs.writeFileSync(indexOutputPath, indexHtml);
       console.log(`  ✅ Generated: /index.html (from template)`);
     }
+
+    // Generate colophon page
+    const colophonTemplatePath = path.join(TEMPLATES_DIR, 'colophon.html');
+    const colophonDir = path.join(ROOT_DIR, 'colophon');
+    if (fs.existsSync(colophonTemplatePath)) {
+      if (!fs.existsSync(colophonDir)) {
+        fs.mkdirSync(colophonDir, { recursive: true });
+      }
+      const colophonHtml = fs.readFileSync(colophonTemplatePath, 'utf-8');
+      fs.writeFileSync(path.join(colophonDir, 'index.html'), colophonHtml);
+      console.log(`  ✅ Generated: /colophon/`);
+    }
   }
 
   console.log('\n' + (hasErrors ? '⚠️  Build completed with errors' : '✅ Build complete!'));

@@ -284,7 +284,18 @@
             color: var(--gray-light);
             letter-spacing: 0.02em;
         }
-        
+
+        .built-with {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--gray-light);
+            margin-top: 1.5rem;
+        }
+
+        .built-with a {
+            color: var(--gray);
+        }
+
         .author-note {
             margin-top: 2rem;
             padding-top: 2rem;
@@ -518,6 +529,12 @@
         <div class="author-note">
             <p>This methodology was documented by <a href="https://rajiv.com/">Rajiv Pant</a>, who observed these patterns emerging across engineering organizations and gave them a name. The articles above provide comprehensive coverage of the practice.</p>
         </div>
+        <p class="built-with">
+            Built with <a href="https://github.com/rajivpant/ownwords">ownwords</a>,
+            <a href="https://claude.ai/claude-code">Claude Code</a>,
+            <a href="https://pages.cloudflare.com/">Cloudflare</a> &amp; friends ·
+            <a href="/colophon/">Colophon</a>
+        </p>
     </footer>
 </body>
 </html>

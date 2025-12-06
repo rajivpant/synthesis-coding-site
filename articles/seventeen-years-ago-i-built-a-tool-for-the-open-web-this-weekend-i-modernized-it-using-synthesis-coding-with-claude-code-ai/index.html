@@ -441,6 +441,17 @@
             letter-spacing: 0.02em;
         }
 
+        .built-with {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--gray-light);
+            margin-top: 1.5rem;
+        }
+
+        .built-with a {
+            color: var(--gray);
+        }
+
         /* Responsive */
         @media (max-width: 640px) {
             html {
@@ -610,6 +621,12 @@
     <footer>
         <p class="cc0">The terms "Synthesis Coding" and "Synthesis Engineering," along with the associated logo and visual identity, are released under <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0 Universal</a> (public domain). No permission required. No attribution needed. Use freely. The logo was hand-crafted by a human artist.</p>
         <p><a href="/">← Back to Synthesis Coding</a></p>
+        <p class="built-with">
+            Built with <a href="https://github.com/rajivpant/ownwords">ownwords</a>,
+            <a href="https://claude.ai/claude-code">Claude Code</a>,
+            <a href="https://pages.cloudflare.com/">Cloudflare</a> &amp; friends ·
+            <a href="/colophon/">Colophon</a>
+        </p>
     </footer>
 
     <!-- Prism.js core and language support -->

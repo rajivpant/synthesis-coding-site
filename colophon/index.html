@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colophon — Synthesis Coding</title>
+    <meta name="description" content="How this site is built: the tools and technologies behind Synthesis Coding.">
+    <meta name="keywords" content="synthesis coding, colophon, tech stack, ownwords, Claude Code, Cloudflare">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Colophon — Synthesis Coding">
+    <meta property="og:description" content="How this site is built: the tools and technologies behind Synthesis Coding.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://synthesiscoding.com/colophon/">
+    <meta property="og:image" content="https://synthesiscoding.com/assets/og-image.jpg">
+
+    <!-- RSS Feed -->
+    <link rel="alternate" type="application/rss+xml" title="Synthesis Coding RSS Feed" href="/feed.xml">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --black: #0a0a0a;
+            --dark: #1a1a1a;
+            --gray-dark: #3a3a3a;
+            --gray: #666;
+            --gray-light: #999;
+            --gray-lighter: #e5e5e5;
+            --white: #fafafa;
+            --cream: #f5f4f0;
+
+            --font-serif: 'Newsreader', Georgia, serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+
+            --max-width: 720px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+
+        html { font-size: 18px; scroll-behavior: smooth; }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-serif);
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--dark);
+            background: var(--white);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        header {
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--gray-lighter);
+        }
+
+        .logo { max-width: 240px; width: 100%; height: auto; }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-lighter);
+            padding: 0.75rem 2rem;
+            z-index: 100;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        nav a { text-decoration: none; color: var(--gray); }
+        nav a:hover { color: var(--black); }
+
+        main {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        h1 {
+            font-weight: 500;
+            font-size: 2rem;
+            line-height: 1.3;
+            color: var(--black);
+            margin: 0 0 0.5rem;
+        }
+
+        h2 {
+            font-weight: 500;
+            font-size: 1.25rem;
+            color: var(--black);
+            margin: 2.5rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--gray-lighter);
+        }
+
+        p { margin: 0 0 1.25rem; }
+
+        a {
+            color: var(--dark);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            text-decoration-thickness: 1px;
+            transition: color 0.2s;
+        }
+        a:hover { color: var(--gray); }
+
+        .page-intro {
+            font-size: 1.1rem;
+            color: var(--gray);
+            margin-bottom: 2rem;
+        }
+
+        .tool-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .tool-item {
+            padding: 1.25rem 0;
+            border-bottom: 1px solid var(--gray-lighter);
+        }
+
+        .tool-item:last-child {
+            border-bottom: none;
+        }
+
+        .tool-name {
+            font-weight: 500;
+            font-size: 1.05rem;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .tool-name a {
+            text-decoration: none;
+        }
+
+        .tool-name a:hover {
+            text-decoration: underline;
+        }
+
+        .tool-description {
+            font-size: 0.95rem;
+            color: var(--gray);
+            margin: 0;
+        }
+
+        .tool-category {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--gray-light);
+            display: inline-block;
+            margin-left: 0.5rem;
+        }
+
+        footer {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 3rem 2rem 4rem;
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--gray-lighter);
+        }
+
+        footer p { margin: 0 0 0.75rem; }
+
+        .cc0 {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--gray-light);
+            letter-spacing: 0.02em;
+        }
+
+        .built-with {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--gray-light);
+            margin-top: 1.5rem;
+        }
+
+        .built-with a {
+            color: var(--gray);
+        }
+
+        @media (max-width: 640px) {
+            html { font-size: 16px; }
+            header { padding: 1.5rem; }
+            .logo { max-width: 200px; }
+            main { padding: 2rem 1.5rem; }
+            nav ul { gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/">
+            <img src="/assets/logo.webp" alt="Synthesis Coding" class="logo">
+        </a>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="/#what">What</a></li>
+            <li><a href="/#principles">Principles</a></li>
+            <li><a href="/#when">When to Use</a></li>
+            <li><a href="/articles/">Articles</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <h1>Colophon</h1>
+        <p class="page-intro">How this site is built.</p>
+
+        <p>This site practices what it preaches: it was built using Synthesis Coding methodology with AI assistance at every step, while maintaining human architectural control over the result.</p>
+
+        <h2>Development</h2>
+        <ul class="tool-list">
+            <li class="tool-item">
+                <span class="tool-name"><a href="https://claude.ai/claude-code">Claude Code</a> <span class="tool-category">Synthesis Coding</span></span>
+                <p class="tool-description">Anthropic's CLI that amplifies developer capabilities. Used with <a href="/">Synthesis Coding</a> methodology: human architectural decisions, AI-accelerated implementation, systematic quality standards throughout.</p>
+            </li>
+            <li class="tool-item">
+                <span class="tool-name"><a href="https://github.com/rajivpant/ownwords">ownwords</a> <span class="tool-category">Content Migration</span></span>
+                <p class="tool-description">Open source WordPress to Markdown toolkit. Fetches articles from WordPress, converts to clean Markdown with frontmatter, and enables static site generation.</p>
+            </li>
+        </ul>
+
+        <h2>Build &amp; Processing</h2>
+        <ul class="tool-list">
+            <li class="tool-item">
+                <span class="tool-name"><a href="https://nodejs.org/">Node.js</a> <span class="tool-category">Runtime</span></span>
+                <p class="tool-description">JavaScript runtime powering the build scripts that generate static HTML from Markdown content.</p>
+            </li>
+            <li class="tool-item">
+                <span class="tool-name"><a href="https://www.npmjs.com/">npm</a> <span class="tool-category">Package Manager</span></span>
+                <p class="tool-description">Node package manager for dependencies and build scripts.</p>
+            </li>
+            <li class="tool-item">
+                <span class="tool-name"><a href="https://marked.js.org/">marked</a> <span class="tool-category">Library</span></span>
+                <p class="tool-description">Fast Markdown parser and compiler for converting article content to HTML.</p>
+            </li>
+            <li class="tool-item">
+                <span class="tool-name"><a href="https://github.com/jonschlinkert/gray-matter">gray-matter</a> <span class="tool-category">Library</span></span>
+                <p class="tool-description">YAML frontmatter parser for extracting article metadata (title, date, tags, category).</p>
+            </li>
+        </ul>
+
+        <h2>Hosting &amp; Deployment</h2>
+        <ul class="tool-list">
+            <li class="tool-item">
+                <span class="tool-name"><a href="https://pages.cloudflare.com/">Cloudflare Pages</a> <span class="tool-category">Hosting</span></span>
+                <p class="tool-description">Edge hosting with global CDN. Automatic deployments from GitHub with instant cache invalidation.</p>
+            </li>
+            <li class="tool-item">
+                <span class="tool-name"><a href="https://github.com/">GitHub</a> <span class="tool-category">Source Control</span></span>
+                <p class="tool-description">Version control and repository hosting. Pushes to main trigger automatic Cloudflare Pages deployments.</p>
+            </li>
+        </ul>
+
+        <h2>Content Origin</h2>
+        <ul class="tool-list">
+            <li class="tool-item">
+                <span class="tool-name"><a href="https://wordpress.org/">WordPress</a> <span class="tool-category">CMS</span></span>
+                <p class="tool-description">Original publishing platform where articles are authored. Content is mirrored here via ownwords for the static methodology site.</p>
+            </li>
+        </ul>
+
+        <p style="margin-top: 2.5rem; font-size: 0.95rem; color: var(--gray);">The source code for this site is available on <a href="https://github.com/rajivpant/synthesis-coding-site">GitHub</a>.</p>
+    </main>
+
+    <footer>
+        <p class="cc0">The terms "Synthesis Coding" and "Synthesis Engineering," along with the associated logo and visual identity, are released under <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0 Universal</a> (public domain). No permission required. No attribution needed. Use freely. The logo was hand-crafted by a human artist.</p>
+        <p><a href="/">← Back to Synthesis Coding</a></p>
+        <p class="built-with">
+            Built with <a href="https://github.com/rajivpant/ownwords">ownwords</a>,
+            <a href="https://claude.ai/claude-code">Claude Code</a>,
+            <a href="https://pages.cloudflare.com/">Cloudflare</a> &amp; friends
+        </p>
+    </footer>
+</body>
+</html>
