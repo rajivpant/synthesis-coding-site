@@ -463,7 +463,7 @@
 <p>Through my work on multi-repository systems, I’ve identified patterns that recur across organizations:</p>
 <h3>Hub-and-spoke (source of truth)</h3>
 <p>One repository serves as the authoritative source of data or configuration, with multiple consumer repositories reading from it.</p>
-<pre><code>┌─────────────────────────────────────────┐
+<pre class="language-text"><code class="language-text">┌─────────────────────────────────────────┐
 │        ragbot-data/ (private)           │
 │    Source of truth for workspaces&#039;      │
 │   instructions, runbooks, and datasets  │
@@ -494,7 +494,7 @@
 <p>Here’s how I structure the CLAUDE.md files in my three-repository setup:</p>
 <h3>The repository ecosystem table</h3>
 <p>Every CLAUDE.md starts with the same table, ensuring Claude Code always knows the landscape:</p>
-<pre><code>## Repository Ecosystem
+<pre class="language-markdown"><code class="language-markdown">## Repository Ecosystem
 
 | Repository | Type | Purpose | Location |
 |------------|------|---------|----------|
@@ -504,7 +504,7 @@
 <p>This table appears identically in all three CLAUDE.md files. When Claude Code opens any repository, it immediately understands the ecosystem.</p>
 <h3>Cross-repository references</h3>
 <p>Each CLAUDE.md explicitly describes relationships to siblings:</p>
-<pre><code>## Product relationship
+<pre class="language-markdown"><code class="language-markdown">## Product relationship
 
 - **RagBot**: Actively maintained CLI and Streamlit UI. Production-ready.
 - **RaGenie**: Successor product with advanced RAG capabilities. Under development.
@@ -512,7 +512,7 @@
 - Both products will continue to be actively developed.</code></pre>
 <h3>Directory safety warnings</h3>
 <p>Multi-repo development’s most common error — running git commands in the wrong directory:</p>
-<pre><code>## Git operations
+<pre class="language-markdown"><code class="language-markdown">## Git operations
 
 **IMPORTANT**: Before any git commands for this repo, ensure you are in the correct directory:
 
@@ -525,22 +525,19 @@ This warning appears in every CLAUDE.md, customized with the correct path. It so
 ### Architecture context
 
 Each repository’s CLAUDE.md describes its internal structure so Claude Code can navigate effectively:
-</code></pre>
-<h2>Data location</h2>
-<p>RagBot reads data from <code>~/ragbot-data/workspaces/</code>:</p>
-<ul>
-<li><strong>instructions/</strong> — WHO: Identity/persona files</li>
-<li><strong>runbooks/</strong> — HOW: Procedure guides</li>
-<li><strong>datasets/</strong> — WHAT: Reference knowledge</li>
-</ul>
-<pre><code>
-This WHO/HOW/WHAT framework organizes ragbot-data’s content. Both products understand this structure because their CLAUDE.md files reference it.
 
-## A real example: the three-repository workspace
+```markdown
+## Data location
 
-Here’s how my VS Code workspace ties these repositories together. The `.code-workspace` file:
-</code></pre>
-<p>{
+RagBot reads data from `~/ragbot-data/workspaces/`:
+
+- **instructions/** — WHO: Identity/persona files
+- **runbooks/** — HOW: Procedure guides
+- **datasets/** — WHAT: Reference knowledge</code></pre>
+<p>This WHO/HOW/WHAT framework organizes ragbot-data’s content. Both products understand this structure because their CLAUDE.md files reference it.</p>
+<h2>A real example: the three-repository workspace</h2>
+<p>Here’s how my VS Code workspace ties these repositories together. The <code>.code-workspace</code> file:</p>
+<pre class="language-json"><code class="language-json">{
   &quot;folders&quot;: [
     { &quot;path&quot;: &quot;projects/my-projects/ragbot&quot;, &quot;name&quot;: &quot;RagBot (public)&quot; },
     { &quot;path&quot;: &quot;projects/my-projects/ragenie&quot;, &quot;name&quot;: &quot;RaGenie (public)&quot; },
@@ -548,113 +545,80 @@ Here’s how my VS Code workspace ties these repositories together. The `.code-
   ],
   &quot;settings&quot;: {
     &quot;files.exclude&quot;: {
-      &quot;<strong>/.git&quot;: true,
-      &quot;</strong>/node_modules&quot;: true,
-      &quot;**/<strong>pycache</strong>&quot;: true
+      &quot;**/.git&quot;: true,
+      &quot;**/node_modules&quot;: true,
+      &quot;**/__pycache__&quot;: true
     }
   }
-}</p>
-<pre><code>
-The folder names appearing in VS Code’s sidebar — “RagBot (public)”, “RaGenie (public)”, “ragbot-data (private)” — serve as constant reminders of each repository’s nature.
-
-When I ask Claude Code to help with a cross-cutting change, it can trace dependencies:
-
-&gt; “I want to add a new workspace type to ragbot-data. What changes are needed in RagBot and RaGenie to support it?”
-
-Claude Code, having read all three CLAUDE.md files, understands:
-
--   ragbot-data defines workspace structure in `workspaces/config.yaml`
--   RagBot loads workspaces via direct file reading in `src/helpers.py`
--   RaGenie watches for file changes and re-indexes into Qdrant
-
-It can provide a coherent plan spanning all three repositories.
-
-## Practical workflows
-
-### Cross-repo feature development
-
-When implementing a feature that spans repositories:
-
-1.  Start in the data/config repository — define the schema or configuration change
-2.  Move to the primary consumer — implement the feature using the new data structure
-3.  Check secondary consumers — ensure the change doesn’t break other dependents
-4.  Coordinate commits — meaningful commit messages that reference the cross-repo change
-
-Claude Code, having read all CLAUDE.md files, understands this sequence. Ask it “What else needs to change when I modify this schema?” and it can trace the dependencies.
-
-### The “follow the data” pattern
-
-For debugging or understanding, trace data flow across repositories:
-
-&gt; “Show me how workspace configurations flow from ragbot-data through RagBot’s loading mechanism to the Streamlit UI”
-
-Claude Code with ecosystem awareness can navigate this path without you manually opening each file. It understands that ragbot-data contains the source files, RagBot’s `helpers.py` loads them, and `ragbot_streamlit.py` renders them in the interface.
-
-### Coordinated releases
-
-When both products need updates:
-
-1.  Update ragbot-data with the new content or schema
-2.  Update RagBot to consume the changes (bump version in `VERSION` file)
-3.  Update RaGenie to handle the changes (bump version, potentially update Docker compose)
-4.  Tag releases across repositories with related version numbers
-
-Claude Code can help maintain this coordination: “Generate release notes for this change across all three repositories.”
-
-## Anti-patterns to avoid
-
-**Context overload**: CLAUDE.md files that try to document everything overwhelm Claude Code. Focus on what’s essential for cross-repo coordination — the ecosystem table, key relationships, and directory structure.
-
-**Conflicting instructions**: Different repos with contradictory coding standards or conventions. My RagBot uses Python with type hints; RaGenie uses Python with Pydantic models plus TypeScript for the frontend. The CLAUDE.md files clarify these differences rather than pretending they don’t exist.
-
-**Wrong directory syndrome**: Running `git commit` in the wrong repository. The directory warnings help, but vigilance remains necessary. I’ve adopted the habit of always running `pwd` before any git operation.
-
-**Stale context**: CLAUDE.md files that drift from reality. When architecture changes, update the documentation. I treat CLAUDE.md as a living document — when I add a new service or change a data flow, the CLAUDE.md files get updated in the same commit.
-
-## Getting started: your first Polyrepo Synthesis setup
-
-If you’re new to multi-repository development with Claude Code, start with these steps:
-
-### 1\. Create a VS Code multi-root workspace
-
-File → Add Folder to Workspace for each repository you want to include. Save the workspace file (`.code-workspace`) somewhere accessible.
-
-### 2\. Add minimal CLAUDE.md to each repository
-
-Start with just the ecosystem table:
-</code></pre>
-<h1>Claude Code Context: [repo-name]</h1>
-<h2>Repository ecosystem</h2>
-<table>
-<thead>
-<tr>
-<th>Repository</th>
-<th>Type</th>
-<th>Purpose</th>
-<th>Location</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>[this-repo]</strong></td>
-<td>[Public/Private]</td>
-<td>[Brief purpose]</td>
-<td><code>~/path/to/[this-repo]/</code></td>
-</tr>
-<tr>
-<td><strong>[related-repo]</strong></td>
-<td>[Public/Private]</td>
-<td>[Brief purpose]</td>
-<td><code>~/path/to/[related-repo]/</code></td>
-</tr>
-</tbody></table>
-<h2>Related repositories</h2>
-<p>This repo works alongside:</p>
+}</code></pre>
+<p>The folder names appearing in VS Code’s sidebar — “RagBot (public)”, “RaGenie (public)”, “ragbot-data (private)” — serve as constant reminders of each repository’s nature.</p>
+<p>When I ask Claude Code to help with a cross-cutting change, it can trace dependencies:</p>
+<blockquote>
+<p>“I want to add a new workspace type to ragbot-data. What changes are needed in RagBot and RaGenie to support it?”</p>
+</blockquote>
+<p>Claude Code, having read all three CLAUDE.md files, understands:</p>
 <ul>
-<li><strong>[related-repo]</strong>: [Brief description of relationship]</li>
+<li>ragbot-data defines workspace structure in <code>workspaces/config.yaml</code></li>
+<li>RagBot loads workspaces via direct file reading in <code>src/helpers.py</code></li>
+<li>RaGenie watches for file changes and re-indexes into Qdrant</li>
 </ul>
-<h2>Git operations</h2>
-<p>Verify directory before git commands:</p>
-<pre class="language-bash"><code class="language-bash">cd ~/path/to/[this-repo]</code></pre>
+<p>It can provide a coherent plan spanning all three repositories.</p>
+<h2>Practical workflows</h2>
+<h3>Cross-repo feature development</h3>
+<p>When implementing a feature that spans repositories:</p>
+<ol>
+<li>Start in the data/config repository — define the schema or configuration change</li>
+<li>Move to the primary consumer — implement the feature using the new data structure</li>
+<li>Check secondary consumers — ensure the change doesn’t break other dependents</li>
+<li>Coordinate commits — meaningful commit messages that reference the cross-repo change</li>
+</ol>
+<p>Claude Code, having read all CLAUDE.md files, understands this sequence. Ask it “What else needs to change when I modify this schema?” and it can trace the dependencies.</p>
+<h3>The “follow the data” pattern</h3>
+<p>For debugging or understanding, trace data flow across repositories:</p>
+<blockquote>
+<p>“Show me how workspace configurations flow from ragbot-data through RagBot’s loading mechanism to the Streamlit UI”</p>
+</blockquote>
+<p>Claude Code with ecosystem awareness can navigate this path without you manually opening each file. It understands that ragbot-data contains the source files, RagBot’s <code>helpers.py</code> loads them, and <code>ragbot_streamlit.py</code> renders them in the interface.</p>
+<h3>Coordinated releases</h3>
+<p>When both products need updates:</p>
+<ol>
+<li>Update ragbot-data with the new content or schema</li>
+<li>Update RagBot to consume the changes (bump version in <code>VERSION</code> file)</li>
+<li>Update RaGenie to handle the changes (bump version, potentially update Docker compose)</li>
+<li>Tag releases across repositories with related version numbers</li>
+</ol>
+<p>Claude Code can help maintain this coordination: “Generate release notes for this change across all three repositories.”</p>
+<h2>Anti-patterns to avoid</h2>
+<p><strong>Context overload</strong>: CLAUDE.md files that try to document everything overwhelm Claude Code. Focus on what’s essential for cross-repo coordination — the ecosystem table, key relationships, and directory structure.</p>
+<p><strong>Conflicting instructions</strong>: Different repos with contradictory coding standards or conventions. My RagBot uses Python with type hints; RaGenie uses Python with Pydantic models plus TypeScript for the frontend. The CLAUDE.md files clarify these differences rather than pretending they don’t exist.</p>
+<p><strong>Wrong directory syndrome</strong>: Running <code>git commit</code> in the wrong repository. The directory warnings help, but vigilance remains necessary. I’ve adopted the habit of always running <code>pwd</code> before any git operation.</p>
+<p><strong>Stale context</strong>: CLAUDE.md files that drift from reality. When architecture changes, update the documentation. I treat CLAUDE.md as a living document — when I add a new service or change a data flow, the CLAUDE.md files get updated in the same commit.</p>
+<h2>Getting started: your first Polyrepo Synthesis setup</h2>
+<p>If you’re new to multi-repository development with Claude Code, start with these steps:</p>
+<h3>1. Create a VS Code multi-root workspace</h3>
+<p>File → Add Folder to Workspace for each repository you want to include. Save the workspace file (<code>.code-workspace</code>) somewhere accessible.</p>
+<h3>2. Add minimal CLAUDE.md to each repository</h3>
+<p>Start with just the ecosystem table:</p>
+<pre class="language-markdown"><code class="language-markdown"># Claude Code Context: [repo-name]
+
+## Repository ecosystem
+
+| Repository | Type | Purpose | Location |
+|------------|------|---------|----------|
+| **[this-repo]** | [Public/Private] | [Brief purpose] | `~/path/to/[this-repo]/` |
+| **[related-repo]** | [Public/Private] | [Brief purpose] | `~/path/to/[related-repo]/` |
+
+## Related repositories
+
+This repo works alongside:
+- **[related-repo]**: [Brief description of relationship]
+
+## Git operations
+
+Verify directory before git commands:
+
+```bash
+cd ~/path/to/[this-repo]</code></pre>
 <pre><code>
 ### 3\. Cross-reference the repositories
 
@@ -671,99 +635,77 @@ If Claude Code can trace the impact across repository boundaries, your context m
 ## CLAUDE.md templates
 
 ### Template 1: Hub repository (shared data/config)
-</code></pre>
-<h1>Claude Code Context: [data-repo-name]</h1>
-<h2>Repository ecosystem</h2>
-<table>
-<thead>
-<tr>
-<th>Repository</th>
-<th>Type</th>
-<th>Purpose</th>
-<th>Location</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>[data-repo-name]</strong></td>
-<td>Private</td>
-<td>Shared data source of truth</td>
-<td><code>~/[data-repo-name]/</code></td>
-</tr>
-<tr>
-<td><strong>[consumer-a]</strong></td>
-<td>Public</td>
-<td>Primary consumer application</td>
-<td><code>~/projects/[consumer-a]/</code></td>
-</tr>
-<tr>
-<td><strong>[consumer-b]</strong></td>
-<td>Public</td>
-<td>Secondary consumer application</td>
-<td><code>~/projects/[consumer-b]/</code></td>
-</tr>
-</tbody></table>
-<h2>VS Code workspace</h2>
-<p>All repositories are configured in the same VS Code workspace for unified development.</p>
-<h2>Data organization</h2>
-<p>[Describe your data structure here — folders, file types, naming conventions]</p>
-<h2>How consumers use this data</h2>
-<ul>
-<li><strong>[consumer-a]</strong>: [How it reads/uses the data]</li>
-<li><strong>[consumer-b]</strong>: [How it reads/uses the data]</li>
-</ul>
-<p>Changes here affect both consumers. Test compatibility before committing.</p>
-<h2>Git operations</h2>
-<p><strong>IMPORTANT</strong>: Before any git commands, verify your directory:</p>
-<pre class="language-bash"><code class="language-bash">cd ~/[data-repo-name]
+
+```markdown
+# Claude Code Context: [data-repo-name]
+
+## Repository ecosystem
+
+| Repository | Type | Purpose | Location |
+|------------|------|---------|----------|
+| **[data-repo-name]** | Private | Shared data source of truth | `~/[data-repo-name]/` |
+| **[consumer-a]** | Public | Primary consumer application | `~/projects/[consumer-a]/` |
+| **[consumer-b]** | Public | Secondary consumer application | `~/projects/[consumer-b]/` |
+
+## VS Code workspace
+
+All repositories are configured in the same VS Code workspace for unified development.
+
+## Data organization
+
+[Describe your data structure here — folders, file types, naming conventions]
+
+## How consumers use this data
+
+- **[consumer-a]**: [How it reads/uses the data]
+- **[consumer-b]**: [How it reads/uses the data]
+
+Changes here affect both consumers. Test compatibility before committing.
+
+## Git operations
+
+**IMPORTANT**: Before any git commands, verify your directory:
+
+```bash
+cd ~/[data-repo-name]
 pwd  # Confirm location</code></pre>
 <p>Each repo has its own git history.</p>
 <pre><code>
 ### Template 2: Consumer repository (application)
-</code></pre>
-<h1>Claude Code Context: [app-name]</h1>
-<h2>Repository ecosystem</h2>
-<table>
-<thead>
-<tr>
-<th>Repository</th>
-<th>Type</th>
-<th>Purpose</th>
-<th>Location</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>[app-name]</strong></td>
-<td>Public</td>
-<td>[Brief description]</td>
-<td><code>~/projects/[app-name]/</code></td>
-</tr>
-<tr>
-<td><strong>[sibling-app]</strong></td>
-<td>Public</td>
-<td>[Brief description]</td>
-<td><code>~/projects/[sibling-app]/</code></td>
-</tr>
-<tr>
-<td><strong>[data-repo]</strong></td>
-<td>Private</td>
-<td>Shared data source</td>
-<td><code>~/[data-repo]/</code></td>
-</tr>
-</tbody></table>
-<h2>VS Code workspace</h2>
-<p>All repositories are configured in the same VS Code workspace for unified development.</p>
-<h2>Relationship to [data-repo]</h2>
-<p>This repository consumes data from [data-repo]:</p>
-<ul>
-<li>[Describe what data is consumed]</li>
-<li>[Describe how it&#39;s loaded/accessed]</li>
-</ul>
-<p>Changes to [data-repo] may require updates here.</p>
-<h2>Architecture</h2>
-<p>[Brief description of key components, entry points, etc.]</p>
-<h2>Git operations</h2>
-<p><strong>IMPORTANT</strong>: Before any git commands, verify your directory:</p>
-<pre class="language-bash"><code class="language-bash">cd ~/projects/[app-name]
+
+```markdown
+# Claude Code Context: [app-name]
+
+## Repository ecosystem
+
+| Repository | Type | Purpose | Location |
+|------------|------|---------|----------|
+| **[app-name]** | Public | [Brief description] | `~/projects/[app-name]/` |
+| **[sibling-app]** | Public | [Brief description] | `~/projects/[sibling-app]/` |
+| **[data-repo]** | Private | Shared data source | `~/[data-repo]/` |
+
+## VS Code workspace
+
+All repositories are configured in the same VS Code workspace for unified development.
+
+## Relationship to [data-repo]
+
+This repository consumes data from [data-repo]:
+- [Describe what data is consumed]
+- [Describe how it&#039;s loaded/accessed]
+
+Changes to [data-repo] may require updates here.
+
+## Architecture
+
+[Brief description of key components, entry points, etc.]
+
+## Git operations
+
+**IMPORTANT**: Before any git commands, verify your directory:
+
+```bash
+cd ~/projects/[app-name]
 pwd  # Confirm location</code></pre>
 <h2>Development notes</h2>
 <ul>
@@ -772,39 +714,28 @@ pwd  # Confirm location</code></pre>
 </ul>
 <pre><code>
 ### Template 3: Minimal starter
-</code></pre>
-<h1>Claude Code Context: [repo-name]</h1>
-<h2>Repository ecosystem</h2>
-<table>
-<thead>
-<tr>
-<th>Repository</th>
-<th>Type</th>
-<th>Purpose</th>
-<th>Location</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>[repo-name]</strong></td>
-<td>[Public/Private]</td>
-<td>[Brief purpose]</td>
-<td><code>~/path/to/[repo-name]/</code></td>
-</tr>
-<tr>
-<td><strong>[related-repo]</strong></td>
-<td>[Public/Private]</td>
-<td>[Brief purpose]</td>
-<td><code>~/path/to/[related-repo]/</code></td>
-</tr>
-</tbody></table>
-<h2>Related repositories</h2>
-<p>This repo works alongside:</p>
-<ul>
-<li><strong>[related-repo]</strong>: [Brief description of relationship]</li>
-</ul>
-<h2>Git operations</h2>
-<p>Verify directory before git commands:</p>
-<pre class="language-bash"><code class="language-bash">cd ~/path/to/[repo-name]</code></pre>
+
+```markdown
+# Claude Code Context: [repo-name]
+
+## Repository ecosystem
+
+| Repository | Type | Purpose | Location |
+|------------|------|---------|----------|
+| **[repo-name]** | [Public/Private] | [Brief purpose] | `~/path/to/[repo-name]/` |
+| **[related-repo]** | [Public/Private] | [Brief purpose] | `~/path/to/[related-repo]/` |
+
+## Related repositories
+
+This repo works alongside:
+- **[related-repo]**: [Brief description of relationship]
+
+## Git operations
+
+Verify directory before git commands:
+
+```bash
+cd ~/path/to/[repo-name]</code></pre>
 <pre><code>
 ## The architectural advantage
 

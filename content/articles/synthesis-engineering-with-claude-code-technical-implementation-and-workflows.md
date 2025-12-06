@@ -59,7 +59,7 @@ Here’s a real implementation end-to-end: adding rate-limited user authenticati
 
 This is the foundation. I don’t let Claude Code make these decisions — I establish them explicitly.
 
-```
+```bash
 $ claude "I'm adding user authentication to our API service. Here's our architectural approach:
 
 - PostgreSQL for user storage with SQLAlchemy ORM
@@ -83,7 +83,7 @@ These 2-3 minutes of architectural clarity save hours of refactoring later. I’
 
 I leverage Claude Code for rapid implementation:
 
-```
+```bash
 $ claude "Generate the user model, repository, and initial database migration following our architecture"
 ```
 
@@ -91,7 +91,7 @@ Claude generates three files: SQLAlchemy model, data access layer, and database 
 
 I review the generated code. The user model looks solid, but I notice an issue in the repository — it returns None for non-existent users, which makes error handling awkward downstream. I refine:
 
-```
+```bash
 $ claude "The repository should raise UserNotFound exception instead of returning None. Update the repository pattern to use explicit exceptions for error cases."
 ```
 
@@ -101,7 +101,7 @@ Claude refactors appropriately. This is classic Synthesis Engineering: I caught 
 
 Authentication is security-critical, so I’m extremely explicit about requirements:
 
-```
+```bash
 $ claude "Implement the authentication service with these security requirements:
 
 1. Password hashing: bcrypt with cost 12, handle timing attacks
@@ -120,7 +120,7 @@ Password handling uses bcrypt correctly with constant-time comparison. Rate limi
 
 I iterate:
 
-```
+```bash
 $ claude "Two issues:
 1. Rate limiter needs circuit breaker pattern - if Redis is down, fail open rather than blocking all auth
 2. JWT tokens need 'exp' claim with 1-hour expiry
@@ -136,7 +136,7 @@ I’m reviewing systematically for security issues, then having AI fix them with
 
 The testing strategy:
 
-```
+```bash
 $ claude "Generate comprehensive tests for the authentication system covering:
 
 Happy path:
@@ -178,7 +178,7 @@ A dashboard API endpoint was taking 2-3 seconds to respond. Users were complaini
 
 ### Phase 1: Systematic Analysis
 
-```
+```bash
 $ claude "Analyze the /api/dashboard endpoint for performance bottlenecks. Review:
 - Database queries (check for N+1 patterns)
 - Serialization overhead
@@ -199,7 +199,7 @@ I don’t blindly trust this analysis. I verify against actual production metric
 
 I prioritize based on impact:
 
-```
+```bash
 $ claude "Fix the N+1 query using SQLAlchemy eager loading. Show me the before and after queries that will be executed."
 ```
 
@@ -207,7 +207,7 @@ Claude updates the query to use eager loading and shows me the actual SQL that w
 
 Next optimization:
 
-```
+```bash
 $ claude "Add database index for posts.user_id. Generate the migration and explain the query plan improvement."
 ```
 
@@ -215,7 +215,7 @@ Claude generates the migration and explains how the query planner will use the i
 
 ### Phase 3: Caching Layer
 
-```
+```bash
 $ claude "Implement Redis caching for dashboard data:
 - Cache key: dashboard:{user_id}
 - TTL: 5 minutes
@@ -230,7 +230,7 @@ Claude generates the caching implementation following our existing patterns. I r
 
 I have it add cache invalidation locking:
 
-```
+```bash
 $ claude "Add distributed lock for cache invalidation to prevent thundering herd when cache expires under high load. Use Redis-based locking with 10-second timeout."
 ```
 
@@ -238,7 +238,7 @@ $ claude "Add distributed lock for cache invalidation to prevent thundering herd
 
 I don’t trust the optimizations without measurement:
 
-```
+```bash
 $ claude "Generate load test script that:
 - Simulates 100 concurrent users
 - Requests dashboard endpoint
@@ -277,7 +277,7 @@ Twenty minutes of investigation revealed it: we’d used `anthropic.Anthropic()`
 
 Here’s what proper async architecture looks like for multi-agent orchestration:
 
-```
+```python
 # WRONG - Blocks event loop
 from anthropic import Anthropic
 
@@ -309,7 +309,7 @@ async def generate_variant(variant_id: str):
 
 The fix required systematic updates across the codebase. I used Claude Code to help with the refactoring:
 
-```
+```bash
 $ claude "Refactor all Anthropic client usage to AsyncAnthropic. Files to update:
 - services/ai_client.py (client initialization)
 - agents/research.py (3 call sites)
@@ -325,7 +325,7 @@ Claude systematically updated all six files, ensuring async consistency. I revie
 
 True parallelism created a new problem: without rate limiting, we’d slam the Anthropic API with concurrent requests exceeding our tier limits.
 
-```
+```bash
 $ claude "Add semaphore-based rate limiting for concurrent Anthropic API calls:
 - Max 30 concurrent requests (matching our connection pool size)
 - Queue additional requests
@@ -337,7 +337,7 @@ Implement in services/ai_client.py following our existing patterns."
 
 Claude generated the rate limiting implementation:
 
-```
+```python
 import asyncio
 from contextlib import asynccontextmanager
 
@@ -358,7 +358,7 @@ class RateLimitedAIClient:
 
 I reviewed this and caught a subtle issue: the semaphore prevents more than 30 concurrent *acquisitions*, but doesn’t enforce fair queuing. Under high load, some requests could starve. I had Claude add fairness:
 
-```
+```bash
 $ claude "Add fair queuing to the semaphore - requests should be processed FIFO, not randomly when slot becomes available."
 ```
 
@@ -378,7 +378,7 @@ Before deploying a new API service to production, I wanted comprehensive securit
 
 ### Phase 1: Systematic Security Analysis
 
-```
+```bash
 $ claude "Perform comprehensive security audit of our API service against OWASP Top 10:
 
 1. Injection vulnerabilities (SQL, NoSQL, command)
@@ -427,11 +427,11 @@ The SQL injection is real and critical. The insecure deserialization is real but
 
 Systematic remediation:
 
-```
+```bash
 $ claude "Fix the SQL injection in routes/search.py. Use parameterized queries with SQLAlchemy. Show me the vulnerable code and the corrected version side-by-side."
 ```
 
-```
+```bash
 $ claude "Fix the insecure deserialization in routes/webhooks.py.
 - Replace pickle with JSON
 - Add HMAC signature verification using webhook secret
@@ -441,7 +441,7 @@ $ claude "Fix the insecure deserialization in routes/webhooks.py.
 Follow patterns in middleware/auth.py for signature verification."
 ```
 
-```
+```bash
 $ claude "Fix the access control issue in routes/admin.py.
 - Verify JWT contains 'admin' scope claim
 - Raise 403 if claim missing or false
@@ -456,7 +456,7 @@ For each fix, Claude generated the corrected code. I reviewed for correctness an
 
 ### Phase 3: Dependency Updates
 
-```
+```bash
 $ claude "Generate requirements.txt update that:
 - Updates Pillow to latest stable version (verify CVE-2022-22817 is fixed)
 - Checks all other dependencies for known vulnerabilities
@@ -468,7 +468,7 @@ Claude updated dependencies with detailed migration notes. I reviewed against ou
 
 ### Phase 4: Security Test Suite
 
-```
+```bash
 $ claude "Generate security-focused test suite covering:
 
 SQL Injection attempts:

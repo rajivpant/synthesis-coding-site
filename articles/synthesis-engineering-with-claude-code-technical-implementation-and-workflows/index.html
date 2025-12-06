@@ -457,7 +457,7 @@
 <p>Here’s a real implementation end-to-end: adding rate-limited user authentication to an existing API service.</p>
 <h3>Phase 1: Architectural Context Setting</h3>
 <p>This is the foundation. I don’t let Claude Code make these decisions — I establish them explicitly.</p>
-<pre><code>$ claude &quot;I&#039;m adding user authentication to our API service. Here&#039;s our architectural approach:
+<pre class="language-bash"><code class="language-bash">$ claude &quot;I&#039;m adding user authentication to our API service. Here&#039;s our architectural approach:
 
 - PostgreSQL for user storage with SQLAlchemy ORM
 - Repository pattern for data access
@@ -474,14 +474,14 @@ Do you understand this architecture?&quot;</code></pre>
 <p>These 2-3 minutes of architectural clarity save hours of refactoring later. I’m establishing constraints that ensure implementation consistency.</p>
 <h3>Phase 2: Implementation with Iteration</h3>
 <p>I leverage Claude Code for rapid implementation:</p>
-<pre><code>$ claude &quot;Generate the user model, repository, and initial database migration following our architecture&quot;</code></pre>
+<pre class="language-bash"><code class="language-bash">$ claude &quot;Generate the user model, repository, and initial database migration following our architecture&quot;</code></pre>
 <p>Claude generates three files: SQLAlchemy model, data access layer, and database migration.</p>
 <p>I review the generated code. The user model looks solid, but I notice an issue in the repository — it returns None for non-existent users, which makes error handling awkward downstream. I refine:</p>
-<pre><code>$ claude &quot;The repository should raise UserNotFound exception instead of returning None. Update the repository pattern to use explicit exceptions for error cases.&quot;</code></pre>
+<pre class="language-bash"><code class="language-bash">$ claude &quot;The repository should raise UserNotFound exception instead of returning None. Update the repository pattern to use explicit exceptions for error cases.&quot;</code></pre>
 <p>Claude refactors appropriately. This is classic Synthesis Engineering: I caught the design issue, specified what I wanted, AI implemented it systematically across the file.</p>
 <h3>Phase 3: Security Implementation</h3>
 <p>Authentication is security-critical, so I’m extremely explicit about requirements:</p>
-<pre><code>$ claude &quot;Implement the authentication service with these security requirements:
+<pre class="language-bash"><code class="language-bash">$ claude &quot;Implement the authentication service with these security requirements:
 
 1. Password hashing: bcrypt with cost 12, handle timing attacks
 2. Rate limiting: Redis-based, 5 attempts per IP per minute
@@ -494,7 +494,7 @@ Include comprehensive error handling and security tests.&quot;</code></pre>
 <p>Claude generates the service implementation. I review it carefully, specifically checking password handling, rate limiting, and token generation.</p>
 <p>Password handling uses bcrypt correctly with constant-time comparison. Rate limiting implementation is correct but missing edge case for Redis connection failure. Token generation has correct structure but no expiry claim.</p>
 <p>I iterate:</p>
-<pre><code>$ claude &quot;Two issues:
+<pre class="language-bash"><code class="language-bash">$ claude &quot;Two issues:
 1. Rate limiter needs circuit breaker pattern - if Redis is down, fail open rather than blocking all auth
 2. JWT tokens need &#039;exp&#039; claim with 1-hour expiry
 
@@ -503,7 +503,7 @@ Fix both and explain your approach.&quot;</code></pre>
 <p>I’m reviewing systematically for security issues, then having AI fix them with specific requirements.</p>
 <h3>Phase 4: Comprehensive Testing</h3>
 <p>The testing strategy:</p>
-<pre><code>$ claude &quot;Generate comprehensive tests for the authentication system covering:
+<pre class="language-bash"><code class="language-bash">$ claude &quot;Generate comprehensive tests for the authentication system covering:
 
 Happy path:
 - Successful registration and login
@@ -533,7 +533,7 @@ Include fixtures for test data and Redis mocking.&quot;</code></pre>
 <h3>The Problem</h3>
 <p>A dashboard API endpoint was taking 2-3 seconds to respond. Users were complaining.</p>
 <h3>Phase 1: Systematic Analysis</h3>
-<pre><code>$ claude &quot;Analyze the /api/dashboard endpoint for performance bottlenecks. Review:
+<pre class="language-bash"><code class="language-bash">$ claude &quot;Analyze the /api/dashboard endpoint for performance bottlenecks. Review:
 - Database queries (check for N+1 patterns)
 - Serialization overhead
 - External API calls
@@ -546,13 +546,13 @@ Provide specific line numbers and explain the impact of each issue.&quot;</code>
 <p>I don’t blindly trust this analysis. I verify against actual production metrics. The N+1 query is definitely real (I can see it in our APM). The external API calls are actually cached by a CDN, so that’s a false positive. The missing index is correct and probably significant.</p>
 <h3>Phase 2: Targeted Optimization</h3>
 <p>I prioritize based on impact:</p>
-<pre><code>$ claude &quot;Fix the N+1 query using SQLAlchemy eager loading. Show me the before and after queries that will be executed.&quot;</code></pre>
+<pre class="language-bash"><code class="language-bash">$ claude &quot;Fix the N+1 query using SQLAlchemy eager loading. Show me the before and after queries that will be executed.&quot;</code></pre>
 <p>Claude updates the query to use eager loading and shows me the actual SQL that will execute. I verify this is correct.</p>
 <p>Next optimization:</p>
-<pre><code>$ claude &quot;Add database index for posts.user_id. Generate the migration and explain the query plan improvement.&quot;</code></pre>
+<pre class="language-bash"><code class="language-bash">$ claude &quot;Add database index for posts.user_id. Generate the migration and explain the query plan improvement.&quot;</code></pre>
 <p>Claude generates the migration and explains how the query planner will use the index. I check this makes sense against our table size and query patterns.</p>
 <h3>Phase 3: Caching Layer</h3>
-<pre><code>$ claude &quot;Implement Redis caching for dashboard data:
+<pre class="language-bash"><code class="language-bash">$ claude &quot;Implement Redis caching for dashboard data:
 - Cache key: dashboard:{user_id}
 - TTL: 5 minutes
 - Invalidate on: user post creation, user profile update
@@ -562,10 +562,10 @@ Provide specific line numbers and explain the impact of each issue.&quot;</code>
 Follow our existing Redis client patterns in services/cache.py&quot;</code></pre>
 <p>Claude generates the caching implementation following our existing patterns. I review for cache key collisions (good namespacing), race conditions (missing lock on cache invalidation), and metrics (properly integrated).</p>
 <p>I have it add cache invalidation locking:</p>
-<pre><code>$ claude &quot;Add distributed lock for cache invalidation to prevent thundering herd when cache expires under high load. Use Redis-based locking with 10-second timeout.&quot;</code></pre>
+<pre class="language-bash"><code class="language-bash">$ claude &quot;Add distributed lock for cache invalidation to prevent thundering herd when cache expires under high load. Use Redis-based locking with 10-second timeout.&quot;</code></pre>
 <h3>Phase 4: Validation</h3>
 <p>I don’t trust the optimizations without measurement:</p>
-<pre><code>$ claude &quot;Generate load test script that:
+<pre class="language-bash"><code class="language-bash">$ claude &quot;Generate load test script that:
 - Simulates 100 concurrent users
 - Requests dashboard endpoint
 - Measures p50, p95, p99 latency
@@ -587,7 +587,7 @@ Use locust framework.&quot;</code></pre>
 <p>Twenty minutes of investigation revealed it: we’d used <code>anthropic.Anthropic()</code> (synchronous client) instead of <code>anthropic.AsyncAnthropic()</code>. Every AI API call blocked the event loop, forcing serial execution despite perfect async syntax.</p>
 <h3>The Fix: Proper Async Architecture</h3>
 <p>Here’s what proper async architecture looks like for multi-agent orchestration:</p>
-<pre><code># WRONG - Blocks event loop
+<pre class="language-python"><code class="language-python"># WRONG - Blocks event loop
 from anthropic import Anthropic
 
 client = Anthropic(api_key=settings.anthropic_api_key)
@@ -615,7 +615,7 @@ async def generate_variant(variant_id: str):
     )
     return response.content[0].text</code></pre>
 <p>The fix required systematic updates across the codebase. I used Claude Code to help with the refactoring:</p>
-<pre><code>$ claude &quot;Refactor all Anthropic client usage to AsyncAnthropic. Files to update:
+<pre class="language-bash"><code class="language-bash">$ claude &quot;Refactor all Anthropic client usage to AsyncAnthropic. Files to update:
 - services/ai_client.py (client initialization)
 - agents/research.py (3 call sites)
 - agents/synthesis.py (2 call sites)
@@ -625,7 +625,7 @@ Ensure all call sites use &#039;await&#039; and functions are marked async. Veri
 <p>Claude systematically updated all six files, ensuring async consistency. I reviewed each change to verify correctness.</p>
 <h3>Rate Limiting for Concurrent API Calls</h3>
 <p>True parallelism created a new problem: without rate limiting, we’d slam the Anthropic API with concurrent requests exceeding our tier limits.</p>
-<pre><code>$ claude &quot;Add semaphore-based rate limiting for concurrent Anthropic API calls:
+<pre class="language-bash"><code class="language-bash">$ claude &quot;Add semaphore-based rate limiting for concurrent Anthropic API calls:
 - Max 30 concurrent requests (matching our connection pool size)
 - Queue additional requests
 - Include metrics for queue depth and wait time
@@ -633,7 +633,7 @@ Ensure all call sites use &#039;await&#039; and functions are marked async. Veri
 
 Implement in services/ai_client.py following our existing patterns.&quot;</code></pre>
 <p>Claude generated the rate limiting implementation:</p>
-<pre><code>import asyncio
+<pre class="language-python"><code class="language-python">import asyncio
 from contextlib import asynccontextmanager
 
 class RateLimitedAIClient:
@@ -650,7 +650,7 @@ class RateLimitedAIClient:
         async with self.acquire():
             return await self.client.messages.create(**kwargs)</code></pre>
 <p>I reviewed this and caught a subtle issue: the semaphore prevents more than 30 concurrent <em>acquisitions</em>, but doesn’t enforce fair queuing. Under high load, some requests could starve. I had Claude add fairness:</p>
-<pre><code>$ claude &quot;Add fair queuing to the semaphore - requests should be processed FIFO, not randomly when slot becomes available.&quot;</code></pre>
+<pre class="language-bash"><code class="language-bash">$ claude &quot;Add fair queuing to the semaphore - requests should be processed FIFO, not randomly when slot becomes available.&quot;</code></pre>
 <h3>The Result</h3>
 <p>After refactoring: Three concurrent agent calls completed in 32 seconds (3x improvement). The system now properly parallelizes I/O-bound operations. Rate limiting prevents API tier violations. Metrics show healthy queue behavior under load.</p>
 <p>Synthesis Engineering principle: AI didn’t diagnose the root cause (synchronous client blocking event loop). I did that through systems thinking and debugging experience. But once I understood the problem, AI systematically applied the fix across six files with perfect consistency.</p>
@@ -659,7 +659,7 @@ class RateLimitedAIClient:
 <h3>The Scenario</h3>
 <p>Before deploying a new API service to production, I wanted comprehensive security review. Not just “does it look secure?” but systematic analysis against known vulnerability classes.</p>
 <h3>Phase 1: Systematic Security Analysis</h3>
-<pre><code>$ claude &quot;Perform comprehensive security audit of our API service against OWASP Top 10:
+<pre class="language-bash"><code class="language-bash">$ claude &quot;Perform comprehensive security audit of our API service against OWASP Top 10:
 
 1. Injection vulnerabilities (SQL, NoSQL, command)
 2. Authentication failures
@@ -692,15 +692,15 @@ Review files in: routes/, models/, services/, middleware/&quot;</code></pre>
 <p>I don’t fix everything blindly. I verify each finding and prioritize by severity.</p>
 <p>The SQL injection is real and critical. The insecure deserialization is real but the webhook endpoint is internal-only (still needs fixing). The password hash exposure is a false positive — that endpoint is only for debugging in development. The DEBUG flag is concerning — I check our deployment configs and it’s correctly set to False in production, just True in local dev config.</p>
 <p>Systematic remediation:</p>
-<pre><code>$ claude &quot;Fix the SQL injection in routes/search.py. Use parameterized queries with SQLAlchemy. Show me the vulnerable code and the corrected version side-by-side.&quot;</code></pre>
-<pre><code>$ claude &quot;Fix the insecure deserialization in routes/webhooks.py.
+<pre class="language-bash"><code class="language-bash">$ claude &quot;Fix the SQL injection in routes/search.py. Use parameterized queries with SQLAlchemy. Show me the vulnerable code and the corrected version side-by-side.&quot;</code></pre>
+<pre class="language-bash"><code class="language-bash">$ claude &quot;Fix the insecure deserialization in routes/webhooks.py.
 - Replace pickle with JSON
 - Add HMAC signature verification using webhook secret
 - Reject requests with invalid signatures
 - Log rejected requests for security monitoring
 
 Follow patterns in middleware/auth.py for signature verification.&quot;</code></pre>
-<pre><code>$ claude &quot;Fix the access control issue in routes/admin.py.
+<pre class="language-bash"><code class="language-bash">$ claude &quot;Fix the access control issue in routes/admin.py.
 - Verify JWT contains &#039;admin&#039; scope claim
 - Raise 403 if claim missing or false
 - Add test cases for:
@@ -710,14 +710,14 @@ Follow patterns in middleware/auth.py for signature verification.&quot;</code></
   - Missing JWT returns 401&quot;</code></pre>
 <p>For each fix, Claude generated the corrected code. I reviewed for correctness and security.</p>
 <h3>Phase 3: Dependency Updates</h3>
-<pre><code>$ claude &quot;Generate requirements.txt update that:
+<pre class="language-bash"><code class="language-bash">$ claude &quot;Generate requirements.txt update that:
 - Updates Pillow to latest stable version (verify CVE-2022-22817 is fixed)
 - Checks all other dependencies for known vulnerabilities
 - Notes any breaking changes requiring code updates
 - Provides migration guide if API changes exist&quot;</code></pre>
 <p>Claude updated dependencies with detailed migration notes. I reviewed against our usage patterns to ensure no breaking changes affected our code.</p>
 <h3>Phase 4: Security Test Suite</h3>
-<pre><code>$ claude &quot;Generate security-focused test suite covering:
+<pre class="language-bash"><code class="language-bash">$ claude &quot;Generate security-focused test suite covering:
 
 SQL Injection attempts:
 - Single quotes in search

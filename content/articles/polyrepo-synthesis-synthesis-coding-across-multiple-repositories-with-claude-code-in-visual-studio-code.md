@@ -71,7 +71,7 @@ Through my work on multi-repository systems, I’ve identified patterns that rec
 
 One repository serves as the authoritative source of data or configuration, with multiple consumer repositories reading from it.
 
-```
+```text
 ┌─────────────────────────────────────────┐
 │        ragbot-data/ (private)           │
 │    Source of truth for workspaces'      │
@@ -125,7 +125,7 @@ Here’s how I structure the CLAUDE.md files in my three-repository setup:
 
 Every CLAUDE.md starts with the same table, ensuring Claude Code always knows the landscape:
 
-```
+```markdown
 ## Repository Ecosystem
 
 | Repository | Type | Purpose | Location |
@@ -141,7 +141,7 @@ This table appears identically in all three CLAUDE.md files. When Claude Code op
 
 Each CLAUDE.md explicitly describes relationships to siblings:
 
-```
+```markdown
 ## Product relationship
 
 - **RagBot**: Actively maintained CLI and Streamlit UI. Production-ready.
@@ -154,7 +154,7 @@ Each CLAUDE.md explicitly describes relationships to siblings:
 
 Multi-repo development’s most common error — running git commands in the wrong directory:
 
-```
+```markdown
 ## Git operations
 
 **IMPORTANT**: Before any git commands for this repo, ensure you are in the correct directory:
@@ -172,7 +172,7 @@ This warning appears in every CLAUDE.md, customized with the correct path. It so
 
 Each repository’s CLAUDE.md describes its internal structure so Claude Code can navigate effectively:
 
-```
+```markdown
 ## Data location
 
 RagBot reads data from `~/ragbot-data/workspaces/`:
@@ -188,7 +188,7 @@ This WHO/HOW/WHAT framework organizes ragbot-data’s content. Both products und
 
 Here’s how my VS Code workspace ties these repositories together. The `.code-workspace` file:
 
-```
+```json
 {
   "folders": [
     { "path": "projects/my-projects/ragbot", "name": "RagBot (public)" },
@@ -273,7 +273,7 @@ File → Add Folder to Workspace for each repository you want to include. Save t
 
 Start with just the ecosystem table:
 
-```
+```markdown
 # Claude Code Context: [repo-name]
 
 ## Repository ecosystem
@@ -313,7 +313,7 @@ If Claude Code can trace the impact across repository boundaries, your context m
 
 ### Template 1: Hub repository (shared data/config)
 
-```
+```markdown
 # Claude Code Context: [data-repo-name]
 
 ## Repository ecosystem
@@ -353,7 +353,7 @@ Each repo has its own git history.
 
 ### Template 2: Consumer repository (application)
 
-```
+```markdown
 # Claude Code Context: [app-name]
 
 ## Repository ecosystem
@@ -397,7 +397,7 @@ pwd  # Confirm location
 
 ### Template 3: Minimal starter
 
-```
+```markdown
 # Claude Code Context: [repo-name]
 
 ## Repository ecosystem
