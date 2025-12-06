@@ -64,6 +64,17 @@ function formatDate(dateStr) {
 }
 
 /**
+ * Generate HTML for tags display
+ */
+function generateTagsHtml(tags) {
+  if (!tags || tags.length === 0) {
+    return '';
+  }
+  const tagLinks = tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+  return tagLinks;
+}
+
+/**
  * Generate HTML for a single article
  */
 function generateArticleHtml(article, template) {
@@ -77,6 +88,7 @@ function generateArticleHtml(article, template) {
   html = html.replace(/\{\{description\}\}/g, article.frontMatter.description || '');
   html = html.replace(/\{\{canonical_url\}\}/g, article.frontMatter.canonical_url);
   html = html.replace(/\{\{category\}\}/g, article.frontMatter.category || '');
+  html = html.replace(/\{\{tags\}\}/g, generateTagsHtml(article.frontMatter.tags));
   html = html.replace(/\{\{content\}\}/g, article.html);
 
   return html;

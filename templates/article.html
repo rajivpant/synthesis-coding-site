@@ -164,6 +164,33 @@
             color: var(--dark);
         }
 
+        /* Tags */
+        .article-tags {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--gray-lighter);
+        }
+
+        .article-tags-label {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--gray-light);
+            margin-bottom: 0.75rem;
+        }
+
+        .article-tags .tag {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            background: var(--cream);
+            color: var(--gray);
+            padding: 0.25rem 0.6rem;
+            margin: 0 0.4rem 0.4rem 0;
+            border-radius: 3px;
+        }
+
         /* Article content */
         .article-content {
             padding: 2rem 0 3rem;
@@ -379,6 +406,11 @@
 
             <div class="article-content">
                 {{content}}
+            </div>
+
+            <div class="article-tags">
+                <div class="article-tags-label">Tags</div>
+                {{tags}}
             </div>
 
             <p class="canonical-notice">
