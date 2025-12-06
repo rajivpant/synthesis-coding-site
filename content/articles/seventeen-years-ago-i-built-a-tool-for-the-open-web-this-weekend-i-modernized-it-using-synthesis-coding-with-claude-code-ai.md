@@ -15,6 +15,7 @@ tags:
   - "software engineering"
   - "synthesis coding"
   - "synthesis engineering"
+  - "vibe coding"
 author: "Rajiv Pant"
 category: "Case study"
 wordpress:
