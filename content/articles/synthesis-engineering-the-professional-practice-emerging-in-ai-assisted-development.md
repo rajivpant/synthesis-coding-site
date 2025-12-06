@@ -206,11 +206,7 @@ No permission required. No attribution needed. Just use what works.
 
 ---
 
-*This is the first article in a three-part series on Synthesis Engineering:*
-
-1.  *“Synthesis Engineering: The Professional Practice Emerging in AI-Assisted Development” (this article)*
-2.  *“[The Synthesis Engineering Framework: How Organizations Build Production Software with AI](https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/)“*
-3.  *“[Synthesis Engineering with Claude Code: Technical Implementation and Workflows](https://rajiv.com/blog/2025/11/09/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/)“*
+*This article is part of the [Synthesis Engineering series](https://synthesiscoding.com/), which explores the discipline of rigorous human-AI collaboration in professional software development.*
 
 ---
 

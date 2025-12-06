@@ -179,13 +179,7 @@ No permission required. No attribution needed. Just use what works.
 
 ---
 
-## Related Articles in the Synthesis Engineering Series
-
-1.  [Synthesis Engineering: The Professional Practice Emerging in AI-Assisted Development](https://rajiv.com/blog/2025/11/09/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/)
-2.  [The Synthesis Engineering Framework: How Organizations Build Production Software with AI](https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/)
-3.  [Synthesis Coding with Claude Code: Technical Implementation and Workflows](https://rajiv.com/blog/2025/11/09/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/)
-4.  [Seventeen Years Ago, I Built a Tool for the Open Web. This Weekend, I Modernized It Using Synthesis Coding with Claude Code AI](https://rajiv.com/blog/2025/11/29/seventeen-years-ago-i-built-a-tool-for-the-open-web-this-weekend-i-modernized-it-using-synthesis-coding-with-claude-code-ai/)
-5.  [Polyrepo Synthesis: Synthesis Coding Across Multiple Repositories with Claude Code in Visual Studio Code](https://rajiv.com/blog/2025/11/30/polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code/)
+*This article is part of the [Synthesis Engineering series](https://synthesiscoding.com/), which explores the discipline of rigorous human-AI collaboration in professional software development.*
 
 ---
 
