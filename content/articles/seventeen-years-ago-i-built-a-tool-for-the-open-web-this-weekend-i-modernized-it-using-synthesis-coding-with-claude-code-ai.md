@@ -16,6 +16,7 @@ tags:
   - "leadership"
   - "product development"
 author: "Rajiv Pant"
+category: "Case study"
 wordpress:
   post_id: 6724
   category_ids: [6]

@@ -14,6 +14,7 @@ tags:
   - "Leadership and Management"
   - "technology"
 author: "Rajiv Pant"
+category: "Framework"
 featured_image: "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1"
 wordpress:
   post_id: 6670
