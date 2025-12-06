@@ -1,5 +1,5 @@
 ---
-title: "The Synthesis Coding Framework: How Organizations Build Production Software with AI (Synthesis Engineering)"
+title: "The Synthesis Engineering Framework: How Organizations Build Production Software with AI"
 slug: "the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai"
 date: "2025-11-09"
 modified: "2025-12-01"
@@ -27,7 +27,7 @@ wordpress:
 
 This blog post is for Engineering Leaders, CTOs, and Product Managers.
 
-In my [previous article](https://rajiv.com/blog/2025/11/09/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/), I introduced **[Synthesis Coding](https://synthesiscoding.com/)** (a.k.a. **Synthesis Engineering**) — the systematic integration of human expertise with AI capabilities that I’ve observed emerging across leading engineering organizations. The response revealed something important: many teams are developing similar practices independently, but lack shared vocabulary and systematic frameworks.
+In my [previous article](https://rajiv.com/blog/2025/11/09/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/), I introduced **Synthesis Engineering** — the discipline of rigorous human-machine collaboration in professional software development. I call the hands-on craft **[Synthesis Coding](https://synthesiscoding.com/)**. The response revealed something important: many teams are developing similar practices independently, but lack shared vocabulary and systematic frameworks.
 
 Several CTOs reached out describing their approaches. An engineering director sent me their internal documentation. A startup founder asked how to implement this with a five-person team. The common thread: people recognize the pattern and want systematic guidance.
 
@@ -345,9 +345,9 @@ The next article in this series will demonstrate Synthesis Engineering in practi
 
 ## On Terminology and Usage
 
-These terms – Synthesis Engineering, Synthesis Coding, and the accompanying visual identity – are offered to the community without restriction. They’re released under CC0 1.0 Universal (public domain) for anyone to use, modify, or build upon.
+These terms – Synthesis Engineering for the discipline, Synthesis Coding for the craft, and the accompanying visual identity – are offered to the community without restriction. They're released under CC0 1.0 Universal (public domain) for anyone to use, modify, or build upon.
 
-I’ve documented these practices because teams needed vocabulary for what they were already doing. If these terms help your organization distinguish between exploratory prototyping and systematic production development, use them. If they help you hire, train, or structure your engineering practices, even better.
+I've documented these practices because teams needed vocabulary for what they were already doing. If these terms help your organization distinguish between exploratory prototyping and systematic production development, use them. Synthesis Engineering describes the broader methodology and organizational practices; Synthesis Coding describes the hands-on work of building software with AI assistance. If they help you hire, train, or structure your engineering practices, even better.
 
 No permission required. No attribution needed. Just use what works.
 

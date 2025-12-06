@@ -26,7 +26,7 @@ wordpress:
 
 This blog post is for software engineers, engineering leaders, and anyone interested in AI-assisted development.
 
-Since publishing my series on [Synthesis Coding](https://rajiv.com/blog/2025/11/09/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/), I’ve received a recurring question: “How does this differ from vibe coding?”
+Since publishing my series on [Synthesis Engineering](https://rajiv.com/blog/2025/11/09/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/) — the discipline of rigorous human-AI collaboration, of which Synthesis Coding is the hands-on craft — I've received a recurring question: "How does Synthesis Coding differ from vibe coding?"
 
 It’s the right question. Both approaches involve working with AI to create software. Both can be remarkably productive. Both have passionate practitioners. The distinction matters because understanding it helps you choose the right approach for what you’re building.
 
@@ -62,7 +62,7 @@ The requirements change. Not because vibe coding failed, but because the context
 
 Production systems need architectural coherence that spans many conversations over many months. Security must be systematic, not incidental. Multiple engineers need to understand and modify the code. When something breaks at 2 AM, someone needs to debug it.
 
-[The Synthesis Coding framework](https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/) addresses these needs through four principles:
+[The Synthesis Engineering framework](https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/) addresses these needs through four principles:
 
 **Human architectural authority** — I choose the technology stack, define system boundaries, establish security patterns, and make integration decisions. AI implements within those constraints. The architecture reflects intentional human choices that persist across AI sessions.
 
@@ -171,18 +171,18 @@ The engineers and organizations that thrive will be those who develop fluency in
 
 ## On Terminology and Usage
 
-These terms – Synthesis Engineering, Synthesis Coding, and the accompanying visual identity – are offered to the community without restriction. They’re released under CC0 1.0 Universal (public domain) for anyone to use, modify, or build upon.
+These terms – Synthesis Engineering for the discipline, Synthesis Coding for the craft, and the accompanying visual identity – are offered to the community without restriction. They're released under CC0 1.0 Universal (public domain) for anyone to use, modify, or build upon.
 
-I’ve documented these practices because teams needed vocabulary for what they were already doing. If these terms help your organization distinguish between exploratory prototyping and systematic production development, use them. If they help you hire, train, or structure your engineering practices, even better.
+I've documented these practices because teams needed vocabulary for what they were already doing. Synthesis Engineering describes the broader methodology and organizational practices; Synthesis Coding describes the hands-on work of building software with AI assistance — and contrasts directly with Vibe Coding at the craft level. If these terms help your organization distinguish between exploratory prototyping and systematic production development, use them. If they help you hire, train, or structure your engineering practices, even better.
 
 No permission required. No attribution needed. Just use what works.
 
 ---
 
-## Related Articles in the Synthesis Coding Series
+## Related Articles in the Synthesis Engineering Series
 
-1.  [Synthesis Coding: The Professional Practice Emerging in AI-Assisted Development](https://rajiv.com/blog/2025/11/09/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/)
-2.  [The Synthesis Coding Framework: How Organizations Build Production Software with AI](https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/)
+1.  [Synthesis Engineering: The Professional Practice Emerging in AI-Assisted Development](https://rajiv.com/blog/2025/11/09/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/)
+2.  [The Synthesis Engineering Framework: How Organizations Build Production Software with AI](https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/)
 3.  [Synthesis Coding with Claude Code: Technical Implementation and Workflows](https://rajiv.com/blog/2025/11/09/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/)
 4.  [Seventeen Years Ago, I Built a Tool for the Open Web. This Weekend, I Modernized It Using Synthesis Coding with Claude Code AI](https://rajiv.com/blog/2025/11/29/seventeen-years-ago-i-built-a-tool-for-the-open-web-this-weekend-i-modernized-it-using-synthesis-coding-with-claude-code-ai/)
 5.  [Polyrepo Synthesis: Synthesis Coding Across Multiple Repositories with Claude Code in Visual Studio Code](https://rajiv.com/blog/2025/11/30/polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code/)

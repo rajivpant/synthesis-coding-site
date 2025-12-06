@@ -1,5 +1,5 @@
 ---
-title: "Synthesis Coding with Claude Code: Technical Implementation and Workflows (Synthesis Engineering)"
+title: "Synthesis Coding with Claude Code: Technical Implementation and Workflows"
 slug: "synthesis-engineering-with-claude-code-technical-implementation-and-workflows"
 date: "2025-11-09"
 modified: "2025-12-01"
@@ -23,7 +23,7 @@ wordpress:
   synced_at: "2025-12-06T03:21:46.827Z"
 ---
 
-*A hands-on guide to practicing **[Synthesis Coding](https://synthesiscoding.com/)*** (a.k.a. ***Synthesis Engineering***) with concrete examples, real workflows, and lessons from production systems
+*A hands-on guide to practicing **[Synthesis Coding](https://synthesiscoding.com/)** — the craft of rigorous AI-assisted development within the **Synthesis Engineering** discipline — with concrete examples, real workflows, and lessons from production systems*
 
 I wrote this blog post for Software Engineers, Architects, and Technical Leads. This one is code-heavy and implementation-focused.
 
@@ -33,7 +33,7 @@ This article demonstrates Synthesis Engineering using Claude Code — I’ll use
 
 If you’re an engineer evaluating AI-assisted development approaches, this will show you concrete technical practices. If you’re a CTO assessing tools for your organization, this will help you understand what effective usage actually looks like. If you’re skeptical about AI coding tools, this might change your mind — or confirm your concerns, which is equally valuable.
 
-## Why Claude Code for Synthesis Coding (Synthesis Engineering)
+## Why Claude Code for Synthesis Coding
 
 Claude Code aligns particularly well with Synthesis Engineering principles.
 
@@ -611,7 +611,7 @@ The future of software engineering combines systematic human expertise with AI c
 
 The Synthesis Engineering framework maps directly to Claude Code’s capabilities – the extended context, the MCP servers, the systematic project approach. These tools enable this practice.
 
-I’m releasing “Synthesis Engineering,” “Synthesis Coding,” and the logo under CC0 1.0 Universal. If Anthropic finds these terms useful for documentation, training, or community building around Claude Code, use them freely. If developer communities want shared vocabulary for professional AI-assisted development practices, here it is.
+I'm releasing "Synthesis Engineering" (the discipline) and "Synthesis Coding" (the craft), along with the logo, under CC0 1.0 Universal. If Anthropic finds these terms useful for documentation, training, or community building around Claude Code, use them freely. If developer communities want shared vocabulary for professional AI-assisted development practices, here it is.
 
 The terminology exists to serve the practice. Use whatever helps teams work more effectively.
 

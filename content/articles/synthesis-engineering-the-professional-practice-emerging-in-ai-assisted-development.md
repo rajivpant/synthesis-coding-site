@@ -1,5 +1,5 @@
 ---
-title: "Synthesis Coding: The Professional Practice Emerging in AI-Assisted Development (Synthesis Engineering)"
+title: "Synthesis Engineering: The Professional Practice Emerging in AI-Assisted Development"
 slug: "synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development"
 date: "2025-11-09"
 modified: "2025-12-01"
@@ -33,9 +33,9 @@ Last month, during a technical architecture review, I watched a senior engineer 
 
 This practice exists. It’s emerging independently across leading engineering organizations. It just doesn’t have a name or shared framework yet.
 
-I’m calling it **Synthesis Engineering**: the systematic integration of human expertise with AI capabilities to build production-grade software systems. To position this as a complementary system to **Vibe Coding**, I also call it **[Synthesis Coding](https://synthesiscoding.com/)**.
+I'm calling the discipline **Synthesis Engineering**: the systematic integration of human expertise with AI capabilities to build production-grade software systems. The hands-on craft of writing code within this discipline I call **[Synthesis Coding](https://synthesiscoding.com/)** — which contrasts directly with **Vibe Coding** at the craft level.
 
-Vibe coding serves different purposes. Synthesis Engineering is a fundamentally different practice with different goals.
+Vibe coding serves different purposes. Synthesis Engineering is a fundamentally different discipline with different goals.
 
 ## A Case Study: Building an Agentic Workflow System
 
@@ -127,7 +127,7 @@ For the agentic workflow system, I established a quality checkpoint process:
 
 Each step builds on the previous. By the time code reaches production, it’s been through multiple systematic quality checks.
 
-Vibe coding asks “Does it work?” Synthesis Engineering asks whether the code meets production quality standards systematically.
+Vibe coding asks "Does it work?" Synthesis Coding asks whether the code meets production quality standards systematically.
 
 ### The Learning Loop: Continuous Improvement
 
@@ -170,7 +170,7 @@ Human architects design learning systems. AI executes at scale. The combination 
 
 Synthesis Engineering isn’t just about individual developer productivity. It represents a fundamental shift in how engineering organizations build software.
 
-When teams maintain architectural coherence and systematic quality practices, multiple engineers can work effectively on AI-assisted codebases. The code remains comprehensible because humans made the key design decisions. One engineering manager told me: “With pure vibe coding, only the engineer who generated the code could maintain it. With Synthesis Engineering, the whole team understands the architecture because we made those decisions collectively.”
+When teams maintain architectural coherence and systematic quality practices, multiple engineers can work effectively on AI-assisted codebases. The code remains comprehensible because humans made the key design decisions. One engineering manager told me: "With pure vibe coding, only the engineer who generated the code could maintain it. With Synthesis Coding, the whole team understands the architecture because we made those decisions collectively."
 
 Because engineers maintain system understanding, organizational knowledge accumulates. Teams learn patterns, build intuition, and improve their ability to solve similar problems. This matters for long-term sustainability. Software systems live for years or decades. Organizations need engineers who understand these systems deeply enough to evolve them.
 
@@ -198,9 +198,9 @@ The practice exists. Now it has a name. Let’s build the methodology together.
 
 ## On Terminology and Usage
 
-These terms – Synthesis Engineering, Synthesis Coding, and the accompanying visual identity – are offered to the community without restriction. They’re released under CC0 1.0 Universal (public domain) for anyone to use, modify, or build upon.
+These terms – Synthesis Engineering for the discipline, Synthesis Coding for the craft, and the accompanying visual identity – are offered to the community without restriction. They're released under CC0 1.0 Universal (public domain) for anyone to use, modify, or build upon.
 
-I’ve documented these practices because teams needed vocabulary for what they were already doing. If these terms help your organization distinguish between exploratory prototyping and systematic production development, use them. If they help you hire, train, or structure your engineering practices, even better.
+I've documented these practices because teams needed vocabulary for what they were already doing. If these terms help your organization distinguish between exploratory prototyping and systematic production development, use them. Synthesis Engineering describes the broader methodology and organizational practices; Synthesis Coding describes the hands-on work of building software with AI assistance. If they help you hire, train, or structure your engineering practices, even better.
 
 No permission required. No attribution needed. Just use what works.
 

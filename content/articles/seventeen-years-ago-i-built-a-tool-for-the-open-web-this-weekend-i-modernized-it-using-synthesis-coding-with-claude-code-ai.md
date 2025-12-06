@@ -58,7 +58,7 @@ The methodology: a practice I’ve been using and writing about called [Synthes
 
 ## Synthesis Coding changes what’s possible for senior leaders
 
-[Synthesis Coding](https://synthesiscoding.com/) is my term for the disciplined integration of human expertise with AI capabilities to build production-grade software. It’s distinct from what some people call “vibe coding” — using AI to quickly hack together prototypes or explore ideas. Vibe coding has its place, but it’s not how you ship software that needs to be secure, maintainable, and reliable.
+[Synthesis Coding](https://synthesiscoding.com/) is the hands-on craft of rigorous AI-assisted development — building production-grade software through disciplined human-AI collaboration. It's the practical application of what I call Synthesis Engineering (the broader discipline). Synthesis Coding is distinct from what some people call "vibe coding" — using AI to quickly hack together prototypes or explore ideas. Vibe coding has its place, but it's not how you ship software that needs to be secure, maintainable, and reliable.
 
 The Synthesis Engineering practice rests on [four principles](https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/):
 

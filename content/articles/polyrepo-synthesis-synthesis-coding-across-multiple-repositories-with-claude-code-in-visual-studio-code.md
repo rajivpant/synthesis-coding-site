@@ -53,7 +53,7 @@ The common thread: context fragmentation and the need for consistency across sys
 
 ## Introducing Polyrepo Synthesis
 
-**Polyrepo Synthesis** is the practice of applying [Synthesis Coding principles](https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/) across multiple interconnected repositories within a unified development environment.
+**Polyrepo Synthesis** is the practice of applying [Synthesis Engineering principles](https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/) across multiple interconnected repositories within a unified development environment.
 
 It’s not a separate methodology — it’s [**Synthesis Coding**](https://synthesiscoding.com/) scaled to the architectural reality of modern software systems.
 
