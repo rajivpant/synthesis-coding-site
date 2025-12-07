@@ -104,7 +104,9 @@ Pricing algorithms constrained by regulation and policy. Risk scoring models bou
 
 You could ask an LLM directly: given this input, what should we do? Or you could use LLMs to design algorithms, generate code that implements those algorithms, run that code in controlled environments, observe behavior, write tests, and iterate.
 
-The second approach requires more work upfront. It’s also the only one that scales to regulatory oversight, cross-team collaboration, multi-year evolution, and incident response. The math puzzle example was small. The pattern is big.
+The second approach requires more work upfront. It's also the only one that scales to regulatory oversight, cross-team collaboration, multi-year evolution, and incident response. The math puzzle example was small. The pattern is big.
+
+For a complete technical case study showing these principles applied to a real open-source project — including architectural decisions, implementation patterns, and independent verification strategies — see [Building ownwords: A Synthesis Coding Case Study](https://rajiv.com/blog/2025/12/07/building-ownwords-a-synthesis-coding-case-study/). That article walks through the decisions that distinguish synthesis coding from vibe coding using actual code from a production tool.
 
 ## Prompts That Create Code, Not Just Answers
 

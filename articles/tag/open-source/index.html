@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Case study — Synthesis Coding</title>
-    <meta name="description" content="Real-world applications and project examples.">
-    <meta name="keywords" content="synthesis coding, synthesis engineering, Case study, AI-assisted development">
+    <title>open source — Synthesis Coding</title>
+    <meta name="description" content="Articles tagged with 'open source' on Synthesis Coding.">
+    <meta name="keywords" content="synthesis coding, open source, AI-assisted development">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="Case study — Synthesis Coding">
-    <meta property="og:description" content="Real-world applications and project examples.">
+    <meta property="og:title" content="open source — Synthesis Coding">
+    <meta property="og:description" content="Articles tagged with 'open source' on Synthesis Coding.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://synthesiscoding.com/articles/category/case-study/">
+    <meta property="og:url" content="https://synthesiscoding.com/articles/tag/open-source/">
     <meta property="og:image" content="https://synthesiscoding.com/assets/og-image.jpg">
 
     <!-- RSS Feed -->
@@ -36,7 +36,6 @@
             --gray-lighter: #e5e5e5;
             --white: #fafafa;
             --cream: #f5f4f0;
-            --cat-color: #d97706;
 
             --font-serif: 'Newsreader', Georgia, serif;
             --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
@@ -123,7 +122,7 @@
             border-bottom: 1px solid var(--gray-lighter);
         }
 
-        .category-indicator {
+        .tag-indicator {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
@@ -131,27 +130,20 @@
             font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            color: var(--cat-color);
+            color: var(--gray);
             margin-bottom: 0.75rem;
         }
 
-        .category-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--cat-color);
-        }
-
-        .page-description {
-            font-size: 1rem;
-            color: var(--gray);
-            margin: 0.5rem 0 0;
+        .tag-icon {
+            width: 14px;
+            height: 14px;
         }
 
         .article-count {
             font-family: var(--font-mono);
             font-size: 0.8rem;
             color: var(--gray-light);
+            margin-top: 0.5rem;
         }
 
         .back-link {
@@ -193,9 +185,9 @@
             text-decoration: none;
             padding: 0.2rem 0.5rem;
             border-radius: 3px;
-            background: color-mix(in srgb, var(--cat-color) 15%, transparent);
-            color: var(--cat-color);
-            border: 1px solid color-mix(in srgb, var(--cat-color) 30%, transparent);
+            background: color-mix(in srgb, var(--cat-color, #6b7280) 15%, transparent);
+            color: var(--cat-color, #6b7280);
+            border: 1px solid color-mix(in srgb, var(--cat-color, #6b7280) 30%, transparent);
         }
 
         .new-badge {
@@ -320,13 +312,15 @@
             <a href="/articles/" class="back-link">← All Articles</a>
 
             <div class="page-header">
-                <div class="category-indicator">
-                    <span class="category-dot"></span>
-                    Category
+                <div class="tag-indicator">
+                    <svg class="tag-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                        <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                    </svg>
+                    Tag
                 </div>
-                <h1>Case study</h1>
-                <p class="page-description">Real-world applications and project examples.</p>
-                <span class="article-count">2 articles</span>
+                <h1>open source</h1>
+                <span class="article-count">1 article</span>
             </div>
 
             <div class="articles-grid">
@@ -347,24 +341,6 @@
       </div>
       <div class="card-tags">
         <a href="/articles/tag/artificial-intelligence/" class="tag">artificial intelligence</a><a href="/articles/tag/claude-code/" class="tag">Claude Code</a><a href="/articles/tag/ctobook/" class="tag">ctobook</a><a href="/articles/tag/programming/" class="tag">programming</a><a href="/articles/tag/software-engineering/" class="tag">software engineering</a><a href="/articles/tag/synthesis-coding/" class="tag">synthesis coding</a><a href="/articles/tag/synthesis-engineering/" class="tag">synthesis engineering</a><a href="/articles/tag/vibe-coding/" class="tag">vibe coding</a><a href="/articles/tag/ownwords/" class="tag">ownwords</a><a href="/articles/tag/open-source/" class="tag">open source</a>
-      </div>
-    </article>
-    <article class="article-card" data-date="2025-11-29" data-category="Case study">
-      <div class="card-header">
-        <a href="/articles/category/case-study/" class="category-badge" style="--cat-color: #d97706">Case study</a>
-        <span class="new-badge">New</span>
-      </div>
-      <h3 class="card-title">
-        <a href="/articles/seventeen-years-ago-i-built-a-tool-for-the-open-web-this-weekend-i-modernized-it-using-synthesis-coding-with-claude-code-ai/">Seventeen years ago, I built a tool for the open Web. This weekend, I modernized it using Synthesis Coding with Claude Code AI</a>
-      </h3>
-      <p class="card-description">In 2008, I released a WordPress plugin called Blogroll Links. The plugin displayed lists of links on WordPress pages using a shortcode. But the idea behind it was more ambitious than the implementation might suggest. I built Blogroll Links because I believed people should control their own online pr</p>
-      <div class="card-meta">
-        <span class="card-date">November 28, 2025</span>
-        <span class="card-separator">·</span>
-        <span class="card-reading-time">8 min read</span>
-      </div>
-      <div class="card-tags">
-        <a href="/articles/tag/artificial-intelligence/" class="tag">artificial intelligence</a><a href="/articles/tag/cto/" class="tag">CTO</a><a href="/articles/tag/ctobook/" class="tag">ctobook</a><a href="/articles/tag/product-development/" class="tag">product development</a><a href="/articles/tag/software-engineering/" class="tag">software engineering</a><a href="/articles/tag/synthesis-coding/" class="tag">synthesis coding</a><a href="/articles/tag/synthesis-engineering/" class="tag">synthesis engineering</a><a href="/articles/tag/vibe-coding/" class="tag">vibe coding</a>
       </div>
     </article>
             </div>

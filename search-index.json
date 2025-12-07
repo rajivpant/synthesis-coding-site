@@ -1,5 +1,26 @@
 [
   {
+    "title": "Building ownwords: A Synthesis Coding Case Study",
+    "slug": "building-ownwords-a-synthesis-coding-case-study",
+    "description": "What separates synthesis coding from vibe coding isn't the tools — it's the decisions. This technical case study walks through the architectural choices, implementation patterns, and verification strategies behind a real open-source project.",
+    "category": "Case study",
+    "tags": [
+      "artificial intelligence",
+      "Claude Code",
+      "ctobook",
+      "programming",
+      "software engineering",
+      "synthesis coding",
+      "synthesis engineering",
+      "vibe coding",
+      "ownwords",
+      "open source"
+    ],
+    "date": "2025-12-07",
+    "readingTime": 8,
+    "excerpt": "What separates synthesis coding from vibe coding isn&#39;t the tools — it&#39;s the decisions. This technical case study walks through the architectural choices, implementation patterns, and verification strategies behind a real open-source project. I wrote this article for software engineers, architects, and technical leads who want to see synthesis coding applied to a complete project — not just isolated code snippets. If you&#39;ve read my previous articles on synthesis coding methodology or "
+  },
+  {
     "title": "Polyrepo Synthesis: Synthesis Coding Across Multiple Repositories with Claude Code in Visual Studio Code",
     "slug": "polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code",
     "description": "I wrote this blog post for Software Engineers, Architects, and Technical Leads. It is code-heavy and implementation-focused. This weekend I was working across three repositories simultaneously in Visual Studio Code. I worked on RagBot — a multi-LLM chatbot that lets you switch between OpenAI, Anthro",
@@ -127,7 +148,7 @@
       "vibe coding"
     ],
     "date": "2025-12-04",
-    "readingTime": 14,
+    "readingTime": 15,
     "excerpt": "The answer is not “just let the model do it” — and code matters more, not less, as AI gets dramatically better Last spring, my son Fitz and I had an afternoon math duel. He was twelve at the time. Sharp. Competitive. He took on the puzzle the traditional way — paper, pencil, and focused reasoning. I took a different path: I asked a generative AI system to design algorithms, write Python code, and run that code to search systematically for correct solutions. The puzzle itself was one of those con"
   }
 ]

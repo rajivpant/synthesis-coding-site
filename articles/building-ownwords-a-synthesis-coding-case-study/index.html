@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building ownwords: A Synthesis Coding Case Study — Synthesis Coding</title>
+    <meta name="description" content="What separates synthesis coding from vibe coding isn't the tools — it's the decisions. This technical case study walks through the architectural choices, implementation patterns, and verification strategies behind a real open-source project.">
+    <meta name="keywords" content="synthesis coding, synthesis engineering, AI-assisted development, software engineering">
+
+    <!-- Canonical URL pointing to WordPress -->
+    <link rel="canonical" href="https://rajiv.com/blog/2025/12/07/building-ownwords-a-synthesis-coding-case-study/">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Building ownwords: A Synthesis Coding Case Study">
+    <meta property="og:description" content="What separates synthesis coding from vibe coding isn't the tools — it's the decisions. This technical case study walks through the architectural choices, implementation patterns, and verification strategies behind a real open-source project.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://synthesiscoding.com/articles/building-ownwords-a-synthesis-coding-case-study/">
+    <meta property="og:image" content="https://synthesiscoding.com/assets/og-image.jpg">
+    <meta property="og:site_name" content="Synthesis Coding">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Building ownwords: A Synthesis Coding Case Study">
+    <meta name="twitter:description" content="What separates synthesis coding from vibe coding isn't the tools — it's the decisions. This technical case study walks through the architectural choices, implementation patterns, and verification strategies behind a real open-source project.">
+
+    <!-- RSS Feed -->
+    <link rel="alternate" type="application/rss+xml" title="Synthesis Coding RSS Feed" href="/feed.xml">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Prism.js syntax highlighting (Tomorrow Night theme) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --black: #0a0a0a;
+            --dark: #1a1a1a;
+            --gray-dark: #3a3a3a;
+            --gray: #666;
+            --gray-light: #999;
+            --gray-lighter: #e5e5e5;
+            --white: #fafafa;
+            --cream: #f5f4f0;
+            --accent: #2a2a2a;
+
+            --font-serif: 'Newsreader', Georgia, serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+
+            --max-width: 720px;
+            --wide-width: 960px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 18px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-serif);
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--dark);
+            background: var(--white);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Header */
+        header {
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--gray-lighter);
+        }
+
+        .logo {
+            max-width: 240px;
+            width: 100%;
+            height: auto;
+        }
+
+        /* Nav */
+        nav {
+            position: sticky;
+            top: 0;
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-lighter);
+            padding: 0.75rem 2rem;
+            z-index: 100;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--gray);
+        }
+
+        nav a:hover {
+            color: var(--black);
+        }
+
+        /* Main content */
+        main {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Article header */
+        .article-header {
+            padding: 3rem 0 2rem;
+            border-bottom: 1px solid var(--gray-lighter);
+            margin-bottom: 2rem;
+        }
+
+        .article-header h1 {
+            font-size: 2rem;
+            font-weight: 500;
+            line-height: 1.3;
+            color: var(--black);
+            margin: 0 0 1rem;
+        }
+
+        .article-meta {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--gray-light);
+            letter-spacing: 0.02em;
+        }
+
+        .article-meta .separator {
+            margin: 0 0.5rem;
+            color: var(--gray-lighter);
+        }
+
+        .category-badge {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            background: color-mix(in srgb, var(--cat-color, #6b7280) 15%, transparent);
+            color: var(--cat-color, #6b7280);
+            border: 1px solid color-mix(in srgb, var(--cat-color, #6b7280) 30%, transparent);
+            transition: all 0.2s;
+        }
+
+        .category-badge:hover {
+            background: color-mix(in srgb, var(--cat-color, #6b7280) 25%, transparent);
+        }
+
+        .canonical-notice {
+            margin-top: 1rem;
+            padding: 0.75rem 1rem;
+            background: var(--cream);
+            font-size: 0.85rem;
+            color: var(--gray);
+            border-left: 3px solid var(--gray-lighter);
+        }
+
+        .canonical-notice a {
+            color: var(--dark);
+        }
+
+        /* Tags */
+        .article-tags {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--gray-lighter);
+        }
+
+        .article-tags-label {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--gray-light);
+            margin-bottom: 0.75rem;
+        }
+
+        .article-tags .tag {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            background: var(--cream);
+            color: var(--gray);
+            padding: 0.25rem 0.6rem;
+            margin: 0 0.4rem 0.4rem 0;
+            border-radius: 3px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .article-tags a.tag:hover {
+            background: var(--gray-lighter);
+            color: var(--dark);
+        }
+
+        /* Related articles */
+        .related-articles {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gray-lighter);
+        }
+
+        .related-articles h2 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin: 0 0 1.25rem;
+            color: var(--black);
+        }
+
+        .related-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .related-card {
+            display: block;
+            padding: 1rem 1.25rem;
+            background: var(--cream);
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .related-card:hover {
+            background: var(--gray-lighter);
+        }
+
+        .related-title {
+            display: block;
+            font-weight: 500;
+            color: var(--dark);
+            margin-bottom: 0.25rem;
+            line-height: 1.4;
+        }
+
+        .related-meta {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--gray-light);
+        }
+
+        /* Article content */
+        .article-content {
+            padding: 2rem 0 3rem;
+        }
+
+        .article-content h2 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            line-height: 1.3;
+            color: var(--black);
+            margin: 2.5rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--black);
+            display: inline-block;
+        }
+
+        .article-content h3 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            line-height: 1.3;
+            color: var(--black);
+            margin: 2rem 0 0.75rem;
+        }
+
+        .article-content h4 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            line-height: 1.3;
+            color: var(--black);
+            margin: 1.5rem 0 0.5rem;
+        }
+
+        .article-content p {
+            margin: 0 0 1.25rem;
+        }
+
+        .article-content a {
+            color: var(--dark);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            text-decoration-thickness: 1px;
+            transition: color 0.2s;
+        }
+
+        .article-content a:hover {
+            color: var(--gray);
+        }
+
+        .article-content ul,
+        .article-content ol {
+            margin: 0 0 1.25rem;
+            padding-left: 1.5rem;
+        }
+
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .article-content li strong {
+            font-weight: 600;
+        }
+
+        .article-content blockquote {
+            margin: 1.5rem 0;
+            padding: 1rem 1.5rem;
+            background: var(--cream);
+            border-left: 3px solid var(--black);
+            font-style: italic;
+        }
+
+        .article-content blockquote p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Inline code */
+        .article-content code {
+            font-family: var(--font-mono);
+            font-size: 0.9em;
+            background: var(--cream);
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            color: #c7254e;
+        }
+
+        /* Code blocks */
+        .article-content pre {
+            margin: 1.5rem 0;
+            padding: 1.25rem;
+            background: #2d2d2d;
+            color: #e0e0e0;
+            overflow-x: auto;
+            border-radius: 6px;
+            border: 1px solid #444;
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+
+        .article-content pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+            font-size: inherit;
+        }
+
+        /* Prism toolbar styling */
+        div.code-toolbar > .toolbar {
+            opacity: 1;
+        }
+
+        div.code-toolbar > .toolbar > .toolbar-item > button,
+        div.code-toolbar > .toolbar > .toolbar-item > span {
+            background: #444;
+            color: #ccc;
+            padding: 0.35rem 0.6rem;
+            font-size: 0.7rem;
+            border-radius: 3px;
+            font-family: var(--font-mono);
+        }
+
+        div.code-toolbar > .toolbar > .toolbar-item > button:hover {
+            background: #555;
+            color: #fff;
+        }
+
+        /* Language label in toolbar */
+        .toolbar-item span[data-label]::before {
+            content: attr(data-label);
+        }
+
+        .article-content hr {
+            border: none;
+            border-top: 1px solid var(--gray-lighter);
+            margin: 2.5rem 0;
+        }
+
+        .article-content em {
+            font-style: italic;
+        }
+
+        .article-content strong {
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 3rem 2rem 4rem;
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--gray-lighter);
+        }
+
+        footer p {
+            margin: 0 0 0.75rem;
+        }
+
+        footer a {
+            color: var(--dark);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            text-decoration-thickness: 1px;
+        }
+
+        .cc0 {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--gray-light);
+            letter-spacing: 0.02em;
+        }
+
+        .built-with {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--gray-light);
+            margin-top: 1.5rem;
+        }
+
+        .built-with a {
+            color: var(--gray);
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            html {
+                font-size: 16px;
+            }
+
+            header {
+                padding: 1.5rem;
+            }
+
+            .logo {
+                max-width: 200px;
+            }
+
+            main {
+                padding: 0 1.5rem;
+            }
+
+            .article-header {
+                padding: 2rem 0 1.5rem;
+            }
+
+            .article-header h1 {
+                font-size: 1.6rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            nav {
+                display: none;
+            }
+
+            header {
+                border-bottom: none;
+            }
+
+            .canonical-notice {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/">
+            <img src="/assets/logo.webp" alt="Synthesis Coding" class="logo">
+        </a>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="/#what">What</a></li>
+            <li><a href="/#principles">Principles</a></li>
+            <li><a href="/#when">When to Use</a></li>
+            <li><a href="/articles/">Articles</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <div class="article-header">
+                <h1>Building ownwords: A Synthesis Coding Case Study</h1>
+                <div class="article-meta">
+                    <time datetime="2025-12-07">December 6, 2025</time>
+                    <span class="separator">·</span>
+                    <span>8 min read</span>
+                    <span class="separator">·</span>
+                    <a href="/articles/category/case-study/" class="category-badge" style="--cat-color: #d97706">Case study</a>
+                </div>
+            </div>
+
+            <div class="article-content">
+                <p><em>What separates synthesis coding from vibe coding isn&#39;t the tools — it&#39;s the decisions. This technical case study walks through the architectural choices, implementation patterns, and verification strategies behind a real open-source project.</em></p>
+<p>I wrote this article for software engineers, architects, and technical leads who want to see synthesis coding applied to a complete project — not just isolated code snippets. If you&#39;ve read my previous articles on <a href="https://synthesiscoding.com/">synthesis coding methodology</a> or the <a href="https://rajiv.com/blog/2025/12/04/why-synthesis-coding-still-writes-code-in-the-age-of-llms/">philosophical argument for why code still matters</a>, this is the concrete evidence.</p>
+<p>The project is <a href="https://github.com/rajivpant/ownwords">ownwords</a>, an open-source toolkit I built for authors who want to own their content. It handles bi-directional WordPress sync, local Markdown editing, batch AI-assisted editorial operations, and dual publishing to both WordPress and static sites.</p>
+<p>What I&#39;ll show you isn&#39;t &quot;look how much code AI can generate.&quot; It&#39;s the opposite: the decisions I made <em>before</em> and <em>during</em> AI-assisted implementation that produced a maintainable, secure, production-quality tool. These are the decisions that distinguish systematic engineering from prompt-and-hope.</p>
+<h2>The Problem: Authors Don&#39;t Own Their Words</h2>
+<p>The motivation was personal. I write extensively — articles, documentation, technical content. That content lives in WordPress, but WordPress isn&#39;t designed for the workflows I actually use: local editing in Markdown, version control with Git, AI-assisted batch operations for terminology updates and link fixes, publishing to both WordPress and static sites.</p>
+<p>I wanted a toolkit that would let me:</p>
+<ol>
+<li>Fetch my existing WordPress articles as clean Markdown files</li>
+<li>Edit locally using any tools I want</li>
+<li>Make batch changes across all articles (terminology updates, link migrations, front matter modifications)</li>
+<li>Publish back to WordPress and to static sites simultaneously</li>
+<li>Verify that conversions preserved my content accurately</li>
+</ol>
+<p>This isn&#39;t a weekend prototype. It&#39;s a tool I depend on for my own publishing workflow. That dependency shaped every architectural decision.</p>
+<h2>Architectural Decisions Made Before Any Code</h2>
+<p>The first principle of synthesis coding is <strong>Human Architectural Authority</strong>. I don&#39;t ask AI what architecture to use. I decide, then direct AI to implement within those constraints.</p>
+<p>Here are the decisions I made before writing a single line of code:</p>
+<h3>Decision 1: Minimal Dependencies</h3>
+<p>Most Node.js projects accumulate dependencies casually. Need argument parsing? <code>npm install yargs</code>. Need HTTP? <code>npm install axios</code>. Need YAML? <code>npm install js-yaml</code>.</p>
+<p>I decided ownwords would use only Node.js built-in modules for everything except HTML-to-Markdown conversion, where a specialized library (Turndown) genuinely adds value.</p>
+<p>The result: <strong>two npm dependencies</strong>. Everything else — HTTP requests, YAML parsing, argument parsing, file operations — uses <code>fs</code>, <code>path</code>, <code>https</code>, <code>http</code>, <code>url</code>, <code>readline</code>, <code>child_process</code>, and <code>os</code>.</p>
+<p>Why this decision matters:</p>
+<ul>
+<li><strong>Smaller attack surface.</strong> Each dependency is a potential vulnerability vector. Fewer dependencies means fewer security advisories to track.</li>
+<li><strong>No version conflicts.</strong> Complex dependency trees create upgrade friction. Flat dependencies don&#39;t.</li>
+<li><strong>Explicit control.</strong> When I hand-write the YAML parser, I know exactly what it does. When I hand-write the argument parser, I control the behavior completely.</li>
+<li><strong>Demonstration of craft.</strong> Anyone can <code>npm install</code> their way to a solution. Choosing <em>not</em> to shows intentionality.</li>
+</ul>
+<p>This wasn&#39;t a constraint I discovered — it was a constraint I imposed. AI implemented within it.</p>
+<h3>Decision 2: Independent Verification</h3>
+<p>Here&#39;s a decision that wouldn&#39;t occur to someone vibe coding: the verification module should use <strong>different algorithms</strong> than the conversion module.</p>
+<p>The converter uses Turndown (a library) to transform HTML to Markdown. The verifier uses regex-based text extraction to check the result. If both used Turndown, bugs in Turndown would pass verification. By using orthogonal approaches, I catch converter bugs that the converter itself can&#39;t see.</p>
+<p>This is how serious systems handle quality assurance. You don&#39;t verify a process using the same process. You verify it independently.</p>
+<pre><code>HTML Input → Turndown Library → Markdown Output
+                                      ↓
+                              Independent Regex-Based
+                              Text Extraction &amp; Comparison
+                                      ↓
+                              QA Report (pass/fail/warnings)</code></pre>
+<h3>Decision 3: Agent API for AI Assistants</h3>
+<p>I built ownwords to support my AI-assisted editorial workflow. That meant building an API specifically designed for AI assistants to perform batch operations safely.</p>
+<p>The key insight: AI assistants need to preview changes before applying them. So every batch operation supports <code>dryRun: true</code>:</p>
+<pre class="language-javascript"><code class="language-javascript">// Preview what would change
+const preview = agent.findAndReplace({
+  pattern: /Claude AI/g,
+  replacement: &#039;Claude&#039;,
+  dryRun: true
+});
+console.log(`Would update ${preview.length} files`);
+
+// Actually apply changes
+agent.findAndReplace({
+  pattern: /Claude AI/g,
+  replacement: &#039;Claude&#039;
+});</code></pre>
+<p>This pattern — preview then apply — isn&#39;t something an AI would invent unprompted. It comes from understanding how AI assistants actually work: they make mistakes, and you need to catch those mistakes before they propagate across your entire content library.</p>
+<h3>Decision 4: Dual-Mode Architecture</h3>
+<p>Not everyone has REST API access to their WordPress site. Some people scrape. Some people have admin credentials. I needed to support both.</p>
+<p>The architecture handles this with two fetching modes:</p>
+<ul>
+<li><strong>HTML Scraping Mode</strong>: Works for any public WordPress site. Extracts content from HTML, generates basic front matter.</li>
+<li><strong>REST API Mode</strong>: For configured sites. Provides enriched metadata — categories with IDs, tags, author info, featured images, modification dates.</li>
+</ul>
+<p>Plus JSON sidecar files that store the complete API response for future bi-directional sync capabilities.</p>
+<p>This isn&#39;t over-engineering. It&#39;s anticipating how the tool will actually be used by different people with different access levels.</p>
+<h2>Implementation: Directing AI Within Constraints</h2>
+<p>With architecture decided, implementation becomes a series of directed conversations. Here&#39;s how several key modules evolved.</p>
+<h3>Robust HTML Content Extraction</h3>
+<p>WordPress themes vary wildly. Content might be in a <code>&lt;div class=&quot;entry-content&quot;&gt;</code>, an <code>&lt;article&gt;</code> tag, a <code>&lt;main&gt;</code> tag, or somewhere else entirely. Sharing widgets, related posts, and comment sections need to be stripped.</p>
+<p>I directed the implementation with explicit requirements:</p>
+<pre><code>Implement HTML content extraction with these requirements:
+1. Try entry-content div first (most WordPress themes)
+2. Fall back to article tag
+3. Fall back to main tag
+4. Detect and strip sharing widgets (sharedaddy, Jetpack related posts)
+5. Strip navigation, footer, comments
+6. Preserve code blocks, images, and formatting</code></pre>
+<p>The result handles multiple theme patterns robustly:</p>
+<pre class="language-javascript"><code class="language-javascript">function extractArticleContent(html) {
+  // Strategy 1: entry-content div (most common)
+  let match = html.match(/&lt;div[^&gt;]*class=&quot;[^&quot;]*entry-content[^&quot;]*&quot;[^&gt;]*&gt;([\s\S]*?)&lt;\/div&gt;/i);
+  if (match) content = match[1];
+
+  // Strategy 2: article tag
+  if (!content) {
+    match = html.match(/&lt;article[^&gt;]*&gt;([\s\S]*?)&lt;\/article&gt;/i);
+    if (match) content = match[1];
+  }
+
+  // Strategy 3: main tag
+  if (!content) {
+    match = html.match(/&lt;main[^&gt;]*&gt;([\s\S]*?)&lt;\/main&gt;/i);
+    if (match) content = match[1];
+  }
+
+  // Strip end markers (sharing widgets, related posts)
+  const endMarkers = [
+    /&lt;div[^&gt;]*class=&quot;[^&quot;]*sharedaddy[^&quot;]*&quot;/i,
+    /&lt;div[^&gt;]*class=&quot;[^&quot;]*jp-relatedposts[^&quot;]*&quot;/i,
+    /&lt;footer[^&gt;]*class=&quot;[^&quot;]*entry-footer[^&quot;]*&quot;/i,
+  ];
+
+  for (const marker of endMarkers) {
+    const markerMatch = content.match(marker);
+    if (markerMatch) {
+      content = content.substring(0, markerMatch.index);
+    }
+  }
+
+  return content;
+}</code></pre>
+<p>This isn&#39;t one prompt generating perfect code. It&#39;s iterative refinement: initial generation, testing against real WordPress sites, identifying edge cases, directing fixes, re-testing.</p>
+<h3>Independent Verification System</h3>
+<p>The verification module demonstrates the independent-algorithms principle. Here&#39;s the text extraction that&#39;s deliberately different from the converter:</p>
+<pre class="language-javascript"><code class="language-javascript">function extractTextFromHtml(html) {
+  let text = html;
+
+  // Remove non-content sections
+  text = text.replace(/&lt;script[^&gt;]*&gt;[\s\S]*?&lt;\/script&gt;/gi, &#039;&#039;);
+  text = text.replace(/&lt;style[^&gt;]*&gt;[\s\S]*?&lt;\/style&gt;/gi, &#039;&#039;);
+  text = text.replace(/&lt;nav[^&gt;]*&gt;[\s\S]*?&lt;\/nav&gt;/gi, &#039;&#039;);
+  text = text.replace(/&lt;footer[^&gt;]*&gt;[\s\S]*?&lt;\/footer&gt;/gi, &#039;&#039;);
+
+  // Extract from content containers
+  const entryMatch = text.match(
+    /&lt;div[^&gt;]*class=&quot;[^&quot;]*entry-content[^&quot;]*&quot;[^&gt;]*&gt;([\s\S]*?)&lt;\/div&gt;/i
+  );
+  if (entryMatch) text = entryMatch[1];
+
+  // Strip remaining HTML tags
+  text = text.replace(/&lt;[^&gt;]+&gt;/g, &#039; &#039;);
+
+  // Normalize whitespace
+  text = text.replace(/\s+/g, &#039; &#039;).trim();
+
+  return text;
+}</code></pre>
+<p>The verifier then runs multiple orthogonal checks:</p>
+<pre class="language-javascript"><code class="language-javascript">function verifyConversion(htmlPath, mdPath) {
+  const issues = [];
+
+  // Check 1: Word count within tolerance
+  const htmlWords = countWords(extractTextFromHtml(html));
+  const mdWords = countWords(extractTextFromMarkdown(md));
+  const ratio = mdWords / htmlWords;
+  if (ratio &lt; 0.85) {
+    issues.push({ type: &#039;error&#039;, message: `Word count dropped ${((1-ratio)*100).toFixed(1)}%` });
+  }
+
+  // Check 2: Heading preservation
+  const htmlHeadings = (html.match(/&lt;h[1-6][^&gt;]*&gt;/gi) || []).length;
+  const mdHeadings = (md.match(/^#{1,6}\s/gm) || []).length;
+  if (mdHeadings &lt; htmlHeadings * 0.8) {
+    issues.push({ type: &#039;warning&#039;, message: &#039;Headings may be missing&#039; });
+  }
+
+  // Check 3: Link preservation
+  const htmlLinks = extractUrls(html);
+  const mdLinks = extractUrls(md);
+  const missingLinks = htmlLinks.filter(url =&gt; !mdLinks.includes(url));
+  if (missingLinks.length &gt; 0) {
+    issues.push({ type: &#039;warning&#039;, message: `Missing links: ${missingLinks.join(&#039;, &#039;)}` });
+  }
+
+  // Check 4: Image preservation
+  // Check 5: Code block preservation
+  // Check 6: Front matter validation
+  // ... additional checks
+
+  return { passed: issues.filter(i =&gt; i.type === &#039;error&#039;).length === 0, issues };
+}</code></pre>
+<p>Exit codes follow Unix conventions: 0 for success, 1 for errors, 2 for warnings only. This lets verification integrate into CI/CD pipelines.</p>
+<h3>Secure Configuration Management</h3>
+<p>WordPress publishing requires credentials. Security can&#39;t be an afterthought.</p>
+<p>Requirements I specified:</p>
+<ol>
+<li>Config file stored in <code>~/.ownwords/</code> with restricted permissions</li>
+<li>Config file readable only by owner (mode 600)</li>
+<li>Config directory accessible only by owner (mode 700)</li>
+<li>Environment variables override config file for CI/CD</li>
+<li>Runtime permission checking with warnings</li>
+</ol>
+<pre class="language-javascript"><code class="language-javascript">function ensureConfigDir() {
+  if (!fs.existsSync(CONFIG_DIR)) {
+    fs.mkdirSync(CONFIG_DIR, { recursive: true, mode: 0o700 });
+  }
+}
+
+function writeConfig(config) {
+  const content = JSON.stringify(config, null, 2);
+  fs.writeFileSync(CONFIG_FILE, content, { mode: 0o600 });
+}
+
+function checkConfigPermissions() {
+  const stats = fs.statSync(CONFIG_FILE);
+  const mode = stats.mode &amp; 0o777;
+  if (mode !== 0o600) {
+    return {
+      secure: false,
+      message: `Config file has insecure permissions. Run: chmod 600 ${CONFIG_FILE}`
+    };
+  }
+  return { secure: true };
+}
+
+function getWordPressSite(siteName) {
+  // Environment variables take precedence (for CI/CD)
+  const envSite = process.env.OWNWORDS_WP_SITE;
+  const envUsername = process.env.OWNWORDS_WP_USERNAME;
+  const envPassword = process.env.OWNWORDS_WP_PASSWORD;
+
+  if (envSite &amp;&amp; envUsername &amp;&amp; envPassword) {
+    return { url: envSite, username: envUsername, appPassword: envPassword };
+  }
+
+  // Fall back to config file
+  const config = loadConfig();
+  return config.sites?.[siteName];
+}</code></pre>
+<p>This uses WordPress Application Passwords (not user passwords) following WordPress security best practices.</p>
+<h3>Placeholder-Protected Markdown Export</h3>
+<p>When converting Markdown back to WordPress-ready HTML, code blocks need protection from formatting transformations. If a code block contains <code>**bold**</code>, that shouldn&#39;t become <code>&lt;strong&gt;bold&lt;/strong&gt;</code>.</p>
+<p>The solution: extract code blocks first, replace with placeholders, do formatting, restore code blocks.</p>
+<pre class="language-javascript"><code class="language-javascript">function markdownToHtml(markdown) {
+  let html = markdown;
+  const codeBlocks = [];
+
+  // 1. Extract and protect code blocks
+  html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (match, lang, code) =&gt; {
+    const placeholder = `__CODE_BLOCK_${codeBlocks.length}__`;
+    codeBlocks.push({ lang, code: escapeHtml(code) });
+    return placeholder;
+  });
+
+  // 2. Apply formatting transformations (safe - code is protected)
+  html = html.replace(/^# (.+)$/gm, &#039;&lt;h1&gt;$1&lt;/h1&gt;&#039;);
+  html = html.replace(/^## (.+)$/gm, &#039;&lt;h2&gt;$1&lt;/h2&gt;&#039;);
+  html = html.replace(/\*\*([^*]+)\*\*/g, &#039;&lt;strong&gt;$1&lt;/strong&gt;&#039;);
+  html = html.replace(/\*([^*]+)\*/g, &#039;&lt;em&gt;$1&lt;/em&gt;&#039;);
+  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, &#039;&lt;a href=&quot;$2&quot;&gt;$1&lt;/a&gt;&#039;);
+
+  // 3. Restore code blocks
+  for (let i = 0; i &lt; codeBlocks.length; i++) {
+    const { lang, code } = codeBlocks[i];
+    const replacement = `&lt;pre&gt;&lt;code class=&quot;language-${lang}&quot;&gt;${code}&lt;/code&gt;&lt;/pre&gt;`;
+    html = html.replace(`__CODE_BLOCK_${i}__`, replacement);
+  }
+
+  return html;
+}</code></pre>
+<p>This pattern prevents a class of nested-formatting bugs that would be hard to debug later.</p>
+<h2>What AI Couldn&#39;t Have Done Alone</h2>
+<p>Let me be specific about the decisions that required human judgment — decisions that define synthesis coding.</p>
+<p><strong>The independent verification architecture.</strong> Why would an AI, unprompted, decide to verify conversions using deliberately different algorithms? It wouldn&#39;t. This comes from understanding how QA actually works: you verify using independent methods, not the same method twice.</p>
+<p><strong>The Agent API <code>dryRun</code> pattern.</strong> An AI could generate batch operations. It wouldn&#39;t anticipate that AI assistants performing those operations need preview capabilities to catch their own mistakes before propagating them.</p>
+<p><strong>The minimal-dependency philosophy.</strong> AI assistants default to suggesting npm packages for everything. Deciding <em>not</em> to use dependencies — and implementing alternatives using built-ins — required explicit human direction against AI&#39;s natural tendency.</p>
+<p><strong>The dual-mode fetching architecture.</strong> This anticipates different users with different access levels. Prompt-and-generate produces code that works for the prompter&#39;s situation. Synthesis coding produces code that works for multiple situations because humans think about deployment contexts.</p>
+<p><strong>Security as constraint, not afterthought.</strong> File permissions, Application Passwords, environment variable precedence for CI/CD — these aren&#39;t features an AI adds unprompted. They come from understanding how production systems actually get deployed and maintained.</p>
+<p><strong>The JSON sidecar files for future sync.</strong> ownwords doesn&#39;t yet do bi-directional sync. But the architecture anticipates it. The JSON sidecars store complete API responses so future versions can implement sync without re-fetching. This is designing for evolution, not just immediate function.</p>
+<h2>The Compound Effect</h2>
+<p>After several months of using ownwords for my own publishing:</p>
+<ul>
+<li><strong>53 articles</strong> managed as local Markdown files</li>
+<li><strong>Version-controlled</strong> content with full Git history</li>
+<li><strong>Batch operations</strong> for terminology updates across the entire library</li>
+<li><strong>Dual publishing</strong> to both rajiv.com (WordPress) and synthesiscoding.com (static site)</li>
+<li><strong>Independent verification</strong> catching conversion issues before they reach production</li>
+</ul>
+<p>The time investment in architecture and verification has paid back many times over. When I update terminology across all articles, I&#39;m confident the batch operation won&#39;t corrupt content. When I publish to WordPress, I&#39;m confident the HTML is correct. When something does go wrong, I can debug it because I understand the system.</p>
+<p>This is what synthesis coding produces: systems you can maintain, extend, and trust.</p>
+<h2>The Distinction That Matters</h2>
+<p>I&#39;ve described architectural decisions, implementation patterns, security considerations, and verification strategies. None of this is magic. All of it is craft.</p>
+<p>The difference between synthesis coding and vibe coding isn&#39;t capability — both use the same AI tools. The difference is discipline:</p>
+<ul>
+<li><strong>Vibe coding</strong> generates code until something works, then ships it.</li>
+<li><strong>Synthesis coding</strong> establishes architecture, directs implementation within constraints, verifies independently, and maintains understanding throughout.</li>
+</ul>
+<p>The output of vibe coding is code that runs. The output of synthesis coding is a system you can maintain.</p>
+<p>ownwords is open source. You can read every line, trace every decision, use it for your own publishing workflow. The code is at <a href="https://github.com/rajivpant/ownwords">github.com/rajivpant/ownwords</a>.</p>
+<p>What you&#39;ll find isn&#39;t AI-generated code. It&#39;s AI-assisted implementation of human-directed architecture — which is a very different thing.</p>
+<hr>
+<p><em>If you&#39;re interested in the philosophical argument for why code matters even as AI improves, see <a href="https://rajiv.com/blog/2025/12/04/why-synthesis-coding-still-writes-code-in-the-age-of-llms/">Why Synthesis Coding Still Writes Code in the Age of LLMs</a>. For organizational implementation of synthesis engineering, see <a href="https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/">The Synthesis Engineering Framework</a>. For technical Claude Code workflows, see <a href="https://rajiv.com/blog/2025/11/09/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/">Synthesis Coding with Claude Code</a>.</em></p>
+<hr>
+<p><em>Rajiv Pant is President of <a href="https://www.flatiron.software/">Flatiron Software</a> and <a href="https://www.snapshot.reviews/">Snapshot AI</a>, where he leads organizational growth and AI innovation. He is former Chief Product &amp; Technology Officer at The Wall Street Journal, The New York Times, and Hearst Magazines. Earlier in his career, he headed technology for Condé Nast&#39;s brands including Reddit. Rajiv has been working with AI in software engineering since the early days of natural language processing and was an early investor and advisor to AI search company <a href="https://you.com/">You.com</a>. He coined the terms &quot;synthesis engineering&quot; and &quot;<a href="https://synthesiscoding.com/">synthesis coding</a>&quot; to describe the systematic integration of human expertise with AI capabilities in professional software development. Connect with him on <a href="https://www.linkedin.com/in/rajivpant/">LinkedIn</a> or read more at <a href="https://rajiv.com/">rajiv.com</a>.</em></p>
+
+            </div>
+
+            <div class="article-tags">
+                <div class="article-tags-label">Tags</div>
+                <a href="/articles/tag/artificial-intelligence/" class="tag">artificial intelligence</a><a href="/articles/tag/claude-code/" class="tag">Claude Code</a><a href="/articles/tag/ctobook/" class="tag">ctobook</a><a href="/articles/tag/programming/" class="tag">programming</a><a href="/articles/tag/software-engineering/" class="tag">software engineering</a><a href="/articles/tag/synthesis-coding/" class="tag">synthesis coding</a><a href="/articles/tag/synthesis-engineering/" class="tag">synthesis engineering</a><a href="/articles/tag/vibe-coding/" class="tag">vibe coding</a><a href="/articles/tag/ownwords/" class="tag">ownwords</a><a href="/articles/tag/open-source/" class="tag">open source</a>
+            </div>
+
+            <p class="canonical-notice">
+                Originally published on <a href="https://rajiv.com/blog/2025/12/07/building-ownwords-a-synthesis-coding-case-study/">rajiv.com</a>
+            </p>
+
+            <section class="related-articles">
+    <h2>Related Articles</h2>
+    <div class="related-grid">
+      <a href="/articles/polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code/" class="related-card">
+        <span class="related-title">Polyrepo Synthesis: Synthesis Coding Across Multiple Repositories with Claude Code in Visual Studio Code</span>
+        <span class="related-meta">10 min read</span>
+      </a>
+      <a href="/articles/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/" class="related-card">
+        <span class="related-title">Synthesis Coding with Claude Code: Technical Implementation and Workflows</span>
+        <span class="related-meta">14 min read</span>
+      </a>
+      <a href="/articles/seventeen-years-ago-i-built-a-tool-for-the-open-web-this-weekend-i-modernized-it-using-synthesis-coding-with-claude-code-ai/" class="related-card">
+        <span class="related-title">Seventeen years ago, I built a tool for the open Web. This weekend, I modernized it using Synthesis Coding with Claude Code AI</span>
+        <span class="related-meta">8 min read</span>
+      </a>
+    </div>
+  </section>
+        </article>
+    </main>
+
+    <footer>
+        <p class="cc0">The terms "Synthesis Coding" and "Synthesis Engineering," along with the associated logo and visual identity, are released under <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0 Universal</a> (public domain). No permission required. No attribution needed. Use freely. The logo was hand-crafted by a human artist.</p>
+        <p><a href="/">← Back to Synthesis Coding</a></p>
+        <p class="built-with">
+            Built with <a href="https://github.com/rajivpant/ownwords">ownwords</a>,
+            <a href="https://claude.ai/claude-code">Claude Code</a>,
+            <a href="https://pages.cloudflare.com/">Cloudflare</a> &amp; friends ·
+            <a href="/colophon/">Colophon</a>
+        </p>
+    </footer>
+
+    <!-- Prism.js core and language support -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markdown.min.js"></script>
+    <!-- Prism.js plugins -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+
+    <!-- Auto-detect language and initialize Prism for all code blocks -->
+    <script>
+    (function() {
+        // Auto-detect language based on content patterns
+        function detectLanguage(code) {
+            const text = code.textContent || '';
+            const firstLine = text.trim().split('\n')[0];
+
+            // Shell/bash patterns
+            if (/^\$\s/.test(firstLine) || /^claude\s/.test(firstLine) ||
+                /^(cd|ls|npm|git|mkdir|rm|cp|mv|cat|echo|export|source)\s/.test(firstLine) ||
+                /^#!\/bin\/(ba)?sh/.test(firstLine)) {
+                return 'bash';
+            }
+            // Python patterns
+            if (/^(import |from |def |class |if __name__|print\()/.test(firstLine) ||
+                /^\s*(import |from )/.test(text)) {
+                return 'python';
+            }
+            // JavaScript/TypeScript patterns
+            if (/^(const |let |var |function |import |export |async |await )/.test(firstLine) ||
+                /^(import \{|export \{|module\.exports)/.test(text)) {
+                return 'javascript';
+            }
+            // JSON patterns
+            if (/^\s*[\{\[]/.test(firstLine) && /[\}\]]\s*$/.test(text.trim())) {
+                return 'json';
+            }
+            // YAML patterns
+            if (/^[a-zA-Z_-]+:\s/.test(firstLine)) {
+                return 'yaml';
+            }
+            // SQL patterns
+            if (/^(SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER)\s/i.test(firstLine)) {
+                return 'sql';
+            }
+            // Default to bash for command-like content
+            if (/^\w+\s+["']/.test(firstLine) || /^[\w-]+\s+--/.test(firstLine)) {
+                return 'bash';
+            }
+            return 'bash'; // Default fallback
+        }
+
+        // Process all code blocks
+        document.querySelectorAll('pre').forEach(function(pre) {
+            var code = pre.querySelector('code');
+            if (!code) {
+                // Wrap content in code element if missing
+                code = document.createElement('code');
+                code.innerHTML = pre.innerHTML;
+                pre.innerHTML = '';
+                pre.appendChild(code);
+            }
+
+            // Check if language class already exists
+            var hasLang = pre.className.match(/language-(\w+)/) ||
+                          code.className.match(/language-(\w+)/);
+
+            if (!hasLang) {
+                // Auto-detect and apply language
+                var lang = detectLanguage(code);
+                pre.className = (pre.className + ' language-' + lang).trim();
+                code.className = (code.className + ' language-' + lang).trim();
+            } else {
+                // Ensure both pre and code have the language class
+                var langClass = 'language-' + hasLang[1];
+                if (!pre.className.includes(langClass)) {
+                    pre.className = (pre.className + ' ' + langClass).trim();
+                }
+                if (!code.className.includes(langClass)) {
+                    code.className = (code.className + ' ' + langClass).trim();
+                }
+            }
+        });
+
+        // Re-highlight all code blocks with Prism
+        if (typeof Prism !== 'undefined') {
+            Prism.highlightAll();
+        }
+    })();
+    </script>
+</body>
+</html>
