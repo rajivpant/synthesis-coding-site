@@ -44,6 +44,20 @@ I wanted a toolkit that would let me:
 
 This isn't a weekend prototype. It's a tool I depend on for my own publishing workflow. That dependency shaped every architectural decision.
 
+## What This Enables
+
+Without tooling like ownwords, batch content operations on WordPress sites require days, weeks, or months of manual labor — and the process is stressful and error-prone. Here's what becomes practical:
+
+**Content updates at scale.** When an author's bio changes, update hundreds of articles where that bio appears in the body content. When your organization rebrands a product name or updates style guide conventions, fix the terminology across your entire archive. When regulations change, update disclosures and disclaimers across all relevant content.
+
+**SEO and link management.** Add cross-references between related articles for improved link authority. When content moves between domains or URL structures change, update canonical URLs and internal links. Find and repair broken links across your content library.
+
+**Multi-platform publishing.** Maintain content on both WordPress and a static site simultaneously. Keep version-controlled Markdown files as the source of truth, with WordPress as one publishing target among several. Export content from WordPress to other CMS platforms or static site generators.
+
+**AI-assisted editorial operations.** Use Claude, Cursor, or other AI assistants to make intelligent edits across your content library — with `dryRun` support to preview changes before applying them. Have AI enforce writing style, tone, or formatting conventions. Batch-add summaries, metadata, or structured data to existing articles.
+
+These aren't hypothetical scenarios. They're the actual problems that motivated building ownwords — and the problems it now solves.
+
 ## Architectural Decisions Made Before Any Code
 
 The first principle of synthesis coding is **Human Architectural Authority**. I don't ask AI what architecture to use. I decide, then direct AI to implement within those constraints.

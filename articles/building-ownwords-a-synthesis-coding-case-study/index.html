@@ -522,7 +522,7 @@
                 <div class="article-meta">
                     <time datetime="2025-12-07">December 6, 2025</time>
                     <span class="separator">·</span>
-                    <span>9 min read</span>
+                    <span>10 min read</span>
                     <span class="separator">·</span>
                     <a href="/articles/category/case-study/" class="category-badge" style="--cat-color: #d97706">Case study</a>
                 </div>
@@ -544,6 +544,13 @@
 <li>Verify that conversions preserved my content accurately</li>
 </ol>
 <p>This isn&#39;t a weekend prototype. It&#39;s a tool I depend on for my own publishing workflow. That dependency shaped every architectural decision.</p>
+<h2>What This Enables</h2>
+<p>Without tooling like ownwords, batch content operations on WordPress sites require days, weeks, or months of manual labor — and the process is stressful and error-prone. Here&#39;s what becomes practical:</p>
+<p><strong>Content updates at scale.</strong> When an author&#39;s bio changes, update hundreds of articles where that bio appears in the body content. When your organization rebrands a product name or updates style guide conventions, fix the terminology across your entire archive. When regulations change, update disclosures and disclaimers across all relevant content.</p>
+<p><strong>SEO and link management.</strong> Add cross-references between related articles for improved link authority. When content moves between domains or URL structures change, update canonical URLs and internal links. Find and repair broken links across your content library.</p>
+<p><strong>Multi-platform publishing.</strong> Maintain content on both WordPress and a static site simultaneously. Keep version-controlled Markdown files as the source of truth, with WordPress as one publishing target among several. Export content from WordPress to other CMS platforms or static site generators.</p>
+<p><strong>AI-assisted editorial operations.</strong> Use Claude, Cursor, or other AI assistants to make intelligent edits across your content library — with <code>dryRun</code> support to preview changes before applying them. Have AI enforce writing style, tone, or formatting conventions. Batch-add summaries, metadata, or structured data to existing articles.</p>
+<p>These aren&#39;t hypothetical scenarios. They&#39;re the actual problems that motivated building ownwords — and the problems it now solves.</p>
 <h2>Architectural Decisions Made Before Any Code</h2>
 <p>The first principle of synthesis coding is <strong>Human Architectural Authority</strong>. I don&#39;t ask AI what architecture to use. I decide, then direct AI to implement within those constraints.</p>
 <p>Here are the decisions I made before writing a single line of code:</p>
