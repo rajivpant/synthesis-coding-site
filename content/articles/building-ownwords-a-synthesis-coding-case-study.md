@@ -311,7 +311,7 @@ When converting Markdown back to WordPress-ready HTML, code blocks need protecti
 
 The solution: extract code blocks first, replace with placeholders, do formatting, restore code blocks.
 
-```javascript
+~~~javascript
 function markdownToHtml(markdown) {
   let html = markdown;
   const codeBlocks = [];
@@ -339,7 +339,7 @@ function markdownToHtml(markdown) {
 
   return html;
 }
-```
+~~~
 
 This pattern prevents a class of nested-formatting bugs that would be hard to debug later.
 
