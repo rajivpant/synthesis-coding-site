@@ -9,6 +9,7 @@ Website for synthesiscoding.com - a methodology site with articles about Synthes
 | Repository | Type | Purpose | Location |
 |------------|------|---------|----------|
 | **synthesis-coding-site** | Public | Website for synthesiscoding.com | `~/projects/my-projects/synthesis-coding-site/` |
+| **rajiv-site** | Public | Static files and blog management for rajiv.com | `~/projects/my-projects/rajiv-site/` |
 | **ownwords** | Public | WordPress to Markdown toolkit | `~/projects/my-projects/ownwords/` |
 | **ragbot-site** | Public | Website for ragbot.ai | `~/projects/my-projects/ragbot-site/` |
 | **ragenie-site** | Public | Website for ragenie.ai | `~/projects/my-projects/ragenie-site/` |
