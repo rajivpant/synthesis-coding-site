@@ -565,6 +565,7 @@ function generateTagPage(tag, articles, template) {
 
 /**
  * Validate article front matter
+ * Supports both flat (slug.md) and hierarchical (index.md) structures
  */
 function validateArticle(article, filePath) {
   const errors = [];
@@ -576,8 +577,10 @@ function validateArticle(article, filePath) {
   if (!frontMatter.date) errors.push(`Missing required field: date`);
   if (!frontMatter.canonical_url) errors.push(`Missing required field: canonical_url`);
 
+  // Check filename matches slug for flat structure (slug.md)
+  // Skip check for hierarchical structure (index.md)
   const filename = path.basename(filePath, '.md');
-  if (frontMatter.slug && frontMatter.slug !== filename) {
+  if (filename !== 'index' && frontMatter.slug && frontMatter.slug !== filename) {
     errors.push(`Slug "${frontMatter.slug}" does not match filename "${filename}"`);
   }
 
@@ -624,27 +627,132 @@ function copyImages() {
   }
 }
 
+
+/**
+ * Find all markdown files in both flat and hierarchical structures
+ * 
+ * Supports two content structures:
+ * - Flat: content/articles/slug.md
+ * - Hierarchical: content/posts/YYYY/MM/DD-slug/index.md
+ *                 content/pages/slug/index.md
+ * 
+ * Returns array of { filePath, slug, type } objects
+ */
+function findContentFiles(contentDir) {
+  const results = [];
+  
+  // Check for flat articles structure
+  const flatArticlesDir = path.join(contentDir, 'articles');
+  if (fs.existsSync(flatArticlesDir)) {
+    const files = fs.readdirSync(flatArticlesDir).filter(f => f.endsWith('.md'));
+    for (const file of files) {
+      results.push({
+        filePath: path.join(flatArticlesDir, file),
+        slug: path.basename(file, '.md'),
+        type: 'posts',
+        contentDir: flatArticlesDir
+      });
+    }
+  }
+  
+  // Check for hierarchical posts structure: content/posts/YYYY/MM/DD-slug/index.md
+  const postsDir = path.join(contentDir, 'posts');
+  if (fs.existsSync(postsDir)) {
+    walkHierarchicalPosts(postsDir, results);
+  }
+  
+  // Check for hierarchical pages structure: content/pages/slug/index.md
+  const pagesDir = path.join(contentDir, 'pages');
+  if (fs.existsSync(pagesDir)) {
+    walkHierarchicalPages(pagesDir, results);
+  }
+  
+  return results;
+}
+
+/**
+ * Walk hierarchical posts directory: posts/YYYY/MM/DD-slug/index.md
+ */
+function walkHierarchicalPosts(postsDir, results) {
+  const years = fs.readdirSync(postsDir).filter(f => /^\d{4}$/.test(f));
+  
+  for (const year of years) {
+    const yearDir = path.join(postsDir, year);
+    if (!fs.statSync(yearDir).isDirectory()) continue;
+    
+    const months = fs.readdirSync(yearDir).filter(f => /^\d{2}$/.test(f));
+    
+    for (const month of months) {
+      const monthDir = path.join(yearDir, month);
+      if (!fs.statSync(monthDir).isDirectory()) continue;
+      
+      const daySlugDirs = fs.readdirSync(monthDir).filter(f => /^\d{2}-/.test(f));
+      
+      for (const daySlugDir of daySlugDirs) {
+        const articleDir = path.join(monthDir, daySlugDir);
+        if (!fs.statSync(articleDir).isDirectory()) continue;
+        
+        const indexMd = path.join(articleDir, 'index.md');
+        if (fs.existsSync(indexMd)) {
+          // Extract slug from DD-slug format
+          const slug = daySlugDir.substring(3); // Remove "DD-" prefix
+          results.push({
+            filePath: indexMd,
+            slug: slug,
+            type: 'posts',
+            contentDir: articleDir
+          });
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Walk hierarchical pages directory: pages/slug/index.md
+ */
+function walkHierarchicalPages(pagesDir, results, parentSlug = '') {
+  const entries = fs.readdirSync(pagesDir);
+  
+  for (const entry of entries) {
+    const entryPath = path.join(pagesDir, entry);
+    if (!fs.statSync(entryPath).isDirectory()) continue;
+    
+    const indexMd = path.join(entryPath, 'index.md');
+    const slug = parentSlug ? `${parentSlug}/${entry}` : entry;
+    
+    if (fs.existsSync(indexMd)) {
+      results.push({
+        filePath: indexMd,
+        slug: slug,
+        type: 'pages',
+        contentDir: entryPath
+      });
+    }
+    
+    // Recursively check for nested pages
+    walkHierarchicalPages(entryPath, results, slug);
+  }
+}
+
 /**
  * Main build function
  */
 function build() {
   console.log('🔨 Building Synthesis Coding site...\n');
 
-  if (!fs.existsSync(CONTENT_DIR)) {
-    console.log('📁 No content directory found. Creating empty structure...');
-    fs.mkdirSync(CONTENT_DIR, { recursive: true });
-    console.log('✅ Created content/articles/ directory');
+  // Find content in both flat (articles/) and hierarchical (posts/, pages/) structures
+  const contentFiles = findContentFiles(ROOT_DIR + '/content');
+
+  if (contentFiles.length === 0) {
+    console.log('📝 No markdown files found in content/articles/ or content/posts/');
+    console.log('   Supported structures:');
+    console.log('   - Flat: content/articles/slug.md');
+    console.log('   - Hierarchical: content/posts/YYYY/MM/DD-slug/index.md');
     return;
   }
 
-  const files = fs.readdirSync(CONTENT_DIR).filter(f => f.endsWith('.md'));
-
-  if (files.length === 0) {
-    console.log('📝 No markdown files found in content/articles/');
-    return;
-  }
-
-  console.log(`📄 Found ${files.length} article(s)\n`);
+  console.log(`📄 Found ${contentFiles.length} article(s)\n`);
 
   ensureDirectories();
 
@@ -675,12 +783,14 @@ function build() {
     tags: {}
   };
 
-  for (const file of files) {
-    const filePath = path.join(CONTENT_DIR, file);
-    console.log(`  Processing: ${file}`);
+  for (const contentFile of contentFiles) {
+    const { filePath, slug: fileSlug, contentDir: articleContentDir } = contentFile;
+    console.log(`  Processing: ${path.relative(ROOT_DIR, filePath)}`);
 
     try {
       const article = parseMarkdownFile(filePath);
+      // Store the content directory for image copying
+      article.contentDir = articleContentDir;
       const { errors, warnings } = validateArticle(article, filePath);
 
       if (errors.length > 0) {

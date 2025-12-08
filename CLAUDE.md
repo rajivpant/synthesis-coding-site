@@ -21,8 +21,10 @@ Note: Home directory varies by machine, so use `~` for paths.
 ```text
 synthesis-coding-site/
 ├── index.html              # Main landing page
-├── content/articles/       # Markdown source files (future)
-├── articles/               # Generated HTML (future)
+├── content/
+│   ├── posts/              # Blog posts: YYYY/MM/DD-slug/index.md
+│   └── pages/              # Static pages: slug/index.md (future)
+├── articles/               # Generated HTML (output)
 ├── scripts/
 │   └── build.js            # Site build script (uses marked + gray-matter)
 ├── templates/              # HTML templates for build
@@ -39,20 +41,29 @@ synthesis-coding-site/
 npm run build               # Builds markdown articles to HTML
 ```
 
-The build script (`scripts/build.js`) converts markdown files in `content/articles/` to HTML pages with:
+The build script (`scripts/build.js`) uses hierarchical content structure:
 
+```text
+content/posts/2025/12/07-my-article/index.md
+content/posts/2025/12/07-my-article/image.jpg
+```
+
+Output URL: `/articles/my-article/`
+
+Features:
 - Canonical links pointing to rajiv.com
 - WordPress-ready export in `wordpress-export/` (for copy/paste publishing)
+- Images co-located with articles in hierarchical structure
 
 ## Using ownwords with This Site
 
 The ownwords CLI can fetch and convert articles from rajiv.com for this site:
 
 ```bash
-# From this repo directory
-ownwords fetch https://rajiv.com/blog/2025/11/09/article-slug/
-ownwords convert ./raw/article-slug.html ./content/articles/article-slug.md
-ownwords verify ./raw/article-slug.html ./content/articles/article-slug.md
+# Fetch with hierarchical structure
+ownwords fetch https://rajiv.com/blog/2025/12/07/article-slug/ --api --hierarchical --output-dir=./content
+
+# This creates: content/posts/2025/12/07-article-slug/index.md
 ```
 
 ## Git Operations
