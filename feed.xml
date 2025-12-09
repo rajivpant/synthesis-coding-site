@@ -5,9 +5,17 @@
     <link>https://synthesiscoding.com</link>
     <description>Articles on Synthesis Coding methodology for AI-assisted professional software development.</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 08 Dec 2025 07:09:12 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 08 Dec 2025 23:24:16 GMT</lastBuildDate>
     <atom:link href="https://synthesiscoding.com/feed.xml" rel="self" type="application/rss+xml"/>
 
+    <item>
+      <title><![CDATA[Synthesis Coding Best Practices: Lessons from Production Workflows]]></title>
+      <link>https://synthesiscoding.com/articles/synthesis-coding-best-practices-lessons-from-production-workflows/</link>
+      <guid isPermaLink="true">https://synthesiscoding.com/articles/synthesis-coding-best-practices-lessons-from-production-workflows/</guid>
+      <pubDate>Mon, 08 Dec 2025 00:00:00 GMT</pubDate>
+      <description>A practical guide to CLAUDE.md configuration, defensive coding patterns, and workflow safeguards developed through real-world synthesis coding projects.</description>
+      <category>Best practices</category>
+    </item>
     <item>
       <title><![CDATA[Building ownwords: A Synthesis Coding Case Study]]></title>
       <link>https://synthesiscoding.com/articles/building-ownwords-a-synthesis-coding-case-study/</link>

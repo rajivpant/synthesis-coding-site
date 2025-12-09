@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synthesis Coding Best Practices: Lessons from Production Workflows — Synthesis Coding</title>
+    <meta name="description" content="A practical guide to CLAUDE.md configuration, defensive coding patterns, and workflow safeguards developed through real-world synthesis coding projects.">
+    <meta name="keywords" content="synthesis coding, synthesis engineering, AI-assisted development, software engineering">
+
+    <!-- Canonical URL pointing to WordPress -->
+    <link rel="canonical" href="https://rajiv.com/blog/2025/12/08/synthesis-coding-best-practices-lessons-from-production-workflows/">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Synthesis Coding Best Practices: Lessons from Production Workflows">
+    <meta property="og:description" content="A practical guide to CLAUDE.md configuration, defensive coding patterns, and workflow safeguards developed through real-world synthesis coding projects.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://synthesiscoding.com/articles/synthesis-coding-best-practices-lessons-from-production-workflows/">
+    <meta property="og:image" content="https://synthesiscoding.com/assets/og-image.jpg">
+    <meta property="og:site_name" content="Synthesis Coding">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Synthesis Coding Best Practices: Lessons from Production Workflows">
+    <meta name="twitter:description" content="A practical guide to CLAUDE.md configuration, defensive coding patterns, and workflow safeguards developed through real-world synthesis coding projects.">
+
+    <!-- RSS Feed -->
+    <link rel="alternate" type="application/rss+xml" title="Synthesis Coding RSS Feed" href="/feed.xml">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Prism.js syntax highlighting (Tomorrow Night theme) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --black: #0a0a0a;
+            --dark: #1a1a1a;
+            --gray-dark: #3a3a3a;
+            --gray: #666;
+            --gray-light: #999;
+            --gray-lighter: #e5e5e5;
+            --white: #fafafa;
+            --cream: #f5f4f0;
+            --accent: #2a2a2a;
+
+            --font-serif: 'Newsreader', Georgia, serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+
+            --max-width: 720px;
+            --wide-width: 960px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 18px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-serif);
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--dark);
+            background: var(--white);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Header */
+        header {
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--gray-lighter);
+        }
+
+        .logo {
+            max-width: 240px;
+            width: 100%;
+            height: auto;
+        }
+
+        /* Nav */
+        nav {
+            position: sticky;
+            top: 0;
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-lighter);
+            padding: 0.75rem 2rem;
+            z-index: 100;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--gray);
+        }
+
+        nav a:hover {
+            color: var(--black);
+        }
+
+        /* Main content */
+        main {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Article header */
+        .article-header {
+            padding: 3rem 0 2rem;
+            border-bottom: 1px solid var(--gray-lighter);
+            margin-bottom: 2rem;
+        }
+
+        .article-header h1 {
+            font-size: 2rem;
+            font-weight: 500;
+            line-height: 1.3;
+            color: var(--black);
+            margin: 0 0 1rem;
+        }
+
+        .article-meta {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--gray-light);
+            letter-spacing: 0.02em;
+        }
+
+        .article-meta .separator {
+            margin: 0 0.5rem;
+            color: var(--gray-lighter);
+        }
+
+        .category-badge {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            background: color-mix(in srgb, var(--cat-color, #6b7280) 15%, transparent);
+            color: var(--cat-color, #6b7280);
+            border: 1px solid color-mix(in srgb, var(--cat-color, #6b7280) 30%, transparent);
+            transition: all 0.2s;
+        }
+
+        .category-badge:hover {
+            background: color-mix(in srgb, var(--cat-color, #6b7280) 25%, transparent);
+        }
+
+        .canonical-notice {
+            margin-top: 1rem;
+            padding: 0.75rem 1rem;
+            background: var(--cream);
+            font-size: 0.85rem;
+            color: var(--gray);
+            border-left: 3px solid var(--gray-lighter);
+        }
+
+        .canonical-notice a {
+            color: var(--dark);
+        }
+
+        /* Tags */
+        .article-tags {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--gray-lighter);
+        }
+
+        .article-tags-label {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--gray-light);
+            margin-bottom: 0.75rem;
+        }
+
+        .article-tags .tag {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            background: var(--cream);
+            color: var(--gray);
+            padding: 0.25rem 0.6rem;
+            margin: 0 0.4rem 0.4rem 0;
+            border-radius: 3px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .article-tags a.tag:hover {
+            background: var(--gray-lighter);
+            color: var(--dark);
+        }
+
+        /* Related articles */
+        .related-articles {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gray-lighter);
+        }
+
+        .related-articles h2 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin: 0 0 1.25rem;
+            color: var(--black);
+        }
+
+        .related-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .related-card {
+            display: block;
+            padding: 1rem 1.25rem;
+            background: var(--cream);
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .related-card:hover {
+            background: var(--gray-lighter);
+        }
+
+        .related-title {
+            display: block;
+            font-weight: 500;
+            color: var(--dark);
+            margin-bottom: 0.25rem;
+            line-height: 1.4;
+        }
+
+        .related-meta {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--gray-light);
+        }
+
+        /* Article content */
+        .article-content {
+            padding: 2rem 0 3rem;
+        }
+
+        .article-content h2 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            line-height: 1.3;
+            color: var(--black);
+            margin: 2.5rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--black);
+            display: inline-block;
+        }
+
+        .article-content h3 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            line-height: 1.3;
+            color: var(--black);
+            margin: 2rem 0 0.75rem;
+        }
+
+        .article-content h4 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            line-height: 1.3;
+            color: var(--black);
+            margin: 1.5rem 0 0.5rem;
+        }
+
+        .article-content p {
+            margin: 0 0 1.25rem;
+        }
+
+        .article-content a {
+            color: var(--dark);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            text-decoration-thickness: 1px;
+            transition: color 0.2s;
+        }
+
+        .article-content a:hover {
+            color: var(--gray);
+        }
+
+        .article-content ul,
+        .article-content ol {
+            margin: 0 0 1.25rem;
+            padding-left: 1.5rem;
+        }
+
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .article-content li strong {
+            font-weight: 600;
+        }
+
+        .article-content blockquote {
+            margin: 1.5rem 0;
+            padding: 1rem 1.5rem;
+            background: var(--cream);
+            border-left: 3px solid var(--black);
+            font-style: italic;
+        }
+
+        .article-content blockquote p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Inline code */
+        .article-content code {
+            font-family: var(--font-mono);
+            font-size: 0.9em;
+            background: var(--cream);
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            color: #c7254e;
+        }
+
+        /* Code blocks */
+        .article-content pre {
+            margin: 1.5rem 0;
+            padding: 1.25rem;
+            background: #2d2d2d;
+            color: #e0e0e0;
+            overflow-x: auto;
+            border-radius: 6px;
+            border: 1px solid #444;
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+
+        .article-content pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+            font-size: inherit;
+        }
+
+        /* Prism toolbar styling */
+        div.code-toolbar > .toolbar {
+            opacity: 1;
+        }
+
+        div.code-toolbar > .toolbar > .toolbar-item > button,
+        div.code-toolbar > .toolbar > .toolbar-item > span {
+            background: #444;
+            color: #ccc;
+            padding: 0.35rem 0.6rem;
+            font-size: 0.7rem;
+            border-radius: 3px;
+            font-family: var(--font-mono);
+        }
+
+        div.code-toolbar > .toolbar > .toolbar-item > button:hover {
+            background: #555;
+            color: #fff;
+        }
+
+        /* Language label in toolbar */
+        .toolbar-item span[data-label]::before {
+            content: attr(data-label);
+        }
+
+        .article-content hr {
+            border: none;
+            border-top: 1px solid var(--gray-lighter);
+            margin: 2.5rem 0;
+        }
+
+        .article-content em {
+            font-style: italic;
+        }
+
+        .article-content strong {
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 3rem 2rem 4rem;
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--gray-lighter);
+        }
+
+        footer p {
+            margin: 0 0 0.75rem;
+        }
+
+        footer a {
+            color: var(--dark);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            text-decoration-thickness: 1px;
+        }
+
+        .cc0 {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--gray-light);
+            letter-spacing: 0.02em;
+        }
+
+        .built-with {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--gray-light);
+            margin-top: 1.5rem;
+        }
+
+        .built-with a {
+            color: var(--gray);
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            html {
+                font-size: 16px;
+            }
+
+            header {
+                padding: 1.5rem;
+            }
+
+            .logo {
+                max-width: 200px;
+            }
+
+            main {
+                padding: 0 1.5rem;
+            }
+
+            .article-header {
+                padding: 2rem 0 1.5rem;
+            }
+
+            .article-header h1 {
+                font-size: 1.6rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            nav {
+                display: none;
+            }
+
+            header {
+                border-bottom: none;
+            }
+
+            .canonical-notice {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/">
+            <img src="/assets/logo.webp" alt="Synthesis Coding" class="logo">
+        </a>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="/#what">What</a></li>
+            <li><a href="/#principles">Principles</a></li>
+            <li><a href="/#when">When to Use</a></li>
+            <li><a href="/articles/">Articles</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <div class="article-header">
+                <h1>Synthesis Coding Best Practices: Lessons from Production Workflows</h1>
+                <div class="article-meta">
+                    <time datetime="2025-12-08">December 7, 2025</time>
+                    <span class="separator">·</span>
+                    <span>12 min read</span>
+                    <span class="separator">·</span>
+                    <a href="/articles/category/best-practices/" class="category-badge" style="--cat-color: #6b7280">Best practices</a>
+                </div>
+            </div>
+
+            <div class="article-content">
+                <!--
+DRAFT STATUS: This is an outline and draft. Do not publish.
+Last updated: 2025-12-08
+-->
+
+<p><em>The difference between AI-assisted coding that works once and AI-assisted coding that works reliably comes down to documented practices, defensive patterns, and systematic safeguards. This article presents the best practices I&#39;ve developed through months of production synthesis coding work.</em></p>
+<h2>Introduction</h2>
+<p>[TODO: Write introduction - 2-3 paragraphs]</p>
+<p>Key points to hit:</p>
+<ul>
+<li>Best practices emerge from real production work, not theory</li>
+<li>These practices have been refined through iteration on multiple projects</li>
+<li>The goal is reliability and predictability, not maximum AI autonomy</li>
+<li>These patterns work across different project types and scales</li>
+</ul>
+<hr>
+<h2>Part One: The CLAUDE.md Architecture</h2>
+<p>The CLAUDE.md file is the foundational artifact of synthesis coding. It&#39;s how you transfer your architectural decisions, coding standards, and domain knowledge into a format that persists across sessions and scales across projects.</p>
+<h3>The Two-Tier System: Global and Project-Level</h3>
+<p><strong>Global CLAUDE.md (<code>~/.claude/CLAUDE.md</code>)</strong></p>
+<p>This file contains standards that apply to ALL your projects. It embeds your engineering philosophy into every AI session.</p>
+<p>Key sections to include:</p>
+<ol>
+<li><p><strong>Core Principle Statement</strong></p>
+<ul>
+<li>Example: &quot;Maximize value delivered to the user, not convenience for the AI.&quot;</li>
+<li>This becomes the decision-making tiebreaker</li>
+</ul>
+</li>
+<li><p><strong>Quality Attributes (Non-Negotiable)</strong></p>
+<ul>
+<li>Performant</li>
+<li>Flexible</li>
+<li>Feature-complete</li>
+<li>Human-effort-saving</li>
+<li>Secure</li>
+<li>Convention-compliant (Jekyll, Hugo, npm patterns)</li>
+<li>Extensible</li>
+<li>Well-tested</li>
+<li>Documented</li>
+</ul>
+</li>
+<li><p><strong>Prohibited Behaviors</strong></p>
+<ul>
+<li>Never implement &quot;Option B&quot; when &quot;Option A&quot; was identified as superior</li>
+<li>Never add flags as substitutes for proper implementation</li>
+<li>Never implement collision detection when collision prevention is possible</li>
+<li>Never defer important functionality to &quot;future work&quot; without explicit agreement</li>
+<li>Never implement partial solutions when complete solutions are feasible</li>
+</ul>
+</li>
+<li><p><strong>Decision Framework</strong></p>
+<ul>
+<li>Identify all options explicitly</li>
+<li>Recommend the best option with rationale</li>
+<li>Implement what you recommend (never recommend A, implement B)</li>
+<li>If uncertain, ask rather than defaulting to simpler option</li>
+</ul>
+</li>
+</ol>
+<p><strong>Project-Level CLAUDE.md</strong></p>
+<p>Each repository gets its own CLAUDE.md with project-specific context:</p>
+<ul>
+<li>Repository purpose and scope</li>
+<li>Repository ecosystem (related repos, their purposes, locations)</li>
+<li>Directory structure with explanations</li>
+<li>Build and deployment processes</li>
+<li>Integration points with other systems</li>
+<li>Project-specific conventions and patterns</li>
+</ul>
+<h3>The &quot;Recommend A, Implement A&quot; Principle</h3>
+<p>[TODO: Expand this section]</p>
+<p>One of the most important lessons: AI assistants will sometimes recommend the superior approach during discussion, then implement an inferior approach when it comes time to code. This happens because:</p>
+<ul>
+<li>The simpler implementation requires less context management</li>
+<li>The AI optimizes for completing the immediate task</li>
+<li>Edge cases seem distant during implementation</li>
+</ul>
+<p><strong>Solution:</strong> Explicit instructions in CLAUDE.md that state:</p>
+<pre class="language-markdown"><code class="language-markdown">### Decision Framework
+
+When multiple approaches exist:
+
+1. **Identify all options** — List them explicitly
+2. **Recommend the best option** — Based on the quality attributes above
+3. **Implement what you recommend** — Never recommend A and implement B
+4. **If uncertain, ask** — Don&#039;t default to the simpler option</code></pre>
+<h3>The Additive Thinking Principle</h3>
+<p>[TODO: Expand this section]</p>
+<p>Features are usually additive, not replacements. When implementing a &quot;better&quot; solution, the existing approach often serves a different valid use case.</p>
+<p><strong>Bad pattern:</strong></p>
+<ul>
+<li>&quot;I&#39;ll implement date-prefixes and remove the <code>--force</code> flag&quot;</li>
+</ul>
+<p><strong>Good pattern:</strong></p>
+<ul>
+<li>&quot;Date-prefixes prevent accidental collisions; <code>--force</code> allows intentional overwrites. Both serve users.&quot;</li>
+</ul>
+<p>This prevents the AI from subtracting functionality in the name of &quot;simplification.&quot;</p>
+<hr>
+<h2>Part Two: Defensive Coding Patterns</h2>
+<h3>Safe File Operations</h3>
+<p>[TODO: Expand with examples]</p>
+<p>Shell commands like <code>sed</code>, <code>awk</code>, and heredocs are error-prone when AI generates them:</p>
+<p><strong>Problems with shell-based file operations:</strong></p>
+<ul>
+<li>Patterns can match unintended locations (inside URLs, paths, code blocks)</li>
+<li>No context awareness (sed doesn&#39;t know YAML vs markdown)</li>
+<li>Escaping issues with special characters (backticks, dollar signs, quotes)</li>
+<li>Heredocs fail with JavaScript template literals and shell variables</li>
+<li>Silent failures that corrupt data</li>
+</ul>
+<p><strong>Solution: Use Python for file manipulation</strong></p>
+<pre class="language-python"><code class="language-python"># For writing new files with complex content
+content = &#039;const x = `value`;&#039;
+with open(&#039;file.js&#039;, &#039;w&#039;) as f:
+    f.write(content)
+
+# For find/replace with context awareness
+import re
+content = open(&#039;file.md&#039;).read()
+# Only replace in specific context
+content = re.sub(r&#039;(specific-pattern)&#039;, r&#039;replacement&#039;, content)
+open(&#039;file.md&#039;, &#039;w&#039;).write(content)</code></pre>
+<p><strong>Rules to encode in CLAUDE.md:</strong></p>
+<ol>
+<li>Use Python for ALL file writes involving complex content</li>
+<li>Use Python for find/replace operations (allows precise targeting)</li>
+<li>Never use heredocs (they fail with <code>${}</code>, backticks, etc.)</li>
+<li>Always quote paths in shell commands</li>
+<li>Verify before and after modifications</li>
+<li>Prefer atomic operations (read, modify in memory, write back)</li>
+</ol>
+<h3>Destructive Command Safeguards</h3>
+<p>This is perhaps the most critical defensive pattern. AI assistants can and do generate destructive commands that cause catastrophic data loss. This isn&#39;t theoretical — it happens in production.</p>
+<p><strong>The Pattern That Destroys Systems</strong></p>
+<p>Consider this sequence that appeared in a real incident:</p>
+<pre class="language-bash"><code class="language-bash">rm -rf packages/
+rm -f lerna.json
+rm -f tsconfig.json eslint.config.js test-exports.mjs
+rm -rf tests/ patches/ plan/ ~/</code></pre>
+<p>Notice the last command: <code>rm -rf ~/</code>. The AI was cleaning up project directories and included the home directory (<code>~/</code>) in the list. One misplaced path, and the entire home directory — documents, configurations, SSH keys, years of work — is gone.</p>
+<p><strong>Why This Happens</strong></p>
+<p>AI assistants pattern-match on the task at hand. When asked to &quot;clean up unused files,&quot; they generate a list of things to delete. Without explicit constraints, that list can include:</p>
+<ul>
+<li>Paths outside the project directory</li>
+<li>Parent directories (<code>.</code>, <code>..</code>, <code>/</code>)</li>
+<li>Home directory shortcuts (<code>~</code>, <code>$HOME</code>)</li>
+<li>System directories (<code>/usr</code>, <code>/etc</code>, <code>/var</code>)</li>
+<li>Other users&#39; directories</li>
+</ul>
+<p>The AI isn&#39;t malicious — it&#39;s completing the pattern without understanding the catastrophic consequences of certain path expansions.</p>
+<p><strong>CLAUDE.md Rules for Destructive Commands</strong></p>
+<p>Add these explicit prohibitions to your global CLAUDE.md:</p>
+<pre class="language-markdown"><code class="language-markdown">### Destructive Command Safeguards
+
+**NEVER run commands that could delete, modify, or overwrite files outside the current project directory without explicit user confirmation.**
+
+Specifically, NEVER include these in `rm`, `mv`, or destructive commands:
+- Home directory: `~`, `$HOME`, `/Users/*`, `/home/*`
+- Root or parent paths: `/`, `.`, `..`
+- System directories: `/usr`, `/etc`, `/var`, `/bin`, `/sbin`
+- Glob patterns that could expand dangerously: `*`, `**`, `.*`
+
+**Before any `rm -rf` command:**
+1. List the exact paths that will be deleted
+2. Verify each path is within the project directory
+3. Use absolute paths, not relative paths with `..`
+4. Prefer `rm -rf ./specific-directory/` over `rm -rf specific-directory/`
+
+**Prefer safe alternatives:**
+- Use `trash` or `trash-cli` instead of `rm` when available
+- Move to a `.trash` directory instead of permanent deletion
+- Use `git clean -fdx` for cleaning git repositories (respects .gitignore)</code></pre>
+<p><strong>Implementation Pattern: Path Validation</strong></p>
+<p>When building tools that delete files, validate paths before execution:</p>
+<pre class="language-javascript"><code class="language-javascript">const path = require(&#039;path&#039;);
+
+function isPathSafeToDelete(targetPath, projectRoot) {
+  // Resolve to absolute path
+  const absolute = path.resolve(targetPath);
+  const root = path.resolve(projectRoot);
+
+  // Must be within project root
+  if (!absolute.startsWith(root + path.sep)) {
+    return { safe: false, reason: `Path ${absolute} is outside project root ${root}` };
+  }
+
+  // Must not be the project root itself
+  if (absolute === root) {
+    return { safe: false, reason: &#039;Cannot delete project root&#039; };
+  }
+
+  // Must not contain suspicious patterns
+  const dangerous = [&#039;node_modules&#039;, &#039;.git&#039;, &#039;.env&#039;, &#039;credentials&#039;];
+  for (const pattern of dangerous) {
+    if (absolute.includes(pattern)) {
+      return { safe: false, reason: `Path contains protected pattern: ${pattern}` };
+    }
+  }
+
+  return { safe: true };
+}
+
+// Usage
+function safeDelete(targetPath, projectRoot) {
+  const check = isPathSafeToDelete(targetPath, projectRoot);
+  if (!check.safe) {
+    console.error(`BLOCKED: ${check.reason}`);
+    return false;
+  }
+  // Proceed with deletion
+}</code></pre>
+<p><strong>The &quot;Blast Radius&quot; Principle</strong></p>
+<p>Every destructive command has a blast radius — the maximum damage it could cause if something goes wrong. Synthesis coding minimizes blast radius:</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Blast Radius</th>
+<th>Safer Alternative</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>rm -rf ~/</code></td>
+<td>Entire home directory</td>
+<td>Never allow</td>
+</tr>
+<tr>
+<td><code>rm -rf .</code></td>
+<td>Current directory tree</td>
+<td><code>rm -rf ./specific-dir/</code></td>
+</tr>
+<tr>
+<td><code>rm -rf *</code></td>
+<td>Everything in current directory</td>
+<td><code>rm -rf ./specific-files</code></td>
+</tr>
+<tr>
+<td><code>git clean -fdx</code></td>
+<td>All untracked files</td>
+<td><code>git clean -fdx --dry-run</code> first</td>
+</tr>
+<tr>
+<td><code>DROP DATABASE</code></td>
+<td>Entire database</td>
+<td>Require explicit database name</td>
+</tr>
+</tbody></table>
+<p><strong>The Confirmation Pattern</strong></p>
+<p>For any operation that could cause data loss, require explicit confirmation with a preview:</p>
+<pre class="language-javascript"><code class="language-javascript">async function deleteWithConfirmation(paths, options = {}) {
+  console.log(&#039;\n⚠️  The following paths will be PERMANENTLY DELETED:\n&#039;);
+  for (const p of paths) {
+    const stats = fs.statSync(p);
+    const type = stats.isDirectory() ? &#039;directory&#039; : &#039;file&#039;;
+    console.log(`  ${type}: ${p}`);
+  }
+
+  if (!options.yes) {
+    const answer = await prompt(&#039;\nType &quot;DELETE&quot; to confirm: &#039;);
+    if (answer !== &#039;DELETE&#039;) {
+      console.log(&#039;Aborted.&#039;);
+      return false;
+    }
+  }
+
+  // Proceed with deletion
+  for (const p of paths) {
+    fs.rmSync(p, { recursive: true });
+    console.log(`  Deleted: ${p}`);
+  }
+  return true;
+}</code></pre>
+<p><strong>Recovery: When Prevention Fails</strong></p>
+<p>Despite safeguards, mistakes happen. Maintain recovery capability:</p>
+<ol>
+<li><strong>Time Machine / Backups</strong>: Ensure automated backups are running</li>
+<li><strong>Git</strong>: Commit frequently — <code>git reflog</code> can recover &quot;lost&quot; commits</li>
+<li><strong>Trash over Delete</strong>: Configure <code>rm</code> alias to use trash when possible</li>
+<li><strong>Cloud Sync</strong>: Dropbox, iCloud, etc. often have version history</li>
+</ol>
+<p>The goal is defense in depth: multiple layers so that no single failure causes permanent damage.</p>
+<h3>Path Handling: The Silent Disaster</h3>
+<p>Hardcoded paths are one of the most insidious problems in AI-assisted development. They appear to work, pass testing, and then fail catastrophically in production or on different machines.</p>
+<p><strong>The Problem</strong></p>
+<p>AI assistants naturally use whatever path format they see in context. If you&#39;re working on <code>/Users/rajiv/projects/</code>, the AI will generate paths like:</p>
+<pre class="language-bash"><code class="language-bash">--output-dir=/Users/rajiv/projects/my-projects/site-name/content</code></pre>
+<p>This breaks when:</p>
+<ul>
+<li>You work on a different machine (username <code>rajivpant</code> instead of <code>rajiv</code>)</li>
+<li>Another developer uses the tool</li>
+<li>The code is open source and used by strangers</li>
+<li>The project moves to a different directory</li>
+</ul>
+<p><strong>The Tilde Trap</strong></p>
+<p>You might think <code>~</code> solves this, but it introduces a different problem:</p>
+<pre class="language-bash"><code class="language-bash"># This creates a LITERAL directory called &quot;~&quot; in the current directory!
+node tool.js --output-dir=~/projects/site/content</code></pre>
+<p>The shell expands <code>~</code> in direct commands, but NOT when it&#39;s passed as an argument to a program. The program receives the literal string <code>~/projects/...</code> and creates a directory named <code>~</code>.</p>
+<p><strong>CLAUDE.md Rules for Paths</strong></p>
+<pre class="language-markdown"><code class="language-markdown">### Path Handling Rules
+
+1. **Never hardcode absolute paths** — they vary by user, machine, and OS
+2. **Never use `~` in command arguments** — shells don&#039;t expand it in all contexts
+3. **Use `$HOME` for shell commands** that need the home directory
+4. **Use relative paths** where possible (relative to project root)
+5. **For documentation**, use `~` as a placeholder but note it varies by machine
+
+Example of WRONG path in documentation:</code></pre>
+<p>/Users/rajiv/projects/my-projects/site-name/content</p>
+<pre><code>
+Example of CORRECT path in documentation:</code></pre>
+<p>~/projects/my-projects/site-name/content
+Note: Home directory varies by machine</p>
+<pre><code>
+Example of CORRECT path in shell commands:
+```bash
+--output-dir=&quot;$HOME/projects/my-projects/site-name/content&quot;
+# Or better: use relative path
+--output-dir=./content</code></pre>
+<pre><code>
+**Real-World Impact**
+
+In a real incident, hardcoded paths in a CLAUDE.md file meant:
+- The documented commands only worked on one machine
+- Other users couldn&#039;t use the instructions at all
+- The same developer couldn&#039;t use them on their second computer
+- The open source project&#039;s documentation was useless to contributors
+
+The fix required going through multiple CLAUDE.md files across multiple repositories to remove all hardcoded paths — time that could have been spent on actual development.
+
+### Convention Compliance Over Custom Solutions
+
+AI assistants often invent custom solutions when established conventions exist. The CLAUDE.md should explicitly list conventions to follow:
+
+**Examples:**
+- File naming: Jekyll&#039;s `YYYY-MM-DD-slug.md` pattern
+- Configuration files: `.ownwordsrc` following npm/eslint conventions
+- Directory structure: Hierarchical `YYYY/MM/DD-slug/` for content with assets
+- Sidecar files: `index.images.json` alongside `index.md` for metadata
+
+**Why this matters:**
+- Conventions encode accumulated wisdom from mature ecosystems
+- Other tools expect these patterns
+- Future developers (human or AI) will understand conventional structures
+- Debugging is easier when patterns are familiar
+
+---
+
+## Part Three: Workflow Safeguards
+
+### The &quot;Check Before Acting&quot; Pattern
+
+One of the most damaging AI behaviors is taking action based on assumptions instead of verification. This single pattern, consistently applied, would prevent the majority of AI-assisted development mistakes.
+
+**The Pattern**
+
+Before any operation that creates, modifies, or deletes files:
+
+1. **Check existing state** — What&#039;s already there?
+2. **Verify assumptions** — Does reality match expectations?
+3. **Confirm with user** — Is this the intended action?
+4. **Then act** — Only after verification
+
+**Example: Fetching to a Target Directory**
+
+```bash
+# WRONG: Assume and act
+node tool.js fetch https://example.com/article/ --output-dir=./content
+
+# RIGHT: Check, then act
+# Step 1: Check existing structure
+find ./content -name &quot;*.md&quot; | head -5
+# content/posts/2025/12/07-existing-article/index.md
+
+# Step 2: Verify assumption
+# The site uses hierarchical structure: YYYY/MM/DD-slug/index.md
+
+# Step 3: Confirm with user
+# &quot;This site uses hierarchical structure. Should I use --hierarchical flag?&quot;
+
+# Step 4: Act with correct flags
+node tool.js fetch https://example.com/article/ --output-dir=./content --hierarchical</code></pre>
+<p><strong>CLAUDE.md Implementation</strong></p>
+<pre class="language-markdown"><code class="language-markdown">### Before Any File Operation
+
+1. **Check existing structure:**
+   ```bash
+   find &lt;target&gt;/content -name &quot;*.md&quot; | head -5</code></pre>
+<ol start="2">
+<li><p><strong>Read target&#39;s CLAUDE.md</strong> if it exists</p>
+</li>
+<li><p><strong>If structure is unclear, ASK</strong> before proceeding</p>
+</li>
+<li><p><strong>Never assume</strong> — verification takes seconds, mistakes take hours to fix</p>
+</li>
+</ol>
+<pre><code>
+**Why This Matters**
+
+In a real incident, an AI:
+1. Was asked to fetch an article to a site
+2. Assumed the target structure (flat files)
+3. Created files in the wrong format (should have been hierarchical)
+4. Created a literal `~` directory (tilde wasn&#039;t expanded)
+5. Required manual cleanup across multiple files
+
+Every one of these mistakes would have been prevented by checking first:
+- Check existing files → reveals hierarchical structure
+- Check if `~` directory exists → reveals the path problem immediately
+- Ask user to confirm → catches wrong assumptions
+
+**The 10-Second Rule**
+
+If checking would take less than 10 seconds, always check. The cost of verification is trivial. The cost of mistakes is substantial.
+
+### The Dry-Run Pattern
+
+Every destructive or publishing operation should support preview mode:
+
+```bash
+# Preview what would happen
+ownwords publish ./content/article.md --dryrun
+
+# Verify the dry-run output shows expected behavior:
+# - &quot;UPDATE existing post&quot; (not &quot;CREATE new post&quot;)
+# - &quot;Would upload: 0&quot; for images (if already uploaded)
+# - Correct identifiers match front matter
+
+# Then execute
+ownwords publish ./content/article.md</code></pre>
+<p><strong>Key insight:</strong> AI assistants make mistakes. The dry-run pattern catches those mistakes before they propagate to production.</p>
+<h3>The Pre-Publish Checklist Pattern</h3>
+<p>[TODO: Expand this section]</p>
+<p>Document explicit checklists in CLAUDE.md for critical operations:</p>
+<pre class="language-markdown"><code class="language-markdown">### Pre-Publish Checklist
+
+Before publishing any changes:
+
+1. **Verify you&#039;re updating, not creating**
+   - Check front matter has required identifiers
+   - Dry-run should show &quot;UPDATE&quot;, not &quot;CREATE&quot;
+
+2. **Verify assets won&#039;t be duplicated**
+   - Check sidecar files exist with asset URLs
+   - Dry-run should show &quot;Would upload: 0&quot; (unless new assets added)
+
+3. **Preview locally first**
+   - Run build
+   - Check output looks correct
+   - Verify assets render properly
+
+4. **Don&#039;t rush**
+   - Review dry-run output carefully
+   - If anything looks wrong, investigate before publishing</code></pre>
+<h3>The Safeguard Implementation Pattern</h3>
+<p>[TODO: Expand this section]</p>
+<p>When building tools, implement safeguards that prevent common failure modes:</p>
+<p><strong>Example: Preventing duplicate resource creation</strong></p>
+<pre class="language-javascript"><code class="language-javascript">// Auto-detect existing resources from metadata
+if (metadata.resource_id) {
+  console.log(`SAFEGUARD: Found existing resource_id: ${metadata.resource_id}`);
+  console.log(`Automatically enabling update mode to prevent duplicate creation.`);
+  options.update = true;
+}
+
+// Require explicit confirmation for destructive operations
+if (!options.update &amp;&amp; !options.yes) {
+  const answer = await prompt(&#039;This will CREATE a new resource. Continue? (y/N) &#039;);
+  if (answer.toLowerCase() !== &#039;y&#039;) {
+    console.log(&#039;Aborted.&#039;);
+    process.exit(0);
+  }
+}</code></pre>
+<p><strong>Key safeguards to implement:</strong></p>
+<ol>
+<li>Auto-detect existing resources and switch to update mode</li>
+<li>Require confirmation for resource creation</li>
+<li>Track uploaded assets in sidecar files to prevent re-upload</li>
+<li>Enhanced dry-run output that shows exactly what would change</li>
+<li>Clear messaging about what mode the tool is operating in</li>
+</ol>
+<hr>
+<h2>Part Four: Multi-Repository Coordination</h2>
+<h3>The Many-to-Many Publishing Model</h3>
+<p>Modern content workflows often involve publishing the same content to multiple destinations, or managing multiple content sources in different local repositories. This creates a many-to-many relationship that AI assistants consistently get wrong.</p>
+<p><strong>The Problem</strong></p>
+<p>AI assistants assume a simple mapping: one URL = one local folder. They see an article at <code>https://example.com/article/</code> and assume it goes in the <code>example-site/</code> folder.</p>
+<p>But real workflows are more complex:</p>
+<ul>
+<li>An article on <code>rajiv.com</code> might ALSO be published to <code>synthesiscoding.com</code></li>
+<li>The local folder isn&#39;t determined by where the article lives, but by WHERE ELSE it will be published</li>
+<li>The same WordPress site might have articles managed in different local repositories based on topic</li>
+</ul>
+<p><strong>Example: Dual-Publishing Workflow</strong></p>
+<pre><code>synthesis-coding-site/          # Articles dual-published to:
+├── content/posts/              #   - rajiv.com (WordPress)
+│   └── 2025/12/07-article/     #   - synthesiscoding.com (Cloudflare)
+│       └── index.md
+
+rajiv-site/                     # Articles published ONLY to:
+├── content/posts/              #   - rajiv.com (WordPress)
+│   └── 2025/12/07-other/       #   NOT dual-published elsewhere
+│       └── index.md</code></pre>
+<p>Both repositories contain articles that appear on <code>rajiv.com</code>. But:</p>
+<ul>
+<li><code>synthesis-coding-site/</code> manages articles about Synthesis Coding → dual-published</li>
+<li><code>rajiv-site/</code> manages other rajiv.com articles → single destination</li>
+</ul>
+<p><strong>The Catastrophic Mistake</strong></p>
+<p>When asked to &quot;fetch this article from rajiv.com,&quot; an AI assistant will:</p>
+<ol>
+<li>See the URL is <code>rajiv.com</code></li>
+<li>Assume it goes in <code>rajiv-site/</code></li>
+<li>Fetch it to the wrong location</li>
+</ol>
+<p>If the article is about Synthesis Coding, it now exists in the wrong repo. Publishing workflows break. Git history is polluted. The user has to manually fix the mess.</p>
+<p><strong>CLAUDE.md Solution: Document the Publishing Model</strong></p>
+<p>Each repository&#39;s CLAUDE.md must explicitly document what it manages:</p>
+<pre class="language-markdown"><code class="language-markdown">## What Belongs Here (Many-to-Many Publishing)
+
+**This repository manages articles dual-published to BOTH rajiv.com AND synthesiscoding.com.**
+
+Articles here are:
+- Published to WordPress (rajiv.com) via ownwords
+- Published to Cloudflare Pages (synthesiscoding.com) via git push
+- Canonical URL points to rajiv.com
+
+**Non-synthesis-coding articles that only appear on rajiv.com belong in `rajiv-site/`, not here.**
+
+**You CANNOT determine this from the URL alone.** When in doubt, ASK the user.</code></pre>
+<p><strong>The Corresponding Rule in the Tool&#39;s CLAUDE.md</strong></p>
+<p>The tool (like ownwords) should have generic instructions that defer to the target site:</p>
+<pre class="language-markdown"><code class="language-markdown">## Fetching Articles
+
+**When asked to fetch an article, you MUST:**
+
+1. **ASK the user which local directory** the article should go to — never assume
+2. **Check the target site&#039;s existing structure** before fetching
+3. **Read the target site&#039;s CLAUDE.md** if it exists — it documents the publishing model
+4. **Use the appropriate flags** based on what you learned
+
+**Why ASK First?**
+- Users may have multiple local repos for different purposes
+- The source URL does NOT determine the target folder — the user&#039;s intent does
+- Articles can be published to multiple sites (many-to-many publishing)
+- Only the user knows their content organization</code></pre>
+<p><strong>Key Insight: Separation of Concerns</strong></p>
+<ul>
+<li><strong>Tool CLAUDE.md</strong> (e.g., ownwords): Generic instructions, no user-specific paths or sites</li>
+<li><strong>Site CLAUDE.md</strong> (e.g., rajiv-site): Specific publishing model, what belongs here vs. elsewhere</li>
+<li><strong>Global CLAUDE.md</strong> (<code>~/.claude/</code>): User&#39;s personal conventions that apply everywhere</li>
+</ul>
+<p>This separation means:</p>
+<ul>
+<li>The tool remains usable by anyone (open source friendly)</li>
+<li>Site-specific knowledge is documented where it belongs</li>
+<li>The AI reads all relevant CLAUDE.md files and combines the guidance</li>
+</ul>
+<h3>The Repository Ecosystem Map</h3>
+<p>When working across multiple repositories, CLAUDE.md should include an ecosystem map:</p>
+<pre class="language-markdown"><code class="language-markdown">## Repository Ecosystem
+
+| Repository | Type | Purpose | Location |
+|------------|------|---------|----------|
+| **main-site** | Public | Production website | `~/projects/main-site/` |
+| **content-tools** | Public | Content management CLI | `~/projects/content-tools/` |
+| **shared-lib** | Public | Shared utilities | `~/projects/shared-lib/` |
+
+Note: Home directory varies by machine, so use `~` for paths.</code></pre>
+<p><strong>Why this matters:</strong></p>
+<ul>
+<li>Prevents commits to wrong repositories</li>
+<li>Clarifies which repo owns which functionality</li>
+<li>Documents integration points</li>
+<li>Helps AI understand the broader context</li>
+</ul>
+<h3>Open Source CLAUDE.md: Keep It Generic</h3>
+<p>When a project is open source, its CLAUDE.md must work for ALL users, not just you. This seems obvious but is consistently violated.</p>
+<p><strong>What Goes Wrong</strong></p>
+<p>A developer adds site-specific information to an open source tool&#39;s CLAUDE.md:</p>
+<pre class="language-markdown"><code class="language-markdown">## Known Sites
+
+| Site | Path |
+|------|------|
+| rajiv-site | `/Users/rajiv/projects/rajiv-site/` |
+| synthesis-coding-site | `/Users/rajiv/projects/synthesis-coding-site/` |</code></pre>
+<p>This is useless (or actively harmful) for:</p>
+<ul>
+<li>Other users who don&#39;t have these sites</li>
+<li>Contributors trying to understand the project</li>
+<li>The same developer on a different machine</li>
+</ul>
+<p><strong>The Solution: Separation of Concerns</strong></p>
+<pre><code>Tool repo (public, open source):
+└── CLAUDE.md           # Generic: how to use the tool,
+                        # general patterns, no user paths
+
+User&#039;s site repos (may be public or private):
+└── CLAUDE.md           # Specific: this site&#039;s structure,
+                        # publishing model, conventions
+
+User&#039;s global config (private):
+└── ~/.claude/CLAUDE.md # Personal: cross-project standards,
+                        # quality attributes, prohibited behaviors</code></pre>
+<p><strong>Open Source CLAUDE.md Should Contain:</strong></p>
+<ul>
+<li>How to use the tool</li>
+<li>Development/contribution guidelines</li>
+<li>General best practices (check structure first, ask user, etc.)</li>
+<li>Project architecture</li>
+<li>No hardcoded paths</li>
+<li>No user-specific sites or configurations</li>
+<li>No assumptions about the user&#39;s setup</li>
+</ul>
+<p><strong>The &quot;Read Target Site&#39;s CLAUDE.md&quot; Pattern</strong></p>
+<p>Instead of encoding user-specific information, the tool&#39;s CLAUDE.md says:</p>
+<pre class="language-markdown"><code class="language-markdown">**Before operating on a target site:**
+1. Read the target site&#039;s CLAUDE.md if it exists
+2. Check the site&#039;s existing structure
+3. Ask the user if anything is unclear</code></pre>
+<p>This delegates site-specific knowledge to where it belongs while keeping the tool generic.</p>
+<h3>Preventing Cross-Repository Contamination</h3>
+<p>Explicit warnings in each project&#39;s CLAUDE.md:</p>
+<pre class="language-markdown"><code class="language-markdown">## Git Operations
+
+**IMPORTANT**: Before any git commands, ensure you are in the correct directory:
+
+```bash
+cd ~/projects/this-specific-repo</code></pre>
+<p>This repo is separate from [other-repo]. Do NOT mix commits between repos.</p>
+<pre><code>
+---
+
+## Part Five: Debugging and Recovery
+
+### The Orthogonal Verification Principle
+
+[TODO: Expand this section]
+
+When something isn&#039;t working, verify using a different method than the one that produced the result:
+
+**Example: YAML parsing bug**
+
+The export module wasn&#039;t parsing nested arrays correctly. Rather than debugging within the export module:
+
+1. Use a different YAML parser (gray-matter) to verify the source data is correct
+2. Add debug output showing intermediate values
+3. Compare expected vs actual at each transformation step
+
+This identified that the custom YAML parser handled inline arrays but not multi-line arrays within nested objects.
+
+### The Incremental Verification Pattern
+
+[TODO: Expand this section]
+
+For complex operations, verify at each step:
+
+1. **Before:** Check current state matches expectations
+2. **Dry-run:** Preview what would change
+3. **Execute:** Run the operation
+4. **After:** Verify the result matches expectations
+5. **API check:** Query the target system to confirm
+
+```bash
+# Step 1: Verify current state
+curl -s &quot;https://api.example.com/resource/123&quot; | jq &#039;.field&#039;
+
+# Step 2: Dry-run
+tool update ./resource.md --dryrun
+
+# Step 3: Execute
+tool update ./resource.md
+
+# Step 4: Verify result
+tool verify ./resource.md
+
+# Step 5: API check
+curl -s &quot;https://api.example.com/resource/123&quot; | jq &#039;.field&#039;</code></pre>
+<hr>
+<h2>Part Six: The Synthesis Coding Mindset</h2>
+<h3>Prevention Over Detection</h3>
+<p>[TODO: Expand this section]</p>
+<p>The best safeguards prevent problems rather than detecting them after the fact:</p>
+<p><strong>Detection approach (inferior):</strong></p>
+<ul>
+<li>Add a <code>--force</code> flag for when collisions occur</li>
+<li>Check if resource exists and warn user</li>
+</ul>
+<p><strong>Prevention approach (superior):</strong></p>
+<ul>
+<li>Use naming conventions that make collisions impossible (date-prefixed filenames)</li>
+<li>Auto-detect existing resources and switch modes automatically</li>
+<li>Track state in sidecar files to maintain continuity</li>
+</ul>
+<h3>Explicit Over Implicit</h3>
+<p>[TODO: Expand this section]</p>
+<p>Make decisions and their rationale visible:</p>
+<ul>
+<li>Document the decision framework in CLAUDE.md</li>
+<li>Require AI to state which approach it&#39;s taking and why</li>
+<li>Log what mode tools are operating in</li>
+<li>Show what would happen before doing it</li>
+</ul>
+<h3>Compound Reliability</h3>
+<p>[TODO: Expand this section]</p>
+<p>Individual safeguards combine multiplicatively:</p>
+<ol>
+<li>CLAUDE.md encodes standards → fewer incorrect implementations</li>
+<li>Dry-run pattern catches remaining issues → fewer production mistakes</li>
+<li>Sidecar files maintain state → fewer duplicate operations</li>
+<li>Checklists ensure nothing is skipped → fewer oversights</li>
+<li>Orthogonal verification catches bugs → fewer silent failures</li>
+</ol>
+<p>Each layer catches what previous layers missed. The combination produces reliability that no single safeguard could achieve.</p>
+<hr>
+<h2>Conclusion</h2>
+<p>[TODO: Write conclusion - 2-3 paragraphs]</p>
+<p>Key points to hit:</p>
+<ul>
+<li>These practices emerged from real production work</li>
+<li>They&#39;re encoded in CLAUDE.md files that persist and scale</li>
+<li>The goal is reliable, predictable AI-assisted development</li>
+<li>Start with the global CLAUDE.md, then add project-specific context</li>
+<li>These patterns will evolve as AI capabilities evolve</li>
+</ul>
+<hr>
+<h2>Appendix: Sample CLAUDE.md Templates</h2>
+<h3>Global CLAUDE.md Template</h3>
+<p>[TODO: Include sanitized version of global CLAUDE.md]</p>
+<h3>Project CLAUDE.md Template</h3>
+<p>[TODO: Include sanitized project template]</p>
+<hr>
+<p><em>Rajiv Pant is President of <a href="https://www.flatiron.software/">Flatiron Software</a> and <a href="https://www.snapshot.reviews/">Snapshot AI</a>, where he leads organizational growth and AI innovation. He is former Chief Product &amp; Technology Officer at The Wall Street Journal, The New York Times, and Hearst Magazines. Earlier in his career, he headed technology for Conde Nast&#39;s brands including Reddit. Rajiv has been working with AI in software engineering since the early days of natural language processing and was an early investor and advisor to AI search company <a href="https://you.com/">You.com</a>. He coined the terms &quot;synthesis engineering&quot; and &quot;<a href="https://synthesiscoding.com/">synthesis coding</a>&quot; to describe the systematic integration of human expertise with AI capabilities in professional software development. Connect with him on <a href="https://www.linkedin.com/in/rajivpant/">LinkedIn</a> or read more at <a href="https://rajiv.com/">rajiv.com</a>.</em></p>
+
+            </div>
+
+            <div class="article-tags">
+                <div class="article-tags-label">Tags</div>
+                <a href="/articles/tag/artificial-intelligence/" class="tag">artificial intelligence</a><a href="/articles/tag/claude-code/" class="tag">Claude Code</a><a href="/articles/tag/ctobook/" class="tag">ctobook</a><a href="/articles/tag/programming/" class="tag">programming</a><a href="/articles/tag/software-engineering/" class="tag">software engineering</a><a href="/articles/tag/synthesis-coding/" class="tag">synthesis coding</a><a href="/articles/tag/synthesis-engineering/" class="tag">synthesis engineering</a><a href="/articles/tag/best-practices/" class="tag">best practices</a>
+            </div>
+
+            <p class="canonical-notice">
+                Originally published on <a href="https://rajiv.com/blog/2025/12/08/synthesis-coding-best-practices-lessons-from-production-workflows/">rajiv.com</a>
+            </p>
+
+            <section class="related-articles">
+    <h2>Related Articles</h2>
+    <div class="related-grid">
+      <a href="/articles/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/" class="related-card">
+        <span class="related-title">Synthesis Coding with Claude Code: Technical Implementation and Workflows</span>
+        <span class="related-meta">14 min read</span>
+      </a>
+      <a href="/articles/polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code/" class="related-card">
+        <span class="related-title">Polyrepo Synthesis: Synthesis Coding Across Multiple Repositories with Claude Code in Visual Studio Code</span>
+        <span class="related-meta">12 min read</span>
+      </a>
+      <a href="/articles/building-ownwords-a-synthesis-coding-case-study/" class="related-card">
+        <span class="related-title">Building ownwords: A Synthesis Coding Case Study</span>
+        <span class="related-meta">10 min read</span>
+      </a>
+    </div>
+  </section>
+        </article>
+    </main>
+
+    <footer>
+        <p class="cc0">The terms "Synthesis Coding" and "Synthesis Engineering," along with the associated logo and visual identity, are released under <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0 Universal</a> (public domain). No permission required. No attribution needed. Use freely. The logo was hand-crafted by a human artist.</p>
+        <p><a href="/">← Back to Synthesis Coding</a></p>
+        <p class="built-with">
+            Built with <a href="https://github.com/rajivpant/ownwords">ownwords</a>,
+            <a href="https://claude.ai/claude-code">Claude Code</a>,
+            <a href="https://pages.cloudflare.com/">Cloudflare</a> &amp; friends ·
+            <a href="/colophon/">Colophon</a>
+        </p>
+    </footer>
+
+    <!-- Prism.js core and language support -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markdown.min.js"></script>
+    <!-- Prism.js plugins -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+
+    <!-- Auto-detect language and initialize Prism for all code blocks -->
+    <script>
+    (function() {
+        // Auto-detect language based on content patterns
+        function detectLanguage(code) {
+            const text = code.textContent || '';
+            const firstLine = text.trim().split('\n')[0];
+
+            // Shell/bash patterns
+            if (/^\$\s/.test(firstLine) || /^claude\s/.test(firstLine) ||
+                /^(cd|ls|npm|git|mkdir|rm|cp|mv|cat|echo|export|source)\s/.test(firstLine) ||
+                /^#!\/bin\/(ba)?sh/.test(firstLine)) {
+                return 'bash';
+            }
+            // Python patterns
+            if (/^(import |from |def |class |if __name__|print\()/.test(firstLine) ||
+                /^\s*(import |from )/.test(text)) {
+                return 'python';
+            }
+            // JavaScript/TypeScript patterns
+            if (/^(const |let |var |function |import |export |async |await )/.test(firstLine) ||
+                /^(import \{|export \{|module\.exports)/.test(text)) {
+                return 'javascript';
+            }
+            // JSON patterns
+            if (/^\s*[\{\[]/.test(firstLine) && /[\}\]]\s*$/.test(text.trim())) {
+                return 'json';
+            }
+            // YAML patterns
+            if (/^[a-zA-Z_-]+:\s/.test(firstLine)) {
+                return 'yaml';
+            }
+            // SQL patterns
+            if (/^(SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER)\s/i.test(firstLine)) {
+                return 'sql';
+            }
+            // Default to bash for command-like content
+            if (/^\w+\s+["']/.test(firstLine) || /^[\w-]+\s+--/.test(firstLine)) {
+                return 'bash';
+            }
+            return 'bash'; // Default fallback
+        }
+
+        // Process all code blocks
+        document.querySelectorAll('pre').forEach(function(pre) {
+            var code = pre.querySelector('code');
+            if (!code) {
+                // Wrap content in code element if missing
+                code = document.createElement('code');
+                code.innerHTML = pre.innerHTML;
+                pre.innerHTML = '';
+                pre.appendChild(code);
+            }
+
+            // Check if language class already exists
+            var hasLang = pre.className.match(/language-(\w+)/) ||
+                          code.className.match(/language-(\w+)/);
+
+            if (!hasLang) {
+                // Auto-detect and apply language
+                var lang = detectLanguage(code);
+                pre.className = (pre.className + ' language-' + lang).trim();
+                code.className = (code.className + ' language-' + lang).trim();
+            } else {
+                // Ensure both pre and code have the language class
+                var langClass = 'language-' + hasLang[1];
+                if (!pre.className.includes(langClass)) {
+                    pre.className = (pre.className + ' ' + langClass).trim();
+                }
+                if (!code.className.includes(langClass)) {
+                    code.className = (code.className + ' ' + langClass).trim();
+                }
+            }
+        });
+
+        // Re-highlight all code blocks with Prism
+        if (typeof Prism !== 'undefined') {
+            Prism.highlightAll();
+        }
+    })();
+    </script>
+</body>
+</html>

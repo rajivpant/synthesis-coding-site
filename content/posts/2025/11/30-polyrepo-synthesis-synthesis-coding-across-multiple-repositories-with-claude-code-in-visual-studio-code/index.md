@@ -1,30 +1,39 @@
 ---
-title: "Polyrepo Synthesis: Synthesis Coding Across Multiple Repositories with Claude Code in Visual Studio Code"
-slug: "polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code"
-date: "2025-11-30"
-modified: "2025-12-01"
-description: "I wrote this blog post for Software Engineers, Architects, and Technical Leads. It is code-heavy and implementation-focused. This weekend I was working across three repositories simultaneously in Visual Studio Code. I worked on RagBot — a multi-LLM chatbot that lets you switch between OpenAI, Anthro"
-canonical_url: "https://rajiv.com/blog/2025/11/30/polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code/"
+title: 'Polyrepo Synthesis: Synthesis Coding Across Multiple Repositories with Claude Code in Visual Studio Code'
+slug: polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code
+date: '2025-11-30'
+modified: '2025-12-08'
+description: 'I wrote this blog post for Software Engineers, Architects, and Technical Leads. It is code-heavy and implementation-focused. This weekend I was working across three repositories simultaneously in Visual Studio Code. I worked on RagBot — a multi-LLM chatbot that lets you switch between OpenAI, Anthro'
+canonical_url: 'https://rajiv.com/?p=6730'
 categories:
-  - "Technology"
+  - Technology
 tags:
-  - "artificial intelligence"
-  - "Claude Code"
-  - "ctobook"
-  - "programming"
-  - "software engineering"
-  - "synthesis coding"
-  - "synthesis engineering"
-  - "vibe coding"
-author: "Rajiv Pant"
-category: "Advanced patterns"
-featured_image: "https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1"
+  - artificial intelligence
+  - Claude Code
+  - ctobook
+  - programming
+  - software engineering
+  - synthesis coding
+  - synthesis engineering
+  - vibe coding
+author: Rajiv Pant
+category: Advanced patterns
+featured_image: 'https://i0.wp.com/rajiv.com/wp-content/uploads/2025/11/Synthesis-Engineering-Logo-2-e1764033363626.webp?fit=800%2C400&ssl=1'
 wordpress:
   post_id: 6730
-  category_ids: [6]
-  tag_ids: [12374, 276453, 485374580, 8434, 727048346]
+  category_ids:
+    - 6
+  tag_ids:
+    - 12374
+    - 727048735
+    - 485374580
+    - 196
+    - 11176
+    - 727048734
+    - 727048733
+    - 727048736
   author_id: 918046
-  synced_at: "2025-12-06T03:21:45.332Z"
+  synced_at: '2025-12-09T03:17:45.151Z'
 ---
 
 I wrote this blog post for Software Engineers, Architects, and Technical Leads. It is code-heavy and implementation-focused.
@@ -420,6 +429,153 @@ Verify directory before git commands:
 cd ~/path/to/[repo-name]
 ```
 ~~~
+
+## Advanced patterns
+
+As I've worked with polyrepo synthesis on more complex projects, I've encountered patterns that go beyond the basic hub-and-spoke model. These lessons emerged from real production incidents and have been encoded into CLAUDE.md files to prevent recurrence.
+
+### The many-to-many publishing model
+
+Not all multi-repository relationships are simple. Consider content workflows where the same article might be published to multiple destinations, managed in different local repositories based on topic rather than URL.
+
+**The problem**: AI assistants assume a simple mapping — one URL equals one local folder. They see an article at `https://example.com/article/` and assume it goes in the `example-site/` folder.
+
+But real workflows are more complex:
+
+- An article on `rajiv.com` might ALSO be published to `synthesiscoding.com`
+- The local folder isn't determined by where the article lives, but by WHERE ELSE it will be published
+- The same WordPress site might have articles managed in different local repositories based on topic
+
+**Example: Dual-publishing workflow**
+
+```text
+synthesis-coding-site/          # Articles dual-published to:
+├── content/posts/              #   - rajiv.com (WordPress)
+│   └── 2025/12/07-article/     #   - synthesiscoding.com (Cloudflare)
+│       └── index.md
+
+rajiv-site/                     # Articles published ONLY to:
+├── content/posts/              #   - rajiv.com (WordPress)
+│   └── 2025/12/07-other/       #   NOT dual-published elsewhere
+│       └── index.md
+```
+
+Both repositories contain articles that appear on `rajiv.com`. But:
+
+- `synthesis-coding-site/` manages articles about Synthesis Coding → dual-published
+- `rajiv-site/` manages other rajiv.com articles → single destination
+
+**The catastrophic mistake**
+
+When asked to "fetch this article from rajiv.com," an AI assistant will:
+
+1. See the URL is `rajiv.com`
+2. Assume it goes in `rajiv-site/`
+3. Fetch it to the wrong location
+
+If the article is about Synthesis Coding, it now exists in the wrong repo. Publishing workflows break. Git history is polluted. The user has to manually fix the mess.
+
+**CLAUDE.md solution: Document the publishing model**
+
+Each repository's CLAUDE.md must explicitly document what it manages:
+
+```markdown
+## What Belongs Here (Many-to-Many Publishing)
+
+**This repository manages articles dual-published to BOTH rajiv.com AND synthesiscoding.com.**
+
+Articles here are:
+- Published to WordPress (rajiv.com) via ownwords
+- Published to Cloudflare Pages (synthesiscoding.com) via git push
+- Canonical URL points to rajiv.com
+
+**Non-synthesis-coding articles that only appear on rajiv.com belong in `rajiv-site/`, not here.**
+
+**You CANNOT determine this from the URL alone.** When in doubt, ASK the user.
+```
+
+**The corresponding rule in the tool's CLAUDE.md**
+
+The tool (like a content management CLI) should have generic instructions that defer to the target site:
+
+```markdown
+## Fetching Articles
+
+**When asked to fetch an article, you MUST:**
+
+1. **ASK the user which local directory** the article should go to — never assume
+2. **Check the target site's existing structure** before fetching
+3. **Read the target site's CLAUDE.md** if it exists — it documents the publishing model
+4. **Use the appropriate flags** based on what you learned
+
+**Why ASK First?**
+- Users may have multiple local repos for different purposes
+- The source URL does NOT determine the target folder — the user's intent does
+- Articles can be published to multiple sites (many-to-many publishing)
+- Only the user knows their content organization
+```
+
+### Open source tools in multi-repo workflows
+
+When a tool repository is open source, its CLAUDE.md must work for ALL users, not just you. This seems obvious but is consistently violated.
+
+**What goes wrong**
+
+A developer adds site-specific information to an open source tool's CLAUDE.md:
+
+```markdown
+## Known Sites
+
+| Site | Path |
+|------|------|
+| rajiv-site | `/Users/rajiv/projects/rajiv-site/` |
+| synthesis-coding-site | `/Users/rajiv/projects/synthesis-coding-site/` |
+```
+
+This is useless (or actively harmful) for:
+
+- Other users who don't have these sites
+- Contributors trying to understand the project
+- The same developer on a different machine with a different username
+
+**The solution: Separation of concerns**
+
+```text
+Tool repo (public, open source):
+└── CLAUDE.md           # Generic: how to use the tool,
+                        # general patterns, no user paths
+
+User's site repos (may be public or private):
+└── CLAUDE.md           # Specific: this site's structure,
+                        # publishing model, conventions
+
+User's global config (private):
+└── ~/.claude/CLAUDE.md # Personal: cross-project standards,
+                        # quality attributes, prohibited behaviors
+```
+
+**Open source CLAUDE.md should contain:**
+
+- How to use the tool
+- Development/contribution guidelines
+- General best practices (check structure first, ask user, etc.)
+- Project architecture
+- No hardcoded paths
+- No user-specific sites or configurations
+- No assumptions about the user's setup
+
+**The "read target site's CLAUDE.md" pattern**
+
+Instead of encoding user-specific information, the tool's CLAUDE.md says:
+
+```markdown
+**Before operating on a target site:**
+1. Read the target site's CLAUDE.md if it exists
+2. Check the site's existing structure
+3. Ask the user if anything is unclear
+```
+
+This delegates site-specific knowledge to where it belongs while keeping the tool generic. The AI reads all relevant CLAUDE.md files and combines the guidance — tool conventions from the tool repo, site-specific rules from the site repo, and personal standards from the global config.
 
 ## The architectural advantage
 

@@ -4,6 +4,19 @@
 
 Website for synthesiscoding.com - a methodology site with articles about Synthesis Coding.
 
+## IMPORTANT: What Belongs Here (Many-to-Many Publishing)
+
+**This repository manages articles that are dual-published to BOTH rajiv.com AND synthesiscoding.com.**
+
+Articles here are:
+- Published to WordPress (rajiv.com) via ownwords
+- Published to Cloudflare Pages (synthesiscoding.com) via git push
+- Canonical URL points to rajiv.com
+
+**Non-synthesis-coding articles that only appear on rajiv.com belong in `rajiv-site/`, not here.**
+
+When fetching a rajiv.com article, the URL alone doesn't tell you which repo it belongs to — the **topic** determines that. When in doubt, ASK the user.
+
 ## Repository Ecosystem
 
 | Repository | Type | Purpose | Location |
@@ -54,6 +67,56 @@ Features:
 - Canonical links pointing to rajiv.com
 - WordPress-ready export in `wordpress-export/` (for copy/paste publishing)
 - Images co-located with articles in hierarchical structure
+- Internal link conversion (see below)
+
+### Internal Link Conversion
+
+The build script automatically converts links between articles:
+
+**CONVERTED** (rajiv.com → /articles/):
+- Links to `rajiv.com/blog/YYYY/MM/DD/slug/` where the article exists in this repo
+- Example: `rajiv.com/blog/2025/11/09/synthesis-engineering...` → `/articles/synthesis-engineering.../`
+
+**NOT CONVERTED** (kept as rajiv.com):
+- Links to rajiv.com articles NOT in this repo (e.g., non-synthesis-coding posts)
+- Canonical URL meta tags (must point to rajiv.com for SEO)
+- "Originally published on" footer links (attribution)
+- Links to older rajiv.com posts (e.g., 2008 blogroll-links)
+
+**NEVER CONVERTED**:
+- External links (non-rajiv.com)
+- Links to rajiv.com non-blog pages (e.g., /about/, /contact/)
+
+This ensures synthesiscoding.com visitors stay on-site for synthesis-coding content while correctly linking out for other content.
+
+## Local Testing
+
+**IMPORTANT: This site requires HTTPS for local testing.**
+
+Unlike simple static sites that can be tested with `file://` URLs, this site:
+- Uses absolute paths (`/articles/...`, `/assets/...`)
+- Has internal link conversion that produces root-relative URLs
+- Should be tested in an environment that matches Cloudflare Pages
+
+**Start local HTTPS server:**
+
+```bash
+# Using http-server with self-signed cert (install once: npm install -g http-server)
+http-server -S -C cert.pem -K key.pem -p 8443
+
+# Or using Python (simpler, no cert needed for localhost)
+python3 -m http.server 8000
+
+# Then open: http://localhost:8000 or https://localhost:8443
+```
+
+**Why HTTPS matters:**
+- Tests that root-relative paths work correctly
+- Catches issues with mixed content
+- Matches production environment on Cloudflare Pages
+- Reveals problems that `file://` URLs would hide
+
+**DO NOT test with `file://` URLs** — they won't reveal path issues.
 
 ## Using ownwords with This Site
 

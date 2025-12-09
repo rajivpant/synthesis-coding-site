@@ -284,13 +284,79 @@ function generateRelatedArticlesHtml(relatedArticles) {
 }
 
 /**
+ * Build a map of canonical URLs to local slugs for internal link conversion.
+ *
+ * This enables the site to convert rajiv.com article links to local /articles/
+ * paths when the linked article exists in this repository.
+ */
+function buildCanonicalToSlugMap(articles) {
+  const map = {};
+  for (const article of articles) {
+    if (article.frontMatter.canonical_url) {
+      // Store both with and without trailing slash for flexible matching
+      const url = article.frontMatter.canonical_url;
+      map[url] = article.frontMatter.slug;
+      map[url.replace(/\/$/, '')] = article.frontMatter.slug;
+      if (!url.endsWith('/')) {
+        map[url + '/'] = article.frontMatter.slug;
+      }
+    }
+  }
+  return map;
+}
+
+/**
+ * Convert internal rajiv.com article links to local /articles/slug/ links.
+ *
+ * LINK HANDLING RULES:
+ *
+ * 1. CONVERTED (rajiv.com → /articles/):
+ *    - Links to rajiv.com/blog/YYYY/MM/DD/slug/ where the slug exists in this repo
+ *    - Example: rajiv.com/blog/2025/11/09/synthesis-engineering... → /articles/synthesis-engineering.../
+ *
+ * 2. NOT CONVERTED (kept as rajiv.com):
+ *    - Links to rajiv.com articles that DON'T exist in this repo (e.g., non-synthesis-coding articles)
+ *    - Canonical URL meta tags (these should always point to rajiv.com for SEO)
+ *    - "Originally published on" footer links (attribution to source)
+ *    - Links to older rajiv.com posts (e.g., 2008 blogroll-links post)
+ *
+ * 3. NEVER CONVERTED:
+ *    - External links (non-rajiv.com)
+ *    - Links to rajiv.com pages that aren't blog posts (e.g., /about/, /contact/)
+ *
+ * This ensures synthesiscoding.com visitors stay on the site for synthesis-coding
+ * content while correctly linking out for non-synthesis-coding content.
+ */
+function convertInternalLinks(html, canonicalToSlugMap) {
+  // Match rajiv.com/blog/ URLs with date pattern
+  // Pattern: https://rajiv.com/blog/YYYY/MM/DD/slug/ (with or without trailing slash)
+  const rajivBlogPattern = /https:\/\/rajiv\.com\/blog\/\d{4}\/\d{2}\/\d{2}\/[^\/\s"')]+\/?/g;
+
+  return html.replace(rajivBlogPattern, (match) => {
+    // Normalize URL for lookup (ensure trailing slash)
+    const normalizedUrl = match.endsWith('/') ? match : match + '/';
+    const slug = canonicalToSlugMap[normalizedUrl] || canonicalToSlugMap[match];
+
+    if (slug) {
+      // Article exists in this repo - convert to local path
+      return `/articles/${slug}/`;
+    }
+    // Article not in this repo - keep original rajiv.com link
+    return match;
+  });
+}
+
+/**
  * Generate HTML for a single article
  */
-function generateArticleHtml(article, template, allArticles) {
+function generateArticleHtml(article, template, allArticles, canonicalToSlugMap) {
   let html = template;
 
   const relatedArticles = findRelatedArticles(article, allArticles);
   const relatedHtml = generateRelatedArticlesHtml(relatedArticles);
+
+  // Convert internal rajiv.com links to local /articles/ links for synthesiscoding.com
+  const convertedContent = convertInternalLinks(article.html, canonicalToSlugMap);
 
   html = html.replace(/\{\{title\}\}/g, article.frontMatter.title);
   html = html.replace(/\{\{slug\}\}/g, article.frontMatter.slug);
@@ -302,7 +368,7 @@ function generateArticleHtml(article, template, allArticles) {
   html = html.replace(/\{\{category_badge\}\}/g, generateCategoryBadge(article.frontMatter.category || 'Other'));
   html = html.replace(/\{\{tags\}\}/g, generateTagsHtml(article.frontMatter.tags));
   html = html.replace(/\{\{reading_time\}\}/g, `${article.readingTime} min read`);
-  html = html.replace(/\{\{content\}\}/g, article.html);
+  html = html.replace(/\{\{content\}\}/g, convertedContent);
   html = html.replace(/\{\{related_articles\}\}/g, relatedHtml);
 
   return html;
@@ -820,9 +886,14 @@ function build() {
   }
 
   if (articles.length > 0) {
+    // Build canonical URL to slug map for internal link conversion
+    const canonicalToSlugMap = buildCanonicalToSlugMap(articles);
+    const internalLinkCount = Object.keys(canonicalToSlugMap).length / 3; // Divided by 3 since we store 3 variants per URL
+    console.log(`\n  📎 Built internal link map: ${Math.round(internalLinkCount)} articles available for link conversion`);
+
     // Generate individual article pages
     for (const article of articles) {
-      const articleHtml = generateArticleHtml(article, articleTemplate, articles);
+      const articleHtml = generateArticleHtml(article, articleTemplate, articles, canonicalToSlugMap);
       const articleDir = path.join(OUTPUT_DIR, article.frontMatter.slug);
       if (!fs.existsSync(articleDir)) {
         fs.mkdirSync(articleDir, { recursive: true });

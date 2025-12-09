@@ -522,7 +522,7 @@
                 <div class="article-meta">
                     <time datetime="2025-11-30">November 29, 2025</time>
                     <span class="separator">·</span>
-                    <span>10 min read</span>
+                    <span>12 min read</span>
                     <span class="separator">·</span>
                     <a href="/articles/category/advanced-patterns/" class="category-badge" style="--cat-color: #dc2626">Advanced patterns</a>
                 </div>
@@ -544,7 +544,7 @@
 <p><strong>Monorepo-to-polyrepo migrations</strong> — Organizations scaling beyond a single repository, splitting by team or domain while maintaining cross-repo dependencies.</p>
 <p>The common thread: context fragmentation and the need for consistency across systems that don’t share a git history.</p>
 <h2>Introducing Polyrepo Synthesis</h2>
-<p><strong>Polyrepo Synthesis</strong> is the practice of applying <a href="https://rajiv.com/blog/2025/11/09/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/">synthesis engineering principles</a> across multiple interconnected repositories within a unified development environment.</p>
+<p><strong>Polyrepo Synthesis</strong> is the practice of applying <a href="/articles/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/">synthesis engineering principles</a> across multiple interconnected repositories within a unified development environment.</p>
 <p>It’s not a separate methodology — it’s <a href="https://synthesiscoding.com/"><strong>synthesis coding</strong></a> scaled to the architectural reality of modern software systems.</p>
 <p>The key principle remains the same: human architectural authority guides everything; AI assists within that unified vision. But “everything” now spans repository boundaries. Your mental model encompasses the entire system, and your AI assistant needs to share that understanding.</p>
 <h2>Architectural patterns</h2>
@@ -812,9 +812,118 @@ Verify directory before git commands:
 ```bash
 cd ~/path/to/[repo-name]
 ```</code></pre>
+<h2>Advanced patterns</h2>
+<p>As I&#39;ve worked with polyrepo synthesis on more complex projects, I&#39;ve encountered patterns that go beyond the basic hub-and-spoke model. These lessons emerged from real production incidents and have been encoded into CLAUDE.md files to prevent recurrence.</p>
+<h3>The many-to-many publishing model</h3>
+<p>Not all multi-repository relationships are simple. Consider content workflows where the same article might be published to multiple destinations, managed in different local repositories based on topic rather than URL.</p>
+<p><strong>The problem</strong>: AI assistants assume a simple mapping — one URL equals one local folder. They see an article at <code>https://example.com/article/</code> and assume it goes in the <code>example-site/</code> folder.</p>
+<p>But real workflows are more complex:</p>
+<ul>
+<li>An article on <code>rajiv.com</code> might ALSO be published to <code>synthesiscoding.com</code></li>
+<li>The local folder isn&#39;t determined by where the article lives, but by WHERE ELSE it will be published</li>
+<li>The same WordPress site might have articles managed in different local repositories based on topic</li>
+</ul>
+<p><strong>Example: Dual-publishing workflow</strong></p>
+<pre class="language-text"><code class="language-text">synthesis-coding-site/          # Articles dual-published to:
+├── content/posts/              #   - rajiv.com (WordPress)
+│   └── 2025/12/07-article/     #   - synthesiscoding.com (Cloudflare)
+│       └── index.md
+
+rajiv-site/                     # Articles published ONLY to:
+├── content/posts/              #   - rajiv.com (WordPress)
+│   └── 2025/12/07-other/       #   NOT dual-published elsewhere
+│       └── index.md</code></pre>
+<p>Both repositories contain articles that appear on <code>rajiv.com</code>. But:</p>
+<ul>
+<li><code>synthesis-coding-site/</code> manages articles about Synthesis Coding → dual-published</li>
+<li><code>rajiv-site/</code> manages other rajiv.com articles → single destination</li>
+</ul>
+<p><strong>The catastrophic mistake</strong></p>
+<p>When asked to &quot;fetch this article from rajiv.com,&quot; an AI assistant will:</p>
+<ol>
+<li>See the URL is <code>rajiv.com</code></li>
+<li>Assume it goes in <code>rajiv-site/</code></li>
+<li>Fetch it to the wrong location</li>
+</ol>
+<p>If the article is about Synthesis Coding, it now exists in the wrong repo. Publishing workflows break. Git history is polluted. The user has to manually fix the mess.</p>
+<p><strong>CLAUDE.md solution: Document the publishing model</strong></p>
+<p>Each repository&#39;s CLAUDE.md must explicitly document what it manages:</p>
+<pre class="language-markdown"><code class="language-markdown">## What Belongs Here (Many-to-Many Publishing)
+
+**This repository manages articles dual-published to BOTH rajiv.com AND synthesiscoding.com.**
+
+Articles here are:
+- Published to WordPress (rajiv.com) via ownwords
+- Published to Cloudflare Pages (synthesiscoding.com) via git push
+- Canonical URL points to rajiv.com
+
+**Non-synthesis-coding articles that only appear on rajiv.com belong in `rajiv-site/`, not here.**
+
+**You CANNOT determine this from the URL alone.** When in doubt, ASK the user.</code></pre>
+<p><strong>The corresponding rule in the tool&#39;s CLAUDE.md</strong></p>
+<p>The tool (like a content management CLI) should have generic instructions that defer to the target site:</p>
+<pre class="language-markdown"><code class="language-markdown">## Fetching Articles
+
+**When asked to fetch an article, you MUST:**
+
+1. **ASK the user which local directory** the article should go to — never assume
+2. **Check the target site&#039;s existing structure** before fetching
+3. **Read the target site&#039;s CLAUDE.md** if it exists — it documents the publishing model
+4. **Use the appropriate flags** based on what you learned
+
+**Why ASK First?**
+- Users may have multiple local repos for different purposes
+- The source URL does NOT determine the target folder — the user&#039;s intent does
+- Articles can be published to multiple sites (many-to-many publishing)
+- Only the user knows their content organization</code></pre>
+<h3>Open source tools in multi-repo workflows</h3>
+<p>When a tool repository is open source, its CLAUDE.md must work for ALL users, not just you. This seems obvious but is consistently violated.</p>
+<p><strong>What goes wrong</strong></p>
+<p>A developer adds site-specific information to an open source tool&#39;s CLAUDE.md:</p>
+<pre class="language-markdown"><code class="language-markdown">## Known Sites
+
+| Site | Path |
+|------|------|
+| rajiv-site | `/Users/rajiv/projects/rajiv-site/` |
+| synthesis-coding-site | `/Users/rajiv/projects/synthesis-coding-site/` |</code></pre>
+<p>This is useless (or actively harmful) for:</p>
+<ul>
+<li>Other users who don&#39;t have these sites</li>
+<li>Contributors trying to understand the project</li>
+<li>The same developer on a different machine with a different username</li>
+</ul>
+<p><strong>The solution: Separation of concerns</strong></p>
+<pre class="language-text"><code class="language-text">Tool repo (public, open source):
+└── CLAUDE.md           # Generic: how to use the tool,
+                        # general patterns, no user paths
+
+User&#039;s site repos (may be public or private):
+└── CLAUDE.md           # Specific: this site&#039;s structure,
+                        # publishing model, conventions
+
+User&#039;s global config (private):
+└── ~/.claude/CLAUDE.md # Personal: cross-project standards,
+                        # quality attributes, prohibited behaviors</code></pre>
+<p><strong>Open source CLAUDE.md should contain:</strong></p>
+<ul>
+<li>How to use the tool</li>
+<li>Development/contribution guidelines</li>
+<li>General best practices (check structure first, ask user, etc.)</li>
+<li>Project architecture</li>
+<li>No hardcoded paths</li>
+<li>No user-specific sites or configurations</li>
+<li>No assumptions about the user&#39;s setup</li>
+</ul>
+<p><strong>The &quot;read target site&#39;s CLAUDE.md&quot; pattern</strong></p>
+<p>Instead of encoding user-specific information, the tool&#39;s CLAUDE.md says:</p>
+<pre class="language-markdown"><code class="language-markdown">**Before operating on a target site:**
+1. Read the target site&#039;s CLAUDE.md if it exists
+2. Check the site&#039;s existing structure
+3. Ask the user if anything is unclear</code></pre>
+<p>This delegates site-specific knowledge to where it belongs while keeping the tool generic. The AI reads all relevant CLAUDE.md files and combines the guidance — tool conventions from the tool repo, site-specific rules from the site repo, and personal standards from the global config.</p>
 <h2>The architectural advantage</h2>
 <p>I now think at the level of systems rather than files. Claude Code doesn’t just help me write code — it helps me navigate architectural relationships that would otherwise require holding too much context in my head.</p>
-<p>As I wrote in my earlier piece on <a href="https://rajiv.com/blog/2025/11/09/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/">synthesis coding workflows</a>, the compounding context advantage is real. Each session builds on previous understanding. CLAUDE.md files encode institutional knowledge. The investment in setting up proper context pays dividends across every future interaction.</p>
+<p>As I wrote in my earlier piece on <a href="/articles/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/">synthesis coding workflows</a>, the compounding context advantage is real. Each session builds on previous understanding. CLAUDE.md files encode institutional knowledge. The investment in setting up proper context pays dividends across every future interaction.</p>
 <p>Modern software lives across multiple repositories. The engineers who master polyrepo synthesis — who can coordinate AI assistance across distributed systems while maintaining human architectural authority — will build the next generation of production software.</p>
 <p>If you’ve used <a href="https://en.wikipedia.org/wiki/Vibe_coding">Vibe Coding</a> for rapid prototyping — and I do, for weekend projects and quick experiments — you know how liberating it feels to describe what you want and let the AI handle it. Polyrepo synthesis brings that same collaborative power to production systems, with the discipline required when changes span multiple repositories, teams, and deployment pipelines.</p>
 <p>The CLAUDE.md context mesh is the key. Set it up once, maintain it as your architecture evolves, and watch your productivity multiply across your entire codebase.</p>
