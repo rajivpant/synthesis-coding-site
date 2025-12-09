@@ -16,3 +16,6 @@ Thumbs.db
 # Logs
 *.log
 npm-debug.log*
+
+# Private context files (AI assistant context that should not be committed)
+*.private.md

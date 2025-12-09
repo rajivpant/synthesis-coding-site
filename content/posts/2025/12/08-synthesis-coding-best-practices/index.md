@@ -25,22 +25,89 @@ status: draft
 DRAFT STATUS: This is an outline and draft. Do not publish.
 Last updated: 2025-12-09
 
+=============================================================================
+ARTICLE GOALS AND GUIDANCE (DO NOT DELETE - CONTEXT FOR AI ASSISTANTS)
+=============================================================================
+
+PURPOSE OF THIS ARTICLE:
+This is a REFERENCE GUIDE for practitioners who already understand what synthesis
+coding is (from the earlier articles in the series). It teaches them HOW to build
+enterprise-grade software using synthesis coding.
+
+The goal is to produce software that is: reliable, secure, robust, maintainable,
+and production-ready. Every pattern in this article exists because its absence
+caused a failure that made software NOT enterprise-grade.
+
+WHAT THIS ARTICLE IS NOT:
+- NOT an introduction to synthesis coding (that's Article 1)
+- NOT a Claude Code tutorial (that's Article 3)
+- NOT an organizational rollout guide (that's Article 2)
+- NOT simplistic or high-level — the author was criticized for prior work being
+  "too simplistic" and "not technical enough"
+
+WHAT THIS ARTICLE MUST BE:
+- COMPREHENSIVE — deep, technical, exhaustive coverage
+- PRACTICAL — real code examples from ownwords (open source)
+- HUMAN-CENTERED — the human's expertise, judgment, and discipline are central;
+  tools like CLAUDE.md are just mechanisms the human uses
+- REFERENCE-WORTHY — something practitioners bookmark and return to
+
+THE COMPLETE PICTURE OF WHAT BUILDS ENTERPRISE-GRADE SOFTWARE:
+1. Human judgment and expertise — knowing what enterprise-grade means, recognizing
+   when something is wrong, making architectural decisions AI can't make
+2. Prompting discipline — how you frame requests, set context, specify requirements,
+   iterate on results
+3. Review rigor — actually reading AI output, understanding it, catching errors
+   before they propagate
+4. Workflow design — dry-runs, verification steps, checklists, structure that
+   catches mistakes
+5. Defensive patterns in code — safeguards built into tools that prevent failure modes
+6. CLAUDE.md configuration — persistent guidance that scales across sessions
+
+CLAUDE.md is just ONE tool, not the center. The HUMAN is the center.
+
+AUDIENCE:
+Software engineers and engineering leaders building production systems who already
+buy the synthesis coding concept and want the detailed "how" — the battle-tested
+practices that turn principles into executable reality.
+
+RELATIONSHIP TO OTHER ARTICLES:
+- Article 1 (Foundation): WHY synthesis coding exists, how it differs from vibe coding
+- Article 2 (Framework): Four Pillars, organizational implementation
+- Article 3 (Technical Guide): Claude Code workflows, concrete examples
+- Article 4 (Case Study): Blogroll Links modernization
+- THIS ARTICLE (Best Practices): The reference guide — specific configurations,
+  patterns, safeguards that make the difference
+
+CRITICAL INSTRUCTION:
+NEVER condense or simplify content. The author needs comprehensive, deep, technical
+substance. Add depth, don't remove it. Every TODO section needs EXPANSION, not reduction.
+
+=============================================================================
+
 Recent additions (2025-12-09):
 - "The Safe Defaults Principle" section - lessons from draft default disaster
 - "Self-Sufficient Local Files" section - image downloading pattern with smart caching, deduplication, and sidecar tracking
+- "The Draft Filtering Pattern" section - lessons from published draft disaster (this very article!)
+- "The Data Contract Pattern" section - ensuring consistency across bidirectional operations
+- "The Precedent Pattern" section - teaching AI to learn from existing code
+- Reframed sections to focus on CLAUDE.md guidance over implementation details
 -->
 
 *The difference between AI-assisted coding that works once and AI-assisted coding that works reliably comes down to documented practices, defensive patterns, and systematic safeguards. This article presents the best practices I've developed through months of production synthesis coding work.*
 
 ## Introduction
 
-[TODO: Write introduction - 2-3 paragraphs]
+Synthesis coding is not about maximizing AI autonomy. It's about building a reliable collaboration between human expertise and AI capabilities. The human's job is to architect this collaboration — to configure the AI's behavior through CLAUDE.md files, establish workflows that catch errors, and maintain the judgment to know when something looks wrong.
 
-Key points to hit:
-- Best practices emerge from real production work, not theory
-- These practices have been refined through iteration on multiple projects
-- The goal is reliability and predictability, not maximum AI autonomy
-- These patterns work across different project types and scales
+These practices emerged from building real production tools, not from theory. They've been refined through iteration: each pattern here exists because its absence caused a problem that cost time, created bugs, or required cleanup. The goal is predictability — knowing that when you ask the AI to do something, it will do it correctly, consistently, every time.
+
+The core insight: AI coding assistants are excellent at implementing what you describe, but they optimize locally. They complete the immediate task without naturally considering how it interacts with other parts of your system, whether it matches existing patterns, or what happens in edge cases. Your job is to encode that broader context into CLAUDE.md files that persist across sessions and scale across projects.
+
+This article covers three categories of best practices:
+1. **CLAUDE.md architecture** — How to structure configuration files that guide AI behavior
+2. **Defensive patterns** — Technical safeguards that prevent common failure modes
+3. **Workflow safeguards** — Human-in-the-loop processes that catch mistakes before they propagate
 
 ---
 
@@ -460,11 +527,11 @@ The "safer" choice isn't always safer. A default that causes silent failures in 
 
 ### Self-Sufficient Local Files: The Asset Download Pattern
 
-When fetching content from remote systems, local files should be self-sufficient — they should work without network access and without depending on the remote system.
+When fetching content from remote systems, local files should be self-sufficient — they should work without network access and without depending on the remote system. This is a principle that must be documented in CLAUDE.md, because AI assistants naturally take shortcuts.
 
 **The Problem**
 
-Many content sync tools fetch article text but leave images as remote URLs:
+Without explicit guidance, AI-generated fetch tools often take the easy path:
 
 ```markdown
 ![Photo](https://cdn.example.com/uploads/photo.jpg?resize=800x600)
@@ -476,27 +543,26 @@ This creates problems:
 - You don't truly "own" your content — you depend on the remote host
 - Testing is unreliable (works online, fails offline)
 
-**The Solution: Download and Rewrite**
+**The CLAUDE.md Solution**
 
-When fetching content:
-1. **Extract all image URLs** from the content
-2. **Download images** to a local directory (co-located with the content)
-3. **Rewrite URLs** to local relative paths
-4. **Track the mapping** in a sidecar file
+Document the self-sufficiency requirement explicitly:
 
-**Before:**
 ```markdown
-![Photo](https://cdn.example.com/uploads/photo.jpg?resize=800x600)
+### Local File Self-Sufficiency
+
+When building tools that fetch remote content:
+
+1. **Download ALL assets locally** — images, PDFs, any referenced files
+2. **Rewrite URLs to local paths** — `./image.png` not `https://cdn.example.com/...`
+3. **Include front matter assets** — `featured_image` must also be rewritten
+4. **Track mappings in sidecar files** — enables bidirectional sync
+
+The goal: A fetched article should render correctly with NO network access.
 ```
 
-**After:**
-```markdown
-![Photo](./photo.jpg)
-```
+**Implementation: Smart Caching**
 
-**Smart Caching: Don't Re-Download Unchanged Files**
-
-Implement caching to avoid unnecessary downloads:
+Don't re-download unchanged files. Compare local file size with remote Content-Length:
 
 ```javascript
 async function downloadIfNeeded(url, localPath) {
@@ -516,7 +582,7 @@ async function downloadIfNeeded(url, localPath) {
 }
 ```
 
-**Size Deduplication: Handle CDN Size Variants**
+**Implementation: Size Deduplication**
 
 WordPress and Jetpack CDN serve the same image at multiple sizes via query parameters:
 
@@ -557,7 +623,7 @@ function getQualityScore(url) {
 }
 ```
 
-**URL Rewriting: Match by Base Path**
+**Implementation: URL Rewriting**
 
 When rewriting URLs in content, match by base path so ALL size variants get replaced:
 
@@ -592,26 +658,9 @@ featured_image: "https://cdn.example.com/uploads/hero.jpg?fit=1200x630"
 featured_image: "./hero.jpg"
 ```
 
-**Sidecar Tracking: Enable Bidirectional Sync**
-
-Create a sidecar file (e.g., `index.images.json`) tracking the mapping:
-
-```json
-{
-  "images": [
-    {
-      "originalUrl": "https://cdn.example.com/uploads/photo.jpg?w=1024",
-      "localFile": "photo.jpg"
-    }
-  ]
-}
-```
-
-This serves two purposes:
-1. **Fetch**: Know which images have already been downloaded
-2. **Publish**: Know which remote URLs correspond to local files (don't re-upload)
-
 **The Complete Pattern**
+
+Here's how these pieces fit together:
 
 ```javascript
 async function fetchWithImages(articleUrl, outputDir) {
@@ -646,7 +695,31 @@ async function fetchWithImages(articleUrl, outputDir) {
 }
 ```
 
-**Why This Matters**
+**CLAUDE.md Guidance for This Pattern**
+
+Document these requirements so AI implementations handle the edge cases:
+
+```markdown
+### Asset Download Implementation Notes
+
+**CDN Size Variants**: WordPress/Jetpack serve the same image at multiple sizes:
+- `image.jpg?resize=1024x1024`
+- `image.jpg?resize=300x300`
+- `image.jpg?w=800`
+
+These are the SAME image. Download only the highest quality version.
+Match ALL variants when rewriting URLs in content.
+
+**Smart Caching**: Don't re-download unchanged files.
+Compare local file size with remote Content-Length header.
+
+**Front Matter**: The `featured_image` field also needs URL rewriting.
+Don't forget it just because it's in YAML, not markdown body.
+```
+
+**Why This Matters for Synthesis Coding**
+
+This pattern illustrates a key synthesis coding principle: **document the non-obvious requirements**. An AI will build a working fetch command without these instructions — it will fetch the article text correctly. But "working" isn't the same as "correct." The self-sufficiency requirement must be explicit because it's not obvious from a simple "fetch this article" request.
 
 With this pattern:
 - Local files are completely self-sufficient
@@ -654,6 +727,190 @@ With this pattern:
 - You truly own your content (images and all)
 - Publishing back uses the sidecar to avoid re-uploading
 - Future migrations are possible because you have all assets locally
+
+**Implementation Reference**
+
+The [ownwords](https://github.com/rajivpant/ownwords) toolkit implements this complete pattern. See `lib/fetch-api.js` for the production implementation.
+
+### The Data Contract Pattern for Bidirectional Operations
+
+When building tools with multiple commands that share state (like `fetch` and `publish`), the data format must be consistent across all operations. AI assistants often implement each command in isolation, creating incompatible formats that cause subtle bugs.
+
+**The Problem**
+
+Consider a content sync tool with two commands:
+- `fetch` - downloads content and assets from a remote system
+- `publish` - uploads local content and assets back to the remote system
+
+Each command needs to track which assets have been synced. Without explicit guidance, the AI might implement:
+
+**Fetch creates:**
+```json
+{
+  "images": [
+    { "originalUrl": "https://...", "localFile": "image.png" }
+  ]
+}
+```
+
+**Publish expects:**
+```json
+{
+  "uploaded": {
+    "./image.png": { "url": "https://...", "hash": "abc123" }
+  }
+}
+```
+
+These formats are incompatible. Fetch tracks by URL, publish looks up by local path. The result: publish doesn't recognize that images were already fetched, and re-uploads them as duplicates.
+
+**The CLAUDE.md Solution: Document the Contract**
+
+Add explicit data contract documentation to your project's CLAUDE.md:
+
+```markdown
+### Sidecar Format Contract
+
+The `index.images.json` sidecar file is used by BOTH fetch and publish.
+It MUST use this exact format:
+
+```json
+{
+  "site": "https://example.com",
+  "lastUpdated": "ISO-8601 timestamp",
+  "uploaded": {
+    "./local-filename.png": {
+      "url": "https://example.com/wp-content/uploads/.../filename.png",
+      "hash": "md5-hash-of-local-file",
+      "uploadedAt": "ISO-8601 timestamp"
+    }
+  }
+}
+```
+
+**Required fields:**
+- `site` - Used to verify the sidecar matches the target site
+- `uploaded` - Keyed by LOCAL path (e.g., `./image.png`)
+- `url` - The remote URL to reuse (prevents re-upload)
+- `hash` - MD5 hash for change detection
+
+**Contract rules:**
+1. Fetch MUST write this format (not a different "download" format)
+2. Publish MUST read this format to check for existing uploads
+3. Both commands MUST use the same key format (`./filename.png`)
+```
+
+**Why This Pattern Matters for Synthesis Coding**
+
+AI assistants optimize locally — they implement each function to work correctly in isolation. They don't naturally consider how different parts of a system interact. The data contract pattern forces consistency by:
+
+1. **Making the contract explicit** — It's in CLAUDE.md, not implicit in code
+2. **Showing the exact format** — No ambiguity about field names or structure
+3. **Explaining the "why"** — The AI understands the consequence of deviation
+4. **Covering both directions** — Fetch and publish are documented together
+
+**Implementation Example**
+
+Here's how the [ownwords](https://github.com/rajivpant/ownwords) toolkit implements this pattern. The `saveImagesSidecar` function creates the format that `publish` will later read:
+
+```javascript
+function saveImagesSidecar(mdPath, urlToLocal, results, siteUrl, contentDir) {
+  // Build the "uploaded" object in the format that publish expects
+  const uploaded = {};
+
+  for (const [originalUrl, filename] of Object.entries(urlToLocal)) {
+    const localPath = `./${filename}`;
+    const absolutePath = path.join(contentDir, filename);
+
+    // Compute hash for change detection
+    let hash = null;
+    if (fs.existsSync(absolutePath)) {
+      const content = fs.readFileSync(absolutePath);
+      hash = crypto.createHash('md5').update(content).digest('hex');
+    }
+
+    uploaded[localPath] = {
+      url: normalizeWordPressImageUrl(originalUrl, siteUrl),
+      hash: hash,
+      uploadedAt: new Date().toISOString()
+    };
+  }
+
+  const sidecar = {
+    site: siteUrl,
+    lastUpdated: new Date().toISOString(),
+    uploaded: uploaded
+  };
+
+  fs.writeFileSync(sidecarPath, JSON.stringify(sidecar, null, 2));
+}
+```
+
+The key insight: fetch writes in the exact format publish reads. No translation layer, no format conversion, no opportunity for mismatch.
+
+### The Precedent Pattern: Teaching AI to Learn from Existing Code
+
+One of the most powerful synthesis coding techniques is teaching AI to find and follow precedents in your existing codebase before implementing new features.
+
+**The Problem**
+
+When asked to implement something new, AI assistants often start from first principles. They generate reasonable-looking code that doesn't match your existing patterns, conventions, or style. This creates inconsistency across your codebase.
+
+**The Solution: Explicit Precedent Instructions**
+
+Add this to your CLAUDE.md:
+
+```markdown
+### Before Implementing New Features
+
+1. **Search for similar patterns** in the existing codebase
+2. **Read how existing code handles** the same or similar cases
+3. **Match the existing style** — don't introduce new patterns unnecessarily
+4. **If no precedent exists**, ask before choosing an approach
+
+Example: Before implementing a new image format in markdown, check how existing
+images are formatted in other articles in this repository.
+```
+
+**Real-World Application**
+
+Consider adding images to a markdown article. Without precedent guidance, the AI might generate:
+
+```markdown
+[![](./image.png)](./image.png)*Caption text*
+```
+
+But if existing articles in the same repository use:
+
+```markdown
+![Alt text describing the image](./image.png "Caption text")
+```
+
+The AI should match the existing pattern. The precedent instruction ensures it checks first.
+
+**CLAUDE.md Implementation**
+
+```markdown
+### Content Formatting Precedents
+
+Before writing or modifying content:
+
+1. **Check existing files** in the same directory for formatting patterns
+2. **Match image syntax** — This repository uses:
+   ```markdown
+   ![Descriptive alt text](./image.png "Caption or title")
+   ```
+   NOT the linked-image pattern: `[![](url)](url)*caption*`
+
+3. **Match heading styles** — Check whether existing files use ATX (`#`) or
+   Setext (underline) headings
+
+4. **Match front matter fields** — Copy the structure from a similar existing file
+```
+
+**Why This Works**
+
+The precedent pattern leverages the AI's strength (reading and pattern matching) while compensating for its weakness (not automatically checking existing code). By making "check first" an explicit instruction, you get consistency without having to specify every detail.
 
 ---
 
@@ -747,6 +1004,50 @@ ownwords publish ./content/article.md
 
 **Key insight:** AI assistants make mistakes. The dry-run pattern catches those mistakes before they propagate to production.
 
+**The Human's Critical Role: Actually Reading the Output**
+
+Here's an uncomfortable truth: dry-run only works if someone reads the output carefully. Consider this dry-run output:
+
+```
+🖼️  Image Plan:
+   Total images in post: 2
+   Already uploaded (in sidecar): 0
+   Would upload: 2
+```
+
+The dry-run is warning you: "I'm about to upload 2 images." If those images already exist on the server, this will create duplicates. The safeguard worked — it showed you exactly what would happen. But if you glance at the output and proceed anyway, the safeguard is worthless.
+
+**CLAUDE.md Guidance for Dry-Run Discipline**
+
+Document what to look for in dry-run output:
+
+```markdown
+### Pre-Publish Dry-Run Checklist
+
+Before proceeding from dry-run to actual execution, verify:
+
+1. **Action type is correct**
+   - "UPDATE existing" for edits to published content
+   - "CREATE new" only for genuinely new content
+   - If you see CREATE for existing content, STOP — something is wrong
+
+2. **Asset upload count is expected**
+   - "Would upload: 0" for content with no new images
+   - If images exist on server but dry-run shows uploads, the sidecar is missing data
+   - Uploading existing images creates duplicates in the media library
+
+3. **Identifiers match**
+   - Post ID matches front matter
+   - Category/tag IDs are present and correct
+
+**If anything looks wrong, investigate before proceeding.**
+The dry-run exists to give you a chance to stop. Use it.
+```
+
+**Why This Matters**
+
+The synthesis coding workflow is: AI proposes → Human reviews → AI executes. The dry-run is the human review step for destructive operations. If you skip the review, you've collapsed back to "AI executes autonomously" — and that's when things break.
+
 ### The Pre-Publish Checklist Pattern
 
 [TODO: Expand this section]
@@ -808,6 +1109,85 @@ if (!options.update && !options.yes) {
 3. Track uploaded assets in sidecar files to prevent re-upload
 4. Enhanced dry-run output that shows exactly what would change
 5. Clear messaging about what mode the tool is operating in
+
+### The Draft Filtering Pattern
+
+Build systems must explicitly filter draft content. Having `status: draft` in front matter is meaningless if the build system ignores it.
+
+**Real-World Example: The Published Draft Disaster**
+
+A build system generated HTML for all markdown files in a content directory. One file had `status: draft` in its front matter — it was an incomplete article with TODO placeholders and work-in-progress sections.
+
+Here's what happened:
+
+1. Author runs `npm run build` to update other articles
+2. Build system generates HTML for ALL articles, including the draft
+3. Author commits changes (didn't notice the draft was included)
+4. Cloudflare Pages auto-deploys from git push
+5. Draft article goes live with incomplete content and TODO placeholders
+6. Users discover it before the author notices
+
+**The Root Cause**
+
+The build system didn't check for draft status:
+
+```javascript
+// WRONG: Process all articles
+for (const article of allArticles) {
+  generateHtml(article);
+}
+```
+
+**The Fix**
+
+Explicitly filter drafts before processing:
+
+```javascript
+// RIGHT: Skip draft articles
+for (const article of allArticles) {
+  if (article.frontMatter.status === 'draft') {
+    console.log(`  ⏸️  Skipping draft: ${article.slug}`);
+    continue;
+  }
+  generateHtml(article);
+}
+```
+
+**Why This Matters**
+
+The `status: draft` field only works if every part of the pipeline respects it:
+
+1. **Build system** — Must skip drafts when generating output
+2. **RSS generator** — Must exclude drafts from feeds
+3. **Search index** — Must not index draft content
+4. **Sitemap** — Must not include draft URLs
+
+If any one of these ignores the draft status, the content can leak to production.
+
+**CLAUDE.md Guidance**
+
+```markdown
+### Draft Content Handling
+
+Before adding a `status` field to any content system:
+
+1. **Verify the build system respects it** — Test with a draft file
+2. **Check all output generators** — RSS, sitemap, search index, etc.
+3. **Test the full deploy pipeline** — Local build → commit → deploy
+
+A status field that isn't enforced is worse than no status field at all — it creates false confidence.
+```
+
+**The Defense-in-Depth Approach**
+
+For critical systems, use multiple layers:
+
+1. **Front matter field**: `status: draft`
+2. **Build-time filtering**: Skip files with draft status
+3. **Commit hook**: Warn if draft files are being committed
+4. **CI check**: Block deploy if draft content is detected
+
+Any single layer might fail. Multiple layers catch mistakes.
 
 ---
 
@@ -1095,18 +1475,377 @@ Individual safeguards combine multiplicatively:
 
 Each layer catches what previous layers missed. The combination produces reliability that no single safeguard could achieve.
 
+### Persisting Critical Context: The Anti-Amnesia Pattern
+
+AI coding assistants have a fundamental limitation: they lose context. Conversations end. Sessions time out. Context windows fill up and get summarized. You switch computers. Chats disappear. And suddenly, all the goals, guidance, and hard-won understanding from previous sessions is gone.
+
+This isn't a minor inconvenience. It's a structural problem that causes the AI to:
+- Take your work in the wrong direction
+- Repeat mistakes you already corrected
+- Forget constraints you established
+- Lose the reasoning behind decisions
+
+**The Problem in Practice**
+
+Here's a real scenario that happened while writing this very article:
+
+1. In earlier sessions, I established detailed goals and guidance for this article
+2. The conversation context was summarized (compacted) due to length
+3. The AI lost the detailed goals and retained only a fragment
+4. When I asked the AI to continue working, it went in the wrong direction
+5. Hours of discussion were needed to reconstruct what was lost
+6. Even then, the reconstruction was incomplete
+
+The AI didn't fail at its job — it was never given the information. The context was lost.
+
+**The Solution: A Three-Level Context Hierarchy**
+
+Context should be persisted at the appropriate level — as close to the work as possible, but shareable where needed.
+
+```
+Level 1: File-Level Context (closest to the work)
+├── Public: HTML comments in the file itself
+├── Public: Sidecar file (e.g., component.context.md)
+└── Private: Gitignored sidecar (e.g., component.private.md)
+
+Level 2: Project-Level Context
+├── Public: CLAUDE.md in the repository root
+├── Public: ADR files in docs/adr/
+└── Private: .claude/private.md (gitignored)
+
+Level 3: Global Context (applies everywhere)
+└── Private: ~/.claude/CLAUDE.md (never committed anywhere)
+```
+
+**The key principle: Context lives where the work is.** Don't put file-specific context in CLAUDE.md. Don't put project-specific context in your global config. Each level has its purpose.
+
+#### Level 1: File-Level Context
+
+This is the most important level and the most often overlooked. Context about a specific file should live with that file.
+
+**Public file-level context (HTML comments):**
+
+For documents, articles, or any file that supports comments:
+
+```markdown
+<!--
+=============================================================================
+CONTEXT FOR THIS FILE (DO NOT DELETE)
+=============================================================================
+
+PURPOSE:
+[What this specific file is trying to achieve]
+
+WHAT THIS IS NOT:
+[Common misunderstandings to prevent]
+
+CRITICAL CONSTRAINTS:
+[Non-negotiable requirements for this file]
+
+RELATIONSHIP TO OTHER FILES:
+[How this fits with related files]
+
+INSTRUCTIONS FOR AI:
+[Specific guidance on how to work on this file]
+
+=============================================================================
+-->
+```
+
+**Public file-level context (sidecar file):**
+
+For source code files where comments would be intrusive:
+
+```
+src/
+├── auth/
+│   ├── service.ts
+│   ├── service.context.md      # Context about service.ts
+│   └── service.test.ts
+```
+
+The sidecar `service.context.md` might contain:
+
+```markdown
+# Context for auth/service.ts
+
+## Purpose
+Handles user authentication with JWT tokens and bcrypt password hashing.
+
+## Security Requirements
+- Passwords MUST use bcrypt with cost factor 12
+- Tokens MUST expire after 1 hour
+- Failed login attempts MUST be rate-limited (5 per minute per IP)
+
+## Integration Points
+- Called by: routes/auth.ts
+- Depends on: repositories/user.ts, services/redis.ts
+
+## Known Issues
+- TODO: Add refresh token support
+- The rate limiter doesn't handle Redis connection failures gracefully
+```
+
+**Private file-level context (gitignored sidecar):**
+
+For context you need AI to know but don't want to share:
+
+```
+content/posts/2025/12/08-my-article/
+├── index.md                    # The article
+├── index.context.md            # Public context (committed)
+└── index.private.md            # Private context (gitignored)
+```
+
+Add to `.gitignore`:
+```
+*.private.md
+```
+
+The private sidecar might contain:
+
+```markdown
+# Private Context (DO NOT COMMIT)
+
+## My Goals for This Work
+- I'm trying to establish credibility in this area
+- This responds to criticism that my prior work lacked depth
+- I need this to be comprehensive and technical, not simplified
+
+## My Sensitivities
+- DO NOT condense or simplify — I was criticized for being too simplistic
+- DO NOT make me look incompetent in examples
+- Add depth, never remove it
+
+## Frustrations with AI Behavior
+- The AI kept focusing only on CLAUDE.md and ignoring other factors
+- The AI condensed a section when I explicitly wanted depth
+- Context was lost when the conversation was summarized
+```
+
+This private context guides the AI without being visible to others.
+
+#### Level 2: Project-Level Context
+
+Context that applies across multiple files in a project.
+
+**Project CLAUDE.md (public):**
+
+```markdown
+# Project Context
+
+## Repository Purpose
+[What this project does and why it exists]
+
+## Architecture
+[Key architectural decisions and patterns]
+
+## Data Contracts
+[Formats that multiple components must agree on]
+
+## Conventions
+[Naming, structure, style patterns specific to this project]
+```
+
+**Architecture Decision Records (public):**
+
+For significant architectural decisions that AI should know about:
+
+```markdown
+# ADR-001: Image Sidecar Format
+
+## Status
+Accepted
+
+## Context
+Both fetch and publish commands need to track which images have been uploaded.
+Without a consistent format, fetch creates one structure and publish expects another,
+causing duplicate uploads.
+
+## Decision
+Use a single sidecar format for both operations:
+- Key by local path (`./image.png`)
+- Include WordPress URL, file hash, and timestamp
+- Store in `index.images.json` alongside markdown
+
+## Consequences
+- Fetch must write in publish-compatible format
+- Both commands share a data contract
+- Breaking changes require updating both commands
+```
+
+**Private project context (gitignored):**
+
+Create `.claude/private.md` and add `.claude/private.md` to `.gitignore`:
+
+```markdown
+# Private Project Context
+
+## Business Goals
+[Why we're building this, strategic context]
+
+## Team Dynamics
+[Who's working on what, sensitivities to be aware of]
+
+## Known Problems We're Not Fixing Yet
+[Technical debt we're intentionally ignoring]
+```
+
+#### Level 3: Global Context
+
+Context that applies to all your work, across all projects.
+
+**~/.claude/CLAUDE.md:**
+
+This is your personal engineering philosophy, quality standards, and behavioral guidance that applies everywhere:
+
+```markdown
+# Global Claude Code Instructions
+
+## Core Principle
+Maximize value delivered to the user, not convenience for the AI.
+
+## Quality Attributes (Non-Negotiable)
+All implementations must be:
+- Performant
+- Flexible
+- Feature-complete
+- Secure
+- Convention-compliant
+- Well-tested
+
+## Prohibited Behaviors
+NEVER:
+- Choose an easier implementation when a better one was discussed
+- Implement partial solutions when complete solutions are feasible
+- Condense or simplify unless explicitly requested
+- Add backward-compatibility hacks instead of proper solutions
+```
+
+This file is never committed to any repository — it's your private global configuration.
+
+#### Choosing the Right Level
+
+| Context Type | Level | Location |
+|--------------|-------|----------|
+| Goals for a specific file | 1 (File) | HTML comments or sidecar |
+| Private goals/sensitivities for a file | 1 (File) | `*.private.md` (gitignored) |
+| How a specific component works | 1 (File) | Sidecar `.context.md` |
+| Data contracts between components | 2 (Project) | Project CLAUDE.md |
+| Architectural decisions | 2 (Project) | ADR files |
+| Business strategy for the project | 2 (Project) | `.claude/private.md` (gitignored) |
+| Your engineering philosophy | 3 (Global) | `~/.claude/CLAUDE.md` |
+| Your personal sensitivities | 3 (Global) | `~/.claude/CLAUDE.md` |
+
+**The Anti-Pattern: Everything in CLAUDE.md**
+
+A common mistake is putting all context in project-level CLAUDE.md:
+- File-specific context gets lost in a large CLAUDE.md
+- CLAUDE.md becomes unwieldy and hard to maintain
+- AI has to read irrelevant context for every file
+- Private context ends up in a committed file
+
+Instead, keep context close to where the work happens. CLAUDE.md is for project-wide patterns, not file-specific guidance.
+
+#### For Software Projects: Practical Examples
+
+**A React component with context:**
+
+```
+src/components/Dashboard/
+├── Dashboard.tsx
+├── Dashboard.context.md       # How this component works, dependencies
+├── Dashboard.private.md       # Why we built it this way, known issues we're ignoring
+├── Dashboard.test.tsx
+└── Dashboard.module.css
+```
+
+**An API endpoint with context:**
+
+```
+src/routes/
+├── users.ts
+├── users.context.md           # Security requirements, rate limits, expected behavior
+└── users.private.md           # Performance issues we know about but haven't fixed
+```
+
+**A configuration module:**
+
+```
+src/config/
+├── database.ts
+├── database.context.md        # Connection pooling settings, why we chose these values
+└── database.private.md        # Production vs dev differences, credentials handling
+```
+
+#### For Articles and Documents
+
+**An article with full context hierarchy:**
+
+```
+content/posts/2025/12/08-synthesis-coding-best-practices/
+├── index.md                   # The article itself, with HTML comment context
+├── index.images.json          # State: which images have been synced
+└── index.private.md           # Private: author's goals, sensitivities, frustrations
+```
+
+The HTML comments in `index.md` contain public context about the article's purpose and structure.
+
+The `index.private.md` contains:
+- Why you're writing this article (career goals, positioning)
+- Criticisms you're responding to
+- Your sensitivities (don't simplify, don't condense)
+- Frustrations with AI behavior on this specific article
+
+#### The Meta-Lesson
+
+This pattern is meta: the solution to context loss is itself a synthesis coding best practice that needs to be documented so it isn't forgotten.
+
+Every important discussion, decision, or piece of guidance should end with: "Where should we persist this so it survives?"
+
+The answer follows the hierarchy:
+1. Is it about a specific file? → File-level context
+2. Is it about the whole project? → Project CLAUDE.md or ADR
+3. Is it about how I work everywhere? → Global `~/.claude/CLAUDE.md`
+4. Should it be private? → Use gitignored variants at each level
+
+#### Implementation Checklist
+
+Before ending a session or switching tasks:
+
+**File-level:**
+- [ ] Have we established goals for a specific file? → HTML comments or sidecar
+- [ ] Are there private goals/sensitivities for this file? → `*.private.md`
+- [ ] Is there context about how this file works? → `.context.md` sidecar
+
+**Project-level:**
+- [ ] Have we made architectural decisions? → ADR files
+- [ ] Have we established data contracts? → Project CLAUDE.md
+- [ ] Is there private business context? → `.claude/private.md`
+
+**Global:**
+- [ ] Have we established patterns that apply everywhere? → `~/.claude/CLAUDE.md`
+
+**Gitignore setup:**
+```
+# Add to .gitignore
+*.private.md
+.claude/private.md
+```
+
+The few minutes spent persisting context at the right level saves hours of reconstruction later — and keeps private context from leaking into commits.
+
 ---
 
 ## Conclusion
 
-[TODO: Write conclusion - 2-3 paragraphs]
+Synthesis coding is a discipline, not a tool. The practices in this article — CLAUDE.md configuration, defensive patterns, workflow safeguards — are techniques for building reliable human-AI collaboration. They exist because AI coding assistants are powerful but imperfect, and the human's job is to structure that collaboration for consistent results.
 
-Key points to hit:
-- These practices emerged from real production work
-- They're encoded in CLAUDE.md files that persist and scale
-- The goal is reliable, predictable AI-assisted development
-- Start with the global CLAUDE.md, then add project-specific context
-- These patterns will evolve as AI capabilities evolve
+The key insight is that your job has shifted. You're no longer just writing code or reviewing code. You're architecting AI behavior. The CLAUDE.md file is your primary artifact — it encodes your standards, constraints, and domain knowledge in a format that persists and scales. When something goes wrong, the fix is usually not "write different code" but "add better guidance to CLAUDE.md so this doesn't happen again."
+
+Start with a global CLAUDE.md that encodes your engineering philosophy. Add project-specific CLAUDE.md files that document data contracts, conventions, and integration points. Build workflows that include dry-runs and verification steps. And critically, actually review the output at each step. The safeguards only work if you use them.
+
+These patterns will evolve as AI capabilities evolve. What remains constant is the principle: synthesis coding succeeds when humans and AI each do what they're best at. AI excels at implementation speed and pattern matching. Humans excel at judgment, architectural decisions, and knowing when something looks wrong. The practices in this article are about structuring that collaboration for reliability
 
 ---
 
