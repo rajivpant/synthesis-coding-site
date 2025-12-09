@@ -4,7 +4,7 @@ slug: polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-clau
 date: '2025-11-30'
 modified: '2025-12-08'
 description: 'I wrote this blog post for Software Engineers, Architects, and Technical Leads. It is code-heavy and implementation-focused. This weekend I was working across three repositories simultaneously in Visual Studio Code. I worked on RagBot — a multi-LLM chatbot that lets you switch between OpenAI, Anthro'
-canonical_url: 'https://rajiv.com/?p=6730'
+canonical_url: 'https://rajiv.com/blog/2025/11/30/polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code/'
 categories:
   - Technology
 tags:
@@ -33,7 +33,7 @@ wordpress:
     - 727048733
     - 727048736
   author_id: 918046
-  synced_at: '2025-12-09T03:17:45.151Z'
+  synced_at: '2025-12-09T03:20:39.621Z'
 ---
 
 I wrote this blog post for Software Engineers, Architects, and Technical Leads. It is code-heavy and implementation-focused.

@@ -23,7 +23,11 @@ status: draft
 
 <!--
 DRAFT STATUS: This is an outline and draft. Do not publish.
-Last updated: 2025-12-08
+Last updated: 2025-12-09
+
+Recent additions (2025-12-09):
+- "The Safe Defaults Principle" section - lessons from draft default disaster
+- "Self-Sufficient Local Files" section - image downloading pattern with smart caching, deduplication, and sidecar tracking
 -->
 
 *The difference between AI-assisted coding that works once and AI-assisted coding that works reliably comes down to documented practices, defensive patterns, and systematic safeguards. This article presents the best practices I've developed through months of production synthesis coding work.*
@@ -406,6 +410,250 @@ AI assistants often invent custom solutions when established conventions exist. 
 - Other tools expect these patterns
 - Future developers (human or AI) will understand conventional structures
 - Debugging is easier when patterns are familiar
+
+### The "Safe Defaults" Principle
+
+Default behaviors should match user expectations for the common case. Getting defaults wrong can cause widespread damage before anyone notices.
+
+**Real-World Example: The Draft Default Disaster**
+
+A content publishing tool defaulted to `status: draft` when publishing to WordPress. This seemed "safe" — better to create a draft than accidentally publish something, right?
+
+Wrong. Here's what happened:
+
+1. User fetches existing published article to make edits locally
+2. User makes edits and publishes back to WordPress
+3. Tool creates draft (because that's the default)
+4. WordPress automatically unpublishes the live article
+5. User doesn't notice until readers report broken links
+6. Multiple articles unpublished before the pattern was recognized
+
+**The Lesson**
+
+The "safe" default wasn't safe at all. The common workflow is:
+- Fetch published article → edit → publish back
+
+In this workflow, the user expects the article to remain published. Defaulting to `draft` breaks this expectation silently.
+
+**The Fix**
+
+```javascript
+// Default to 'publish' - matches user intent for the common case
+const status = options.status || 'publish';
+```
+
+**CLAUDE.md Guidance for Defaults**
+
+```markdown
+### Default Behavior Principle
+
+Defaults should match user expectations for the COMMON case, not the edge case.
+
+Ask: "What does a user doing the normal workflow expect to happen?"
+
+- If users normally want published content to stay published: default to 'publish'
+- If users normally want to update existing resources: auto-detect and update
+- If users normally want local files to be self-sufficient: download assets by default
+
+The "safer" choice isn't always safer. A default that causes silent failures in the common case is more dangerous than one that causes obvious failures in edge cases.
+```
+
+### Self-Sufficient Local Files: The Asset Download Pattern
+
+When fetching content from remote systems, local files should be self-sufficient — they should work without network access and without depending on the remote system.
+
+**The Problem**
+
+Many content sync tools fetch article text but leave images as remote URLs:
+
+```markdown
+![Photo](https://cdn.example.com/uploads/photo.jpg?resize=800x600)
+```
+
+This creates problems:
+- Local preview requires network access
+- If the CDN changes URLs, local files break
+- You don't truly "own" your content — you depend on the remote host
+- Testing is unreliable (works online, fails offline)
+
+**The Solution: Download and Rewrite**
+
+When fetching content:
+1. **Extract all image URLs** from the content
+2. **Download images** to a local directory (co-located with the content)
+3. **Rewrite URLs** to local relative paths
+4. **Track the mapping** in a sidecar file
+
+**Before:**
+```markdown
+![Photo](https://cdn.example.com/uploads/photo.jpg?resize=800x600)
+```
+
+**After:**
+```markdown
+![Photo](./photo.jpg)
+```
+
+**Smart Caching: Don't Re-Download Unchanged Files**
+
+Implement caching to avoid unnecessary downloads:
+
+```javascript
+async function downloadIfNeeded(url, localPath) {
+  if (fs.existsSync(localPath)) {
+    // Compare local file size with remote Content-Length
+    const localSize = fs.statSync(localPath).size;
+    const remoteHeaders = await getRemoteHeaders(url);
+
+    if (remoteHeaders.contentLength === localSize) {
+      console.log(`Unchanged: ${localPath}`);
+      return { skipped: true };
+    }
+  }
+
+  // Download the file
+  return downloadFile(url, localPath);
+}
+```
+
+**Size Deduplication: Handle CDN Size Variants**
+
+WordPress and Jetpack CDN serve the same image at multiple sizes via query parameters:
+
+```
+image.jpg?resize=1024x1024
+image.jpg?resize=300x300
+image.jpg?w=800
+image.jpg?fit=600x400
+```
+
+These are all the same image at different sizes. Download only the highest quality version:
+
+```javascript
+function deduplicateImageUrls(urls) {
+  // Group URLs by base path (without query params)
+  const groups = {};
+  for (const url of urls) {
+    const baseKey = getBaseUrl(url); // Strip query params
+    if (!groups[baseKey]) groups[baseKey] = [];
+    groups[baseKey].push(url);
+  }
+
+  // For each group, pick highest quality version
+  return Object.values(groups).map(variants => {
+    return variants.reduce((best, url) => {
+      return getQualityScore(url) > getQualityScore(best) ? url : best;
+    });
+  });
+}
+
+function getQualityScore(url) {
+  // Parse size from query params
+  const match = url.match(/[?&](resize|fit)=(\d+)[x%2C](\d+)/i);
+  if (match) return parseInt(match[2]) * parseInt(match[3]);
+
+  // No size info = probably original (highest quality)
+  return Number.MAX_SAFE_INTEGER;
+}
+```
+
+**URL Rewriting: Match by Base Path**
+
+When rewriting URLs in content, match by base path so ALL size variants get replaced:
+
+```javascript
+function rewriteImageUrls(markdown, urlToLocalMap) {
+  // Build map of base paths to local files
+  const baseToLocal = {};
+  for (const [originalUrl, localFile] of Object.entries(urlToLocalMap)) {
+    baseToLocal[getBaseUrl(originalUrl)] = localFile;
+  }
+
+  // Replace URLs by matching base path
+  return markdown.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, url) => {
+    const baseUrl = getBaseUrl(url);
+    if (baseToLocal[baseUrl]) {
+      return `![${alt}](./${baseToLocal[baseUrl]})`;
+    }
+    return match;
+  });
+}
+```
+
+**Don't Forget Front Matter**
+
+The `featured_image` in front matter also needs rewriting:
+
+```yaml
+# Before
+featured_image: "https://cdn.example.com/uploads/hero.jpg?fit=1200x630"
+
+# After
+featured_image: "./hero.jpg"
+```
+
+**Sidecar Tracking: Enable Bidirectional Sync**
+
+Create a sidecar file (e.g., `index.images.json`) tracking the mapping:
+
+```json
+{
+  "images": [
+    {
+      "originalUrl": "https://cdn.example.com/uploads/photo.jpg?w=1024",
+      "localFile": "photo.jpg"
+    }
+  ]
+}
+```
+
+This serves two purposes:
+1. **Fetch**: Know which images have already been downloaded
+2. **Publish**: Know which remote URLs correspond to local files (don't re-upload)
+
+**The Complete Pattern**
+
+```javascript
+async function fetchWithImages(articleUrl, outputDir) {
+  // 1. Fetch article content
+  const { content, metadata } = await fetchArticle(articleUrl);
+
+  // 2. Extract image URLs from content
+  const imageUrls = extractImageUrls(content);
+
+  // 3. Deduplicate (pick highest quality versions)
+  const uniqueUrls = deduplicateImageUrls(imageUrls);
+
+  // 4. Download images (with smart caching)
+  const urlToLocal = {};
+  for (const url of uniqueUrls) {
+    const filename = urlToFilename(url);
+    const result = await downloadIfNeeded(url, path.join(outputDir, filename));
+    urlToLocal[url] = filename;
+  }
+
+  // 5. Rewrite URLs in content
+  const rewrittenContent = rewriteImageUrls(content, urlToLocal);
+
+  // 6. Rewrite URLs in front matter (featured_image, etc.)
+  const rewrittenMetadata = rewriteImageUrls(metadata, urlToLocal);
+
+  // 7. Save sidecar tracking file
+  saveSidecar(outputDir, urlToLocal);
+
+  // 8. Save article with local image paths
+  saveArticle(outputDir, rewrittenContent, rewrittenMetadata);
+}
+```
+
+**Why This Matters**
+
+With this pattern:
+- Local files are completely self-sufficient
+- Local preview works offline
+- You truly own your content (images and all)
+- Publishing back uses the sidecar to avoid re-uploading
+- Future migrations are possible because you have all assets locally
 
 ---
 

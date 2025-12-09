@@ -867,6 +867,13 @@ function build() {
       }
 
       warnings.forEach(w => console.log(`    ⚠️  ${w}`));
+
+      // Skip draft articles
+      if (article.frontMatter.status === 'draft') {
+        console.log(`    ⏸️  Skipping draft article`);
+        continue;
+      }
+
       articles.push(article);
 
       // Collect stats

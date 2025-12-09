@@ -150,24 +150,5 @@
     "date": "2025-12-07",
     "readingTime": 10,
     "excerpt": "What separates synthesis coding from vibe coding isn&#39;t the tools — it&#39;s the decisions. This technical case study walks through the architectural choices, implementation patterns, and verification strategies behind a real open-source project. I wrote this article for software engineers, architects, and technical leads who want to see synthesis coding applied to a complete project — not just isolated code snippets. If you&#39;ve read my previous articles on synthesis coding methodology or "
-  },
-  {
-    "title": "Synthesis Coding Best Practices: Lessons from Production Workflows",
-    "slug": "synthesis-coding-best-practices-lessons-from-production-workflows",
-    "description": "A practical guide to CLAUDE.md configuration, defensive coding patterns, and workflow safeguards developed through real-world synthesis coding projects.",
-    "category": "Best practices",
-    "tags": [
-      "artificial intelligence",
-      "Claude Code",
-      "ctobook",
-      "programming",
-      "software engineering",
-      "synthesis coding",
-      "synthesis engineering",
-      "best practices"
-    ],
-    "date": "2025-12-08",
-    "readingTime": 12,
-    "excerpt": "The difference between AI-assisted coding that works once and AI-assisted coding that works reliably comes down to documented practices, defensive patterns, and systematic safeguards. This article presents the best practices I&#39;ve developed through months of production synthesis coding work. Introduction [TODO: Write introduction - 2-3 paragraphs] Key points to hit: Best practices emerge from real production work, not theory These practices have been refined through iteration on multiple proj"
   }
 ]

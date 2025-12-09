@@ -137,14 +137,16 @@ This site publishes to both:
 
 ### Publishing to WordPress
 
-**Recommended: Use ownwords publish (with safeguards)**
+The ownwords tool defaults to `publish` status, so posts are published (not drafted) by default.
+
+**Recommended workflow:**
 
 ```bash
 # Always preview first
 node ~/projects/my-projects/ownwords/bin/ownwords.js publish ./content/posts/2025/12/07-your-slug/index.md --dryrun
 
 # Verify the dry-run output shows:
-# - "UPDATE existing post" (not "CREATE new post")
+# - "UPDATE existing post" (not "CREATE new post") for updates
 # - "Would upload: 0" for images (if images already uploaded)
 # - Correct post_id matches what's in front matter
 
