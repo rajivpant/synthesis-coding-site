@@ -92,6 +92,11 @@ Recent additions (2025-12-09):
 - "The Data Contract Pattern" section - ensuring consistency across bidirectional operations
 - "The Precedent Pattern" section - teaching AI to learn from existing code
 - Reframed sections to focus on CLAUDE.md guidance over implementation details
+
+Recent additions (2025-12-09, later):
+- Originally included "Bidirectional Learning" and "Testing Patterns" sections (Parts 6-7)
+- These were split into a separate article: "Bidirectional Learning in Synthesis Coding"
+- This article now focuses on CLAUDE.md, defensive patterns, and workflow safeguards
 -->
 
 *The difference between AI-assisted coding that works once and AI-assisted coding that works reliably comes down to documented practices, defensive patterns, and systematic safeguards. This article presents the best practices I've developed through months of production synthesis coding work.*
@@ -108,6 +113,8 @@ This article covers three categories of best practices:
 1. **CLAUDE.md architecture** — How to structure configuration files that guide AI behavior
 2. **Defensive patterns** — Technical safeguards that prevent common failure modes
 3. **Workflow safeguards** — Human-in-the-loop processes that catch mistakes before they propagate
+
+For the companion topic of bidirectional learning — where both human and AI teach each other — see [Bidirectional Learning in Synthesis Coding](/blog/2025/12/09/bidirectional-learning-in-synthesis-coding/).
 
 ---
 
@@ -1435,9 +1442,9 @@ curl -s "https://api.example.com/resource/123" | jq '.field'
 
 ## Part Six: The Synthesis Coding Mindset
 
-### Prevention Over Detection
+> **Note**: The topics of bidirectional learning and testing patterns have their own dedicated article: [Bidirectional Learning in Synthesis Coding](/blog/2025/12/09/bidirectional-learning-in-synthesis-coding/). That article covers the Socratic Synthesis Model, verification questions, the "What Am I Missing?" pattern, and comprehensive testing discipline for AI-generated code.
 
-[TODO: Expand this section]
+### Prevention Over Detection
 
 The best safeguards prevent problems rather than detecting them after the fact:
 
@@ -1452,8 +1459,6 @@ The best safeguards prevent problems rather than detecting them after the fact:
 
 ### Explicit Over Implicit
 
-[TODO: Expand this section]
-
 Make decisions and their rationale visible:
 
 - Document the decision framework in CLAUDE.md
@@ -1463,8 +1468,6 @@ Make decisions and their rationale visible:
 
 ### Compound Reliability
 
-[TODO: Expand this section]
-
 Individual safeguards combine multiplicatively:
 
 1. CLAUDE.md encodes standards → fewer incorrect implementations
@@ -1472,6 +1475,7 @@ Individual safeguards combine multiplicatively:
 3. Sidecar files maintain state → fewer duplicate operations
 4. Checklists ensure nothing is skipped → fewer oversights
 5. Orthogonal verification catches bugs → fewer silent failures
+6. **[Bidirectional learning](/blog/2025/12/09/bidirectional-learning-in-synthesis-coding/) catches blind spots → fewer unknown unknowns**
 
 Each layer catches what previous layers missed. The combination produces reliability that no single safeguard could achieve.
 

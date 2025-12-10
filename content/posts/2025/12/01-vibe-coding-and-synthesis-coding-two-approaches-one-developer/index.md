@@ -1,7 +1,7 @@
 ---
 title: "Vibe Coding and Synthesis Coding: Two Complementary Approaches"
 slug: "vibe-coding-and-synthesis-coding-two-approaches-one-developer"
-date: "2025-12-01"
+date: "2025-12-01T21:57:49"
 description: "Why the conversation isn't about which approach is better — it's about knowing when to use each This blog post is for software engineers, engineering leaders, and anyone interested in AI-assisted development. Since publishing my series on Synthesis Coding, I've received a recurring question: \"How do"
 canonical_url: "https://rajiv.com/blog/2025/12/01/vibe-coding-and-synthesis-coding-two-approaches-one-developer/"
 categories:

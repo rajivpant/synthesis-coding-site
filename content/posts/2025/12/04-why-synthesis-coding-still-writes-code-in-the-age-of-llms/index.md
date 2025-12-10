@@ -1,7 +1,7 @@
 ---
 title: "Why Synthesis Coding Still Writes Code in the Age of LLMs"
 slug: "why-synthesis-coding-still-writes-code-in-the-age-of-llms"
-date: "2025-12-04"
+date: "2025-12-04T23:34:13"
 description: "The answer is not \"just let the model do it\" — and code matters more, not less, as AI gets dramatically better Last spring, my son Fitz and I had an afternoon math duel. He was twelve at the time. Sharp. Competitive. He took on the puzzle the traditional way — paper, pencil, and focused [...]"
 canonical_url: "https://rajiv.com/blog/2025/12/04/why-synthesis-coding-still-writes-code-in-the-age-of-llms/"
 categories:

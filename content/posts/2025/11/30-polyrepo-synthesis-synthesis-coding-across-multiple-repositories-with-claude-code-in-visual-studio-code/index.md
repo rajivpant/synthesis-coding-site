@@ -1,8 +1,8 @@
 ---
 title: 'Polyrepo Synthesis: Synthesis Coding Across Multiple Repositories with Claude Code in Visual Studio Code'
 slug: polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code
-date: '2025-11-30'
-modified: '2025-12-08'
+date: '2025-11-30T23:57:42'
+modified: '2025-12-08T22:20:38'
 description: 'I wrote this blog post for Software Engineers, Architects, and Technical Leads. It is code-heavy and implementation-focused. This weekend I was working across three repositories simultaneously in Visual Studio Code. I worked on RagBot — a multi-LLM chatbot that lets you switch between OpenAI, Anthro'
 canonical_url: 'https://rajiv.com/blog/2025/11/30/polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code/'
 categories:
@@ -33,7 +33,7 @@ wordpress:
     - 727048733
     - 727048736
   author_id: 918046
-  synced_at: '2025-12-09T03:20:39.621Z'
+  synced_at: '2025-12-10T04:10:37.004Z'
 ---
 
 I wrote this blog post for Software Engineers, Architects, and Technical Leads. It is code-heavy and implementation-focused.
@@ -132,7 +132,7 @@ Here’s how I structure the CLAUDE.md files in my three-repository setup:
 
 ### The repository ecosystem table
 
-Every CLAUDE.md starts with the same table, ensuring Claude Code always knows the landscape:
+Every CLAUDE.md starts with the same table, giving Claude Code a consistent view of the repository ecosystem:
 
 ```markdown
 ## Repository Ecosystem
@@ -259,6 +259,163 @@ When both products need updates:
 4.  Tag releases across repositories with related version numbers
 
 Claude Code can help maintain this coordination: “Generate release notes for this change across all three repositories.”
+
+## The many-to-many dependency model
+
+Not all multi-repository relationships are simple. Consider shared libraries consumed by multiple services, where the same code might need to live in different repositories depending on its consumers and deployment model.
+
+**The problem**: AI assistants assume a simple mapping — one function equals one obvious location. They see a utility function and assume it goes in whatever repo you're currently working in.
+
+But real architectures are more complex. I maintain a media analytics platform across several repositories:
+
+- `media-graph-core/` — shared types and utilities used by ALL services
+- `media-graph-api/` — REST API for external consumers
+- `media-graph-ingest/` — data ingestion pipeline, also exposes internal API
+
+When I ask Claude Code to "add a date parsing utility," where should it go?
+
+**Example: Shared library architecture**
+
+```text
+media-graph-core/               # Shared across ALL services:
+├── src/
+│   ├── types/                  #   - Type definitions
+│   ├── utils/                  #   - Common utilities
+│   └── validators/             #   - Shared validation logic
+
+media-graph-api/                # External API service:
+├── src/
+│   ├── routes/                 #   - API endpoints
+│   └── services/               #   - API-specific business logic
+│       └── date-formatter.ts   #   - API-specific date formatting
+
+media-graph-ingest/             # Ingestion pipeline:
+├── src/
+│   ├── parsers/                #   - Data parsers
+│   └── transforms/             #   - Pipeline-specific transforms
+│       └── date-normalizer.ts  #   - Ingestion-specific date handling
+```
+
+Three repositories, all dealing with dates. But:
+
+- `media-graph-core/` has general date utilities used everywhere
+- `media-graph-api/` has API-specific formatters for external responses
+- `media-graph-ingest/` has pipeline-specific normalizers for ingested data
+
+**The catastrophic mistake**
+
+When asked to "add a date parsing function," an AI assistant will:
+
+1. See you're working in `media-graph-api/`
+2. Put the function there
+3. Duplicate logic that should be shared
+
+Now you have three date parsers, each slightly different. Bugs get fixed in one but not others. The shared library exists precisely to prevent this — but the AI doesn't know your architectural intent.
+
+**CLAUDE.md solution: Document the dependency model**
+
+Each repository's CLAUDE.md must explicitly document what belongs where:
+
+```markdown
+## What Belongs Here vs. Shared Libraries
+
+**This repository contains API-specific code only.**
+
+Before adding utilities, check:
+- Is this logic needed by other services? → Put it in `media-graph-core/`
+- Is this specific to API response formatting? → Put it here
+- Is this specific to data ingestion? → Put it in `media-graph-ingest/`
+
+**The `media-graph-core/` repository is the source of truth for:**
+- Type definitions shared across services
+- Date/time utilities
+- Validation logic
+- Error types and handling
+
+**You CANNOT determine the right location from the code alone.** When in doubt, ASK.
+```
+
+**The corresponding rule in the shared library's CLAUDE.md**
+
+The shared library documents what it provides and how services should consume it:
+
+```markdown
+## Adding New Utilities
+
+**When asked to add shared functionality, verify:**
+
+1. **Is this truly shared?** — Will multiple services use it?
+2. **Check existing utilities** — We may already have something similar
+3. **Follow the type-first pattern** — Define types before implementation
+4. **Update the barrel exports** — New utilities must be exported from index.ts
+
+**Why This Matters:**
+- Duplicate utilities across services cause maintenance nightmares
+- Type definitions here are the contract between services
+- Changes here affect all consumers — be careful with breaking changes
+```
+
+## Open source tools in multi-repo workflows
+
+When a tool repository is open source, its CLAUDE.md must work for ALL users, not just you. This seems obvious but is consistently violated.
+
+**What goes wrong**
+
+A developer adds project-specific information to an open source tool's CLAUDE.md:
+
+```markdown
+## Known Projects
+
+| Project | Path |
+|---------|------|
+| media-graph-core | `/Users/rajiv/projects/media-graph-core/` |
+| media-graph-api | `/Users/rajiv/projects/media-graph-api/` |
+```
+
+This is useless (or actively harmful) for:
+
+- Other users who don't have these projects
+- Contributors trying to understand the tool
+- The same developer on a different machine with a different username
+
+**The solution: Separation of concerns**
+
+```text
+Tool repo (public, open source):
+└── CLAUDE.md           # Generic: how to use the tool,
+                        # general patterns, no user paths
+
+User's project repos (may be public or private):
+└── CLAUDE.md           # Specific: this project's structure,
+                        # dependency model, conventions
+
+User's global config (private):
+└── ~/.claude/CLAUDE.md # Personal: cross-project standards,
+                        # quality attributes, prohibited behaviors
+```
+
+**Open source CLAUDE.md should contain:**
+
+- How to use the tool
+- Development/contribution guidelines
+- General best practices (check structure first, ask user, etc.)
+- Project architecture
+- No hardcoded paths
+- No user-specific projects or configurations
+- No assumptions about the user's setup
+
+**The "read target project's CLAUDE.md" pattern**
+
+Instead of encoding user-specific information, the tool's CLAUDE.md says:
+
+```markdown
+**Before operating on a target project:**
+1. Read the target project's CLAUDE.md if it exists
+2. Check the project's existing structure
+3. Ask the user if anything is unclear
+```
+
+This delegates project-specific knowledge to where it belongs while keeping the tool generic. The AI reads all relevant CLAUDE.md files and combines the guidance — tool conventions from the tool repo, project-specific rules from the project repo, and personal standards from the global config.
 
 ## Anti-patterns to avoid
 
@@ -429,153 +586,6 @@ Verify directory before git commands:
 cd ~/path/to/[repo-name]
 ```
 ~~~
-
-## Advanced patterns
-
-As I've worked with polyrepo synthesis on more complex projects, I've encountered patterns that go beyond the basic hub-and-spoke model. These lessons emerged from real production incidents and have been encoded into CLAUDE.md files to prevent recurrence.
-
-### The many-to-many publishing model
-
-Not all multi-repository relationships are simple. Consider content workflows where the same article might be published to multiple destinations, managed in different local repositories based on topic rather than URL.
-
-**The problem**: AI assistants assume a simple mapping — one URL equals one local folder. They see an article at `https://example.com/article/` and assume it goes in the `example-site/` folder.
-
-But real workflows are more complex:
-
-- An article on `rajiv.com` might ALSO be published to `synthesiscoding.com`
-- The local folder isn't determined by where the article lives, but by WHERE ELSE it will be published
-- The same WordPress site might have articles managed in different local repositories based on topic
-
-**Example: Dual-publishing workflow**
-
-```text
-synthesis-coding-site/          # Articles dual-published to:
-├── content/posts/              #   - rajiv.com (WordPress)
-│   └── 2025/12/07-article/     #   - synthesiscoding.com (Cloudflare)
-│       └── index.md
-
-rajiv-site/                     # Articles published ONLY to:
-├── content/posts/              #   - rajiv.com (WordPress)
-│   └── 2025/12/07-other/       #   NOT dual-published elsewhere
-│       └── index.md
-```
-
-Both repositories contain articles that appear on `rajiv.com`. But:
-
-- `synthesis-coding-site/` manages articles about Synthesis Coding → dual-published
-- `rajiv-site/` manages other rajiv.com articles → single destination
-
-**The catastrophic mistake**
-
-When asked to "fetch this article from rajiv.com," an AI assistant will:
-
-1. See the URL is `rajiv.com`
-2. Assume it goes in `rajiv-site/`
-3. Fetch it to the wrong location
-
-If the article is about Synthesis Coding, it now exists in the wrong repo. Publishing workflows break. Git history is polluted. The user has to manually fix the mess.
-
-**CLAUDE.md solution: Document the publishing model**
-
-Each repository's CLAUDE.md must explicitly document what it manages:
-
-```markdown
-## What Belongs Here (Many-to-Many Publishing)
-
-**This repository manages articles dual-published to BOTH rajiv.com AND synthesiscoding.com.**
-
-Articles here are:
-- Published to WordPress (rajiv.com) via ownwords
-- Published to Cloudflare Pages (synthesiscoding.com) via git push
-- Canonical URL points to rajiv.com
-
-**Non-synthesis-coding articles that only appear on rajiv.com belong in `rajiv-site/`, not here.**
-
-**You CANNOT determine this from the URL alone.** When in doubt, ASK the user.
-```
-
-**The corresponding rule in the tool's CLAUDE.md**
-
-The tool (like a content management CLI) should have generic instructions that defer to the target site:
-
-```markdown
-## Fetching Articles
-
-**When asked to fetch an article, you MUST:**
-
-1. **ASK the user which local directory** the article should go to — never assume
-2. **Check the target site's existing structure** before fetching
-3. **Read the target site's CLAUDE.md** if it exists — it documents the publishing model
-4. **Use the appropriate flags** based on what you learned
-
-**Why ASK First?**
-- Users may have multiple local repos for different purposes
-- The source URL does NOT determine the target folder — the user's intent does
-- Articles can be published to multiple sites (many-to-many publishing)
-- Only the user knows their content organization
-```
-
-### Open source tools in multi-repo workflows
-
-When a tool repository is open source, its CLAUDE.md must work for ALL users, not just you. This seems obvious but is consistently violated.
-
-**What goes wrong**
-
-A developer adds site-specific information to an open source tool's CLAUDE.md:
-
-```markdown
-## Known Sites
-
-| Site | Path |
-|------|------|
-| rajiv-site | `/Users/rajiv/projects/rajiv-site/` |
-| synthesis-coding-site | `/Users/rajiv/projects/synthesis-coding-site/` |
-```
-
-This is useless (or actively harmful) for:
-
-- Other users who don't have these sites
-- Contributors trying to understand the project
-- The same developer on a different machine with a different username
-
-**The solution: Separation of concerns**
-
-```text
-Tool repo (public, open source):
-└── CLAUDE.md           # Generic: how to use the tool,
-                        # general patterns, no user paths
-
-User's site repos (may be public or private):
-└── CLAUDE.md           # Specific: this site's structure,
-                        # publishing model, conventions
-
-User's global config (private):
-└── ~/.claude/CLAUDE.md # Personal: cross-project standards,
-                        # quality attributes, prohibited behaviors
-```
-
-**Open source CLAUDE.md should contain:**
-
-- How to use the tool
-- Development/contribution guidelines
-- General best practices (check structure first, ask user, etc.)
-- Project architecture
-- No hardcoded paths
-- No user-specific sites or configurations
-- No assumptions about the user's setup
-
-**The "read target site's CLAUDE.md" pattern**
-
-Instead of encoding user-specific information, the tool's CLAUDE.md says:
-
-```markdown
-**Before operating on a target site:**
-1. Read the target site's CLAUDE.md if it exists
-2. Check the site's existing structure
-3. Ask the user if anything is unclear
-```
-
-This delegates site-specific knowledge to where it belongs while keeping the tool generic. The AI reads all relevant CLAUDE.md files and combines the guidance — tool conventions from the tool repo, site-specific rules from the site repo, and personal standards from the global config.
 
 ## The architectural advantage
 

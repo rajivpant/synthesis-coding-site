@@ -5,14 +5,22 @@
     <link>https://synthesiscoding.com</link>
     <description>Articles on Synthesis Coding methodology for AI-assisted professional software development.</description>
     <language>en-us</language>
-    <lastBuildDate>Tue, 09 Dec 2025 03:58:43 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 10 Dec 2025 04:10:41 GMT</lastBuildDate>
     <atom:link href="https://synthesiscoding.com/feed.xml" rel="self" type="application/rss+xml"/>
 
+    <item>
+      <title><![CDATA[Scaling Synthesis Coding in Your Organization]]></title>
+      <link>https://synthesiscoding.com/articles/scaling-synthesis-coding-in-your-organization/</link>
+      <guid isPermaLink="true">https://synthesiscoding.com/articles/scaling-synthesis-coding-in-your-organization/</guid>
+      <pubDate>Wed, 10 Dec 2025 03:00:00 GMT</pubDate>
+      <description>A practical guide for CTOs and engineering leaders: cost analysis, team rollout strategy, training curriculum, and metrics for adopting synthesis coding at scale.</description>
+      <category>Leadership guide</category>
+    </item>
     <item>
       <title><![CDATA[Building ownwords: A Synthesis Coding Case Study]]></title>
       <link>https://synthesiscoding.com/articles/building-ownwords-a-synthesis-coding-case-study/</link>
       <guid isPermaLink="true">https://synthesiscoding.com/articles/building-ownwords-a-synthesis-coding-case-study/</guid>
-      <pubDate>Sun, 07 Dec 2025 00:00:00 GMT</pubDate>
+      <pubDate>Sun, 07 Dec 2025 16:47:14 GMT</pubDate>
       <description>What separates synthesis coding from vibe coding isn't the tools — it's the decisions. This technical case study walks through the architectural choices, implementation patterns, and verification strategies behind a real open-source project.</description>
       <category>Case study</category>
     </item>
@@ -20,7 +28,7 @@
       <title><![CDATA[Why Synthesis Coding Still Writes Code in the Age of LLMs]]></title>
       <link>https://synthesiscoding.com/articles/why-synthesis-coding-still-writes-code-in-the-age-of-llms/</link>
       <guid isPermaLink="true">https://synthesiscoding.com/articles/why-synthesis-coding-still-writes-code-in-the-age-of-llms/</guid>
-      <pubDate>Thu, 04 Dec 2025 00:00:00 GMT</pubDate>
+      <pubDate>Fri, 05 Dec 2025 04:34:13 GMT</pubDate>
       <description>The answer is not "just let the model do it" — and code matters more, not less, as AI gets dramatically better Last spring, my son Fitz and I had an afternoon math duel. He was twelve at the time. Sharp. Competitive. He took on the puzzle the traditional way — paper, pencil, and focused [...]</description>
       <category>Philosophical foundation</category>
     </item>
@@ -28,7 +36,7 @@
       <title><![CDATA[Vibe Coding and Synthesis Coding: Two Complementary Approaches]]></title>
       <link>https://synthesiscoding.com/articles/vibe-coding-and-synthesis-coding-two-approaches-one-developer/</link>
       <guid isPermaLink="true">https://synthesiscoding.com/articles/vibe-coding-and-synthesis-coding-two-approaches-one-developer/</guid>
-      <pubDate>Mon, 01 Dec 2025 00:00:00 GMT</pubDate>
+      <pubDate>Tue, 02 Dec 2025 02:57:49 GMT</pubDate>
       <description>Why the conversation isn't about which approach is better — it's about knowing when to use each This blog post is for software engineers, engineering leaders, and anyone interested in AI-assisted development. Since publishing my series on Synthesis Coding, I've received a recurring question: "How do</description>
       <category>Comparison and guidance</category>
     </item>
@@ -36,7 +44,7 @@
       <title><![CDATA[Polyrepo Synthesis: Synthesis Coding Across Multiple Repositories with Claude Code in Visual Studio Code]]></title>
       <link>https://synthesiscoding.com/articles/polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code/</link>
       <guid isPermaLink="true">https://synthesiscoding.com/articles/polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code/</guid>
-      <pubDate>Sun, 30 Nov 2025 00:00:00 GMT</pubDate>
+      <pubDate>Mon, 01 Dec 2025 04:57:42 GMT</pubDate>
       <description>I wrote this blog post for Software Engineers, Architects, and Technical Leads. It is code-heavy and implementation-focused. This weekend I was working across three repositories simultaneously in Visual Studio Code. I worked on RagBot — a multi-LLM chatbot that lets you switch between OpenAI, Anthro</description>
       <category>Advanced patterns</category>
     </item>
@@ -44,23 +52,15 @@
       <title><![CDATA[Seventeen years ago, I built a tool for the open Web. This weekend, I modernized it using Synthesis Coding with Claude Code AI]]></title>
       <link>https://synthesiscoding.com/articles/seventeen-years-ago-i-built-a-tool-for-the-open-web-this-weekend-i-modernized-it-using-synthesis-coding-with-claude-code-ai/</link>
       <guid isPermaLink="true">https://synthesiscoding.com/articles/seventeen-years-ago-i-built-a-tool-for-the-open-web-this-weekend-i-modernized-it-using-synthesis-coding-with-claude-code-ai/</guid>
-      <pubDate>Sat, 29 Nov 2025 00:00:00 GMT</pubDate>
+      <pubDate>Sat, 29 Nov 2025 20:58:21 GMT</pubDate>
       <description>In 2008, I released a WordPress plugin called Blogroll Links. The plugin displayed lists of links on WordPress pages using a shortcode. But the idea behind it was more ambitious than the implementation might suggest. I built Blogroll Links because I believed people should control their own online pr</description>
       <category>Case study</category>
-    </item>
-    <item>
-      <title><![CDATA[Synthesis Engineering: The Professional Practice Emerging in AI-Assisted Development]]></title>
-      <link>https://synthesiscoding.com/articles/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/</link>
-      <guid isPermaLink="true">https://synthesiscoding.com/articles/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/</guid>
-      <pubDate>Sun, 09 Nov 2025 00:00:00 GMT</pubDate>
-      <description>Why the most effective engineering organizations are developing systematic approaches that go beyond vibe coding — and why this practice needs a name This blog post is for CTOs, Engineering Leaders, Technical Executives. I've also written it be accessible to non-technical readers. I've had the same </description>
-      <category>Foundation</category>
     </item>
     <item>
       <title><![CDATA[Synthesis Coding with Claude Code: Technical Implementation and Workflows]]></title>
       <link>https://synthesiscoding.com/articles/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/</link>
       <guid isPermaLink="true">https://synthesiscoding.com/articles/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/</guid>
-      <pubDate>Sun, 09 Nov 2025 00:00:00 GMT</pubDate>
+      <pubDate>Mon, 10 Nov 2025 00:39:00 GMT</pubDate>
       <description>A hands-on guide to practicing Synthesis Coding (a.k.a. Synthesis Engineering) with concrete examples, real workflows, and lessons from production systems I wrote this blog post for Software Engineers, Architects, and Technical Leads. This one is code-heavy and implementation-focused. In the first t</description>
       <category>Technical guide</category>
     </item>
@@ -68,9 +68,17 @@
       <title><![CDATA[The Synthesis Engineering Framework: How Organizations Build Production Software with AI]]></title>
       <link>https://synthesiscoding.com/articles/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/</link>
       <guid isPermaLink="true">https://synthesiscoding.com/articles/the-synthesis-engineering-framework-how-organizations-build-production-software-with-ai/</guid>
-      <pubDate>Sun, 09 Nov 2025 00:00:00 GMT</pubDate>
+      <pubDate>Mon, 10 Nov 2025 00:36:00 GMT</pubDate>
       <description>From individual practice to organizational capability: a systematic approach to human-AI collaboration in professional software development This blog post is for Engineering Leaders, CTOs, and Product Managers. In my previous article, I introduced Synthesis Coding (a.k.a. Synthesis Engineering) — th</description>
       <category>Framework</category>
+    </item>
+    <item>
+      <title><![CDATA[Synthesis Engineering: The Professional Practice Emerging in AI-Assisted Development]]></title>
+      <link>https://synthesiscoding.com/articles/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/</link>
+      <guid isPermaLink="true">https://synthesiscoding.com/articles/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/</guid>
+      <pubDate>Mon, 10 Nov 2025 00:33:00 GMT</pubDate>
+      <description>Why the most effective engineering organizations are developing systematic approaches that go beyond vibe coding — and why this practice needs a name This blog post is for CTOs, Engineering Leaders, Technical Executives. I've also written it be accessible to non-technical readers. I've had the same </description>
+      <category>Foundation</category>
     </item>
   </channel>
 </rss>

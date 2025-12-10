@@ -398,6 +398,15 @@
             content: attr(data-label);
         }
 
+        /* Images in articles */
+        .article-content img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 1.5rem auto;
+            border-radius: 6px;
+        }
+
         .article-content hr {
             border: none;
             border-top: 1px solid var(--gray-lighter);
@@ -410,6 +419,29 @@
 
         .article-content strong {
             font-weight: 600;
+        }
+
+        /* Tables in articles */
+        .article-content table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1.5rem 0;
+        }
+
+        .article-content th,
+        .article-content td {
+            border: 1px solid var(--gray-lighter);
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        .article-content th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .article-content tr:nth-child(even) {
+            background-color: #fafafa;
         }
 
         /* Footer */
@@ -520,7 +552,7 @@
             <div class="article-header">
                 <h1>Building ownwords: A Synthesis Coding Case Study</h1>
                 <div class="article-meta">
-                    <time datetime="2025-12-07">December 6, 2025</time>
+                    <time datetime="2025-12-07T11:47:14">December 7, 2025</time>
                     <span class="separator">·</span>
                     <span>10 min read</span>
                     <span class="separator">·</span>
@@ -838,7 +870,7 @@ function getWordPressSite(siteName) {
     <div class="related-grid">
       <a href="/articles/synthesis-engineering-with-claude-code-technical-implementation-and-workflows/" class="related-card">
         <span class="related-title">Synthesis Coding with Claude Code: Technical Implementation and Workflows</span>
-        <span class="related-meta">14 min read</span>
+        <span class="related-meta">13 min read</span>
       </a>
       <a href="/articles/polyrepo-synthesis-synthesis-coding-across-multiple-repositories-with-claude-code-in-visual-studio-code/" class="related-card">
         <span class="related-title">Polyrepo Synthesis: Synthesis Coding Across Multiple Repositories with Claude Code in Visual Studio Code</span>

@@ -398,6 +398,15 @@
             content: attr(data-label);
         }
 
+        /* Images in articles */
+        .article-content img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 1.5rem auto;
+            border-radius: 6px;
+        }
+
         .article-content hr {
             border: none;
             border-top: 1px solid var(--gray-lighter);
@@ -410,6 +419,29 @@
 
         .article-content strong {
             font-weight: 600;
+        }
+
+        /* Tables in articles */
+        .article-content table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1.5rem 0;
+        }
+
+        .article-content th,
+        .article-content td {
+            border: 1px solid var(--gray-lighter);
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        .article-content th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .article-content tr:nth-child(even) {
+            background-color: #fafafa;
         }
 
         /* Footer */
@@ -520,7 +552,7 @@
             <div class="article-header">
                 <h1>The Synthesis Engineering Framework: How Organizations Build Production Software with AI</h1>
                 <div class="article-meta">
-                    <time datetime="2025-11-09">November 8, 2025</time>
+                    <time datetime="2025-11-09T19:36:00">November 9, 2025</time>
                     <span class="separator">·</span>
                     <span>15 min read</span>
                     <span class="separator">·</span>
@@ -552,7 +584,7 @@
 <p>Engineers decide technology stack and framework choices, system boundaries and component interactions, data modeling and database architecture, integration patterns with existing systems, security models and authentication approaches, and scaling strategies and performance targets.</p>
 <p>AI implements components within the chosen architecture, integration code following specified patterns, database queries optimized for the chosen schema, API endpoints conforming to established conventions, and tests validating the architectural decisions.</p>
 <p>I watched this play out recently when a team built a recommendation engine. The engineer made these architectural decisions: use PostgreSQL for transactional data with Redis for real-time cache, separate read and write paths for different scaling characteristics, batch processing for model updates with streaming for real-time serving, and specific service communication protocols.</p>
-<p>Then they leveraged AI to implement each component rapidly within these constraints. The result: a coherent system that multiple engineers could understand and extend, built 50% faster than traditional approaches.</p>
+<p>Then they used AI to implement each component rapidly within these constraints. The result: a coherent system that multiple engineers could understand and extend, built 50% faster than traditional approaches.</p>
 <p>When architectural authority remains human, codebases stay comprehensible. Multiple engineers can collaborate effectively. Technical debt doesn’t accumulate from inconsistent AI-generated patterns. System evolution remains intentional rather than emergent chaos.</p>
 <h3>Pillar 2: Systematic Quality Standards</h3>
 <p>Apply the same quality standards to AI-generated code as human-written code. But evolve how you achieve those standards.</p>
@@ -682,7 +714,7 @@
 <p>Synthesis engineering is an emerging practice, not a finished methodology. Organizations implementing it are discovering new patterns, tools, and approaches continuously.</p>
 <p>In the near term (next 6-12 months), I expect more sophisticated AI-assisted code review and security analysis, better integration of AI into existing development workflows, emergence of organizational standards and best practices, and tool ecosystems designed specifically for synthesis engineering workflows.</p>
 <p>Medium-term (1-3 years), AI will become capable of more sophisticated architectural analysis and recommendations. Organizations with distinct competitive advantages from synthesis engineering mastery will emerge. New software architecture patterns optimized for human-AI collaboration will develop. Educational programs and certifications for synthesis engineering practices will appear.</p>
-<p>The gap between organizations practicing synthesis engineering effectively and those struggling with ad-hoc AI usage will widen. This creates strategic opportunities: competitive velocity through faster feature development while maintaining quality, talent advantages by attracting engineers who want to work with cutting-edge practices, product innovation by enabling features that were previously too expensive, and organizational learning that compounds knowledge advantages over time.</p>
+<p>The gap between organizations practicing synthesis engineering effectively and those struggling with ad-hoc AI usage will widen. This creates strategic opportunities: competitive velocity through faster feature development while maintaining quality, talent advantages by attracting engineers who want to work at the frontier of the practice, product innovation by enabling features that were previously too expensive, and organizational learning that compounds knowledge advantages over time.</p>
 <p>Only systematic implementation delivers these benefits. Ad-hoc adoption creates technical debt faster than traditional development.</p>
 <h2>Getting Started: Practical Next Steps</h2>
 <p>For engineering leaders:</p>
@@ -709,7 +741,7 @@
 <li>Maintain quality standards — velocity without quality destroys value</li>
 <li>View this as strategic capability, not just tooling</li>
 </ol>
-<h2>Conclusion: Building the Future Systematically</h2>
+<h2>Building the future systematically</h2>
 <p>AI is transforming software engineering. Transformation means evolution of practices, not abandonment of engineering principles.</p>
 <p>Synthesis engineering represents that evolution: systematic integration of human expertise with AI capabilities to build better software faster while maintaining the quality, security, and understanding that production systems demand.</p>
 <p>The practice is emerging independently across leading organizations. The challenge now is moving from isolated discovery to shared methodology, from individual practice to organizational capability.</p>

@@ -1,7 +1,7 @@
 ---
 title: "Synthesis Engineering: The Professional Practice Emerging in AI-Assisted Development"
 slug: "synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development"
-date: "2025-11-09"
+date: "2025-11-09T19:33:00"
 modified: "2025-12-01"
 description: "Why the most effective engineering organizations are developing systematic approaches that go beyond vibe coding — and why this practice needs a name This blog post is for CTOs, Engineering Leaders, Technical Executives. I've also written it be accessible to non-technical readers. I've had the same "
 canonical_url: "https://rajiv.com/blog/2025/11/09/synthesis-engineering-the-professional-practice-emerging-in-ai-assisted-development/"

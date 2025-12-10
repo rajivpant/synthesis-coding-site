@@ -1,8 +1,8 @@
 ---
 title: "Seventeen years ago, I built a tool for the open Web. This weekend, I modernized it using Synthesis Coding with Claude Code AI"
 slug: "seventeen-years-ago-i-built-a-tool-for-the-open-web-this-weekend-i-modernized-it-using-synthesis-coding-with-claude-code-ai"
-date: "2025-11-29"
-modified: "2025-12-01"
+date: "2025-11-29T15:58:21"
+modified: "2025-12-06T10:22:37"
 description: "In 2008, I released a WordPress plugin called Blogroll Links. The plugin displayed lists of links on WordPress pages using a shortcode. But the idea behind it was more ambitious than the implementation might suggest. I built Blogroll Links because I believed people should control their own online pr"
 canonical_url: "https://rajiv.com/blog/2025/11/29/seventeen-years-ago-i-built-a-tool-for-the-open-web-this-weekend-i-modernized-it-using-synthesis-coding-with-claude-code-ai/"
 categories:

@@ -1,7 +1,7 @@
 ---
 title: "Building ownwords: A Synthesis Coding Case Study"
 slug: "building-ownwords-a-synthesis-coding-case-study"
-date: "2025-12-07"
+date: "2025-12-07T11:47:14"
 description: "What separates synthesis coding from vibe coding isn't the tools — it's the decisions. This technical case study walks through the architectural choices, implementation patterns, and verification strategies behind a real open-source project."
 canonical_url: "https://rajiv.com/blog/2025/12/07/building-ownwords-a-synthesis-coding-case-study/"
 categories:

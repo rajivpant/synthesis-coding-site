@@ -14,7 +14,7 @@
       "synthesis engineering",
       "vibe coding"
     ],
-    "date": "2025-11-09",
+    "date": "2025-11-09T19:33:00",
     "readingTime": 12,
     "excerpt": "Why the most effective engineering organizations are developing systematic approaches that go beyond vibe coding — and why this practice needs a name This blog post is for CTOs, Engineering Leaders, Technical Executives. I’ve also written it be accessible to non-technical readers. I’ve had the same conversation with CTOs at least two dozen times over the past year. It usually starts with someone asking about our AI-assisted development practices, and within minutes we’re describing nearly identi"
   },
@@ -33,9 +33,9 @@
       "synthesis engineering",
       "vibe coding"
     ],
-    "date": "2025-11-09",
-    "readingTime": 14,
-    "excerpt": "A hands-on guide to practicing synthesis coding — the craft of rigorous AI-assisted development within the synthesis engineering discipline — with concrete examples, real workflows, and lessons from production systems I wrote this blog post for Software Engineers, Architects, and Technical Leads. This one is code-heavy and implementation-focused. In the first two articles of this series, I introduced synthesis engineering as an emerging professional practice and detailed the framework for organi"
+    "date": "2025-11-09T19:39:00",
+    "readingTime": 13,
+    "excerpt": "A hands-on guide to practicing synthesis coding — the craft of rigorous AI-assisted development within the synthesis engineering discipline — with concrete examples, real workflows, and lessons from production systems Claude Code&#39;s minimalist interface belies its power: give it a TODO list and architectural direction, and synthesis coding begins. I wrote this blog post for Software Engineers, Architects, and Technical Leads. This one is code-heavy and implementation-focused. In the first two"
   },
   {
     "title": "The Synthesis Engineering Framework: How Organizations Build Production Software with AI",
@@ -52,7 +52,7 @@
       "synthesis engineering",
       "vibe coding"
     ],
-    "date": "2025-11-09",
+    "date": "2025-11-09T19:36:00",
     "readingTime": 15,
     "excerpt": "From individual practice to organizational capability: a systematic approach to human-AI collaboration in professional software development This blog post is for Engineering Leaders, CTOs, and Product Managers. In my previous article, I introduced synthesis engineering — the discipline of rigorous human-machine collaboration in professional software development. I call the hands-on craft synthesis coding. The response revealed something important: many teams are developing similar practices inde"
   },
@@ -71,7 +71,7 @@
       "synthesis engineering",
       "vibe coding"
     ],
-    "date": "2025-11-29",
+    "date": "2025-11-29T15:58:21",
     "readingTime": 8,
     "excerpt": "In 2008, I released a WordPress plugin called Blogroll Links. The plugin displayed lists of links on WordPress pages using a shortcode. But the idea behind it was more ambitious than the implementation might suggest. I built Blogroll Links because I believed people should control their own online presence. At the time, I was excited about XFN — the XHTML Friends Network — a microformat that let you declare relationships between websites using simple HTML attributes. When you linked to a friend’s"
   },
@@ -90,7 +90,7 @@
       "synthesis engineering",
       "vibe coding"
     ],
-    "date": "2025-11-30",
+    "date": "2025-11-30T23:57:42",
     "readingTime": 12,
     "excerpt": "I wrote this blog post for Software Engineers, Architects, and Technical Leads. It is code-heavy and implementation-focused. This weekend I was working across three repositories simultaneously in Visual Studio Code. I worked on RagBot — a multi-LLM chatbot that lets you switch between OpenAI, Anthropic, Google, and other providers while maintaining conversation history and custom personas — alongside its successor RaGenie, an agentic AI assistant designed to augment human capabilities through re"
   },
@@ -107,7 +107,7 @@
       "synthesis engineering",
       "vibe coding"
     ],
-    "date": "2025-12-01",
+    "date": "2025-12-01T21:57:49",
     "readingTime": 8,
     "excerpt": "Why the conversation isn’t about which approach is better — it’s about knowing when to use each This blog post is for software engineers, engineering leaders, and anyone interested in AI-assisted development. Since publishing my series on synthesis engineering — the discipline of rigorous human-AI collaboration, of which synthesis coding is the hands-on craft — I&#39;ve received a recurring question: &quot;How does synthesis coding differ from vibe coding?&quot; It’s the right question. Both app"
   },
@@ -126,7 +126,7 @@
       "synthesis engineering",
       "vibe coding"
     ],
-    "date": "2025-12-04",
+    "date": "2025-12-04T23:34:13",
     "readingTime": 15,
     "excerpt": "The answer is not “just let the model do it” — and code matters more, not less, as AI gets dramatically better Last spring, my son Fitz and I had an afternoon math duel. He was twelve at the time. Sharp. Competitive. He took on the puzzle the traditional way — paper, pencil, and focused reasoning. I took a different path: I asked a generative AI system to design algorithms, write Python code, and run that code to search systematically for correct solutions. The puzzle itself was one of those con"
   },
@@ -147,8 +147,26 @@
       "ownwords",
       "open source"
     ],
-    "date": "2025-12-07",
+    "date": "2025-12-07T11:47:14",
     "readingTime": 10,
     "excerpt": "What separates synthesis coding from vibe coding isn&#39;t the tools — it&#39;s the decisions. This technical case study walks through the architectural choices, implementation patterns, and verification strategies behind a real open-source project. I wrote this article for software engineers, architects, and technical leads who want to see synthesis coding applied to a complete project — not just isolated code snippets. If you&#39;ve read my previous articles on synthesis coding methodology or "
+  },
+  {
+    "title": "Scaling Synthesis Coding in Your Organization",
+    "slug": "scaling-synthesis-coding-in-your-organization",
+    "description": "A practical guide for CTOs and engineering leaders: cost analysis, team rollout strategy, training curriculum, and metrics for adopting synthesis coding at scale.",
+    "category": "Leadership guide",
+    "tags": [
+      "artificial intelligence",
+      "Claude Code",
+      "ctobook",
+      "engineering leadership",
+      "synthesis coding",
+      "synthesis engineering",
+      "team management"
+    ],
+    "date": "2025-12-09T22:00:00",
+    "readingTime": 10,
+    "excerpt": "A practical guide for CTOs and engineering leaders on bringing synthesis coding to your engineering organization This article expands on organizational considerations I originally included in my Claude Code technical implementation guide. Based on feedback from Guthrie Collin, I&#39;ve moved this content into a dedicated article to better serve engineering leaders who need organizational guidance without wading through implementation details first. If you&#39;re a CTO, VP of Engineering, or Engi"
   }
 ]

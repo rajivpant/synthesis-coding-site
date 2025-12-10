@@ -398,6 +398,15 @@
             content: attr(data-label);
         }
 
+        /* Images in articles */
+        .article-content img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 1.5rem auto;
+            border-radius: 6px;
+        }
+
         .article-content hr {
             border: none;
             border-top: 1px solid var(--gray-lighter);
@@ -410,6 +419,29 @@
 
         .article-content strong {
             font-weight: 600;
+        }
+
+        /* Tables in articles */
+        .article-content table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1.5rem 0;
+        }
+
+        .article-content th,
+        .article-content td {
+            border: 1px solid var(--gray-lighter);
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        .article-content th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .article-content tr:nth-child(even) {
+            background-color: #fafafa;
         }
 
         /* Footer */
@@ -520,9 +552,9 @@
             <div class="article-header">
                 <h1>Synthesis Coding with Claude Code: Technical Implementation and Workflows</h1>
                 <div class="article-meta">
-                    <time datetime="2025-11-09">November 8, 2025</time>
+                    <time datetime="2025-11-09T19:39:00">November 9, 2025</time>
                     <span class="separator">·</span>
-                    <span>14 min read</span>
+                    <span>13 min read</span>
                     <span class="separator">·</span>
                     <a href="/articles/category/technical-guide/" class="category-badge" style="--cat-color: #059669">Technical guide</a>
                 </div>
@@ -530,6 +562,8 @@
 
             <div class="article-content">
                 <p><em>A hands-on guide to practicing <strong><a href="https://synthesiscoding.com/">synthesis coding</a></strong> — the craft of rigorous AI-assisted development within the <strong>synthesis engineering</strong> discipline — with concrete examples, real workflows, and lessons from production systems</em></p>
+<p><img src="claude-code-todo-everything.png" alt="Claude Code: TODO: Everything. Let's start.">
+<em>Claude Code&#39;s minimalist interface belies its power: give it a TODO list and architectural direction, and synthesis coding begins.</em></p>
 <p>I wrote this blog post for Software Engineers, Architects, and Technical Leads. This one is code-heavy and implementation-focused.</p>
 <p>In the first two articles of this series, I introduced synthesis engineering as an emerging professional practice and detailed the framework for organizational implementation. Now let&#39;s get technical.</p>
 <p>This article demonstrates synthesis engineering using Claude Code — I&#39;ll use it because I understand it deeply, though these patterns apply broadly. The specific workflows are Claude Code implementations.</p>
@@ -561,7 +595,7 @@ Do you understand this architecture?&quot;</code></pre>
 <p>Claude confirms understanding and asks clarifying questions: token refresh strategy, password requirements, account lockout policy, session management approach. I answer each explicitly, establishing complete architectural context.</p>
 <p>These 2-3 minutes of architectural clarity save hours of refactoring later. I’m establishing constraints that ensure implementation consistency.</p>
 <h3>Phase 2: Implementation with Iteration</h3>
-<p>I leverage Claude Code for rapid implementation:</p>
+<p>I use Claude Code for rapid implementation:</p>
 <pre class="language-bash"><code class="language-bash">$ claude &quot;Generate the user model, repository, and initial database migration following our architecture&quot;</code></pre>
 <p>Claude generates three files: SQLAlchemy model, data access layer, and database migration.</p>
 <p>I review the generated code. The user model looks solid, but I notice an issue in the repository — it returns None for non-existent users, which makes error handling awkward downstream. I refine:</p>
@@ -827,8 +861,8 @@ Include both positive (attack blocked) and negative (legitimate use allowed) tes
 <h3>The Result</h3>
 <p>The security audit found seven issues. Five were real vulnerabilities. Two were false positives or non-production concerns. All real issues were systematically remediated and covered by tests. The process took 3 hours. Manual security review by a security team would have taken days and potentially missed the systematic coverage we achieved.</p>
 <p>Synthesis engineering principle: I directed the audit scope and categories. I validated findings and prioritized remediation. AI performed systematic analysis more thoroughly than humans typically would and generated comprehensive test coverage.</p>
-<h2>When Synthesis Engineering Works Well vs. When It Struggles</h2>
-<p>After hundreds of hours using this approach, I’ve learned when it excels and when it struggles.</p>
+<h2>When synthesis coding works well vs. when it struggles</h2>
+<p>After hundreds of hours using this approach, I&#39;ve learned when it excels and when it struggles.</p>
 <h3>Excellent Results For:</h3>
 <p><strong>CRUD APIs and standard patterns</strong> – If you&#39;re building RESTful APIs with standard database operations, synthesis engineering is exceptional. The patterns are well-established, testing is straightforward, and AI understands them deeply.</p>
 <p><strong>Refactoring and modernization</strong> – Taking legacy code and modernizing it — updating deprecated APIs, improving structure, adding tests — is tedious for humans but perfect for AI assistance.</p>
@@ -844,42 +878,31 @@ Include both positive (attack blocked) and negative (legitimate use allowed) tes
 <p><strong>Distributed systems debugging</strong> – When you have race conditions, timing issues, or complex system interactions, AI’s analysis is limited. Human experience and intuition are essential.</p>
 <p><strong>Architectural strategy decisions</strong> – Should we use microservices or monolith? Event-driven or request-response? These require human judgment about tradeoffs AI can’t fully evaluate.</p>
 <p><strong>Product decisions</strong> – What features to build, how to prioritize, what user experience makes sense — fundamentally human decisions.</p>
-<h2>Organizational Adoption: Practical Considerations</h2>
-<p>For CTOs evaluating Claude Code for their teams, here are the practical considerations.</p>
-<h3>Cost Analysis</h3>
-<p>Claude Code pricing as of early 2025: Professional tier runs $20/month per user, with API usage variable based on activity.</p>
-<p>Our experience with a 30-person engineering team: Average API cost runs $35/engineer/month. Total cost is roughly $55/engineer/month. Productivity improvement is 30-40% velocity increase.</p>
-<p>ROI calculation: At $150K average engineer salary, monthly cost per engineer is $12,500. AI tool cost is $55/month (0.4% of salary). Productivity gain of 30% equals $3,750/month value. Net ROI is roughly 68x.</p>
-<p>Even accounting for training time, process adjustment, and occasional inefficiencies, ROI is strongly positive.</p>
-<h3>Team Rollout Strategy</h3>
-<p>Based on our rollout to engineering teams:</p>
-<p>Week 1-2 has 3-5 experienced engineers trial the approach. They identify effective patterns and pitfalls. They document what works for our specific context.</p>
-<p>Week 3-4 expands to team leads. Each team lead learns the framework. They adapt it to their team&#39;s specific needs. They identify team-specific challenges.</p>
-<p>Week 5-8 brings full team rollout. Train entire team on synthesis engineering principles. Run pair programming sessions with experienced practitioners. Evolve code review to support AI-assisted development.</p>
-<p>Week 9-12 focuses on process integration. Update coding standards and practices. Integrate into CI/CD pipeline. Establish metrics and monitoring.</p>
-<p>Common pitfalls we encountered: junior engineers over-relying on AI without building fundamentals, teams skipping architectural planning phase, quality standards eroding under pressure for speed, and inconsistent application across team members.</p>
-<p>How we addressed them: explicit junior engineer learning path (some projects must be done traditionally), architecture review as required step before implementation, automated quality checks in CI pipeline, and regular retrospectives on what’s working.</p>
-<h3>Security and Compliance</h3>
-<p>For regulated industries, key considerations:</p>
-<p><strong>Code confidentiality</strong> – Claude Code processes code through Anthropic’s API. For highly sensitive codebases, review Anthropic’s data handling policies, consider on-premises AI solutions if available, and implement code review before sensitive sections leave your environment.</p>
-<p><strong>Compliance requirements</strong> – If you’re in healthcare, finance, or defense, document AI usage in your development process, maintain audit trails of AI-assisted development, ensure human review for compliance-critical code, and check if AI assistance affects your certification requirements.</p>
-<p><strong>Intellectual property</strong> – Claude Code doesn’t train on your code. Generated code is your intellectual property. But review licensing of any libraries AI suggests.</p>
-<h2>Conclusion: The Systematic Path Forward</h2>
+<hr>
+<h3>December 2025 update: organizational content moved</h3>
+<p><em>Based on feedback from <a href="https://www.linkedin.com/in/guthriecollin/">Guthrie Collin</a>, I&#39;ve reorganized this article to better serve different audiences. The &quot;Organizational Adoption&quot; section that previously appeared here has been expanded into a dedicated article: <a href="/articles/scaling-synthesis-coding-in-your-organization/">Scaling Synthesis Coding in Your Organization</a>.</em></p>
+<p><em>That article provides comprehensive guidance for CTOs and engineering leaders on:</em></p>
+<ul>
+<li><em>Cost analysis and ROI framework</em></li>
+<li><em>Week-by-week team rollout strategy</em></li>
+<li><em>Training curriculum for different experience levels</em></li>
+<li><em>Security and compliance considerations</em></li>
+<li><em>Metrics for tracking adoption success</em></li>
+</ul>
+<p><em>This article remains focused on the technical workflows. Thank you, Guthrie, for helping make this series more accessible to different audiences.</em></p>
+<hr>
+<h2>What I&#39;ve learned</h2>
 <p>After months of practicing synthesis engineering with Claude Code, this approach amplifies engineering skill rather than replacing it.</p>
-<p>The engineers who thrive aren’t those who reject AI or those who blindly accept its output. They’re those who maintain architectural thinking and quality standards while leveraging AI’s systematic analysis and rapid implementation capabilities.</p>
+<p>The engineers who thrive aren&#39;t those who reject AI or those who blindly accept its output. They&#39;re those who maintain architectural thinking and quality standards while using AI&#39;s systematic analysis and rapid implementation capabilities.</p>
 <h3>Key Takeaways for Practitioners:</h3>
 <p>Architectural authority is non-negotiable. You decide the architecture, AI implements it.</p>
 <p>Quality standards must be maintained. Review everything, trust nothing initially.</p>
 <p>Systematic beats ad-hoc. Have frameworks for how you use AI, don’t make it up each time.</p>
 <p>Understanding is essential. If you don’t understand what AI generated, either learn it or reject it.</p>
 <p>Context matters. Different problems need different approaches.</p>
-<h3>Key Takeaways for Engineering Leaders:</h3>
-<p>Organizations that master this will have sustained competitive advantages.</p>
-<p>Your existing development processes need adaptation, not just tool addition.</p>
-<p>Teams with strong engineering discipline benefit most.</p>
-<p>ROI is positive within months if implemented systematically.</p>
-<p>Don’t roll out broadly until you understand what works in your context.</p>
-<h3>The Path Forward</h3>
+<h3>For engineering leaders</h3>
+<p>For organizational guidance—cost analysis, team rollout strategy, training curriculum, and metrics—see <a href="/articles/scaling-synthesis-coding-in-your-organization/">Scaling Synthesis Coding in Your Organization</a>.</p>
+<h3>The path forward</h3>
 <p>Synthesis engineering is emerging as the professional practice for AI-assisted development. The next evolution will bring more sophisticated AI architectural analysis, better integration with existing development tools, organizational patterns and best practices, and educational programs and training materials.</p>
 <p>The fundamentals won&#39;t change: systematic integration of human expertise with AI capabilities, maintaining engineering discipline while accelerating delivery, and building software that&#39;s both fast to create and sustainable to maintain.</p>
 <p>That&#39;s the promise of synthesis engineering. That&#39;s what I&#39;m building. That&#39;s what I&#39;m teaching.</p>
