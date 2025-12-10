@@ -18,7 +18,7 @@ author: Rajiv Pant
 category: Leadership guide
 wordpress:
   post_id: 6889
-  synced_at: '2025-12-10T04:05:17.670Z'
+  synced_at: '2025-12-10T04:19:11.437Z'
   category_ids:
     - 6
   tag_ids:
